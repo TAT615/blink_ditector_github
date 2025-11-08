@@ -14,7 +14,7 @@ MediaPipe版瞬き検出器のテストスクリプト
 import cv2
 import numpy as np
 import time
-from blink_detector_mediapipe import BlinkDetectorMediaPipe
+from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
 
 
 def main():

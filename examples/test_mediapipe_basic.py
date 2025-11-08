@@ -7,7 +7,7 @@ import sys
 sys.path.insert(0, '/home/claude')
 
 try:
-    from blink_detector_mediapipe import BlinkDetectorMediaPipe
+    from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
     import numpy as np
     
     print("=" * 60)
