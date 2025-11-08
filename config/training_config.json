@@ -1,0 +1,19 @@
+{
+  "train_ratio": 0.7,
+  "val_ratio": 0.15,
+  "test_ratio": 0.15,
+  "normalization": "zscore",
+  "input_size": 6,
+  "hidden_size1": 64,
+  "hidden_size2": 32,
+  "fc_size": 32,
+  "num_classes": 2,
+  "dropout_rate": 0.3,
+  "epochs": 100,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "patience": 10,
+  "output_dir": "trained_models",
+  "show_plots": false,
+  "device": null
+}

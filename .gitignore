@@ -1,0 +1,27 @@
+# OpenCV cascade files
+*.xml
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE files
+.vscode/
+.idea/
+
+# Large files
+*.mp4
+*.avi
+
+# 仮想環境（これを追加！）
+venv/
+env/
+ENV/
+.venv/
+
+# その他のPython関連（これも追加推奨）
+*.egg-info/
+dist/
+build/
+.pytest_cache/
