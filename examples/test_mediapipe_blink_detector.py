@@ -14,7 +14,18 @@ MediaPipe版瞬き検出器のテストスクリプト
 import cv2
 import numpy as np
 import time
-from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
+
+# MediaPipe版瞬き検出器のインポート
+try:
+    from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
+except ImportError:
+    try:
+        from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
+    except ImportError as e:
+        print(f"❌ インポートエラー: {e}")
+        print("   blink_detector_mediapipe.py が必要です")
+        import sys
+        sys.exit(1)
 
 
 def main():

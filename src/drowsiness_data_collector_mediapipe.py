@@ -30,11 +30,14 @@ except ImportError:
 
 # MediaPipe版瞬き検出器をインポート
 try:
-    from blink_detector_mediapipe import BlinkDetectorMediaPipe
-except ImportError as e:
-    print(f"⚠️ MediaPipe版瞬き検出器のインポートエラー: {e}")
-    print("   blink_detector_mediapipe.py が必要です")
-    sys.exit(1)
+    from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
+except ImportError:
+    try:
+        from blink_detector_mediapipe import BlinkDetectorMediaPipe
+    except ImportError as e:
+        print(f"⚠️ MediaPipe版瞬き検出器のインポートエラー: {e}")
+        print("   blink_detector_mediapipe.py が必要です")
+        sys.exit(1)
 
 
 class DrowsinessDataCollectorMediaPipe:
