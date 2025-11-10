@@ -371,28 +371,41 @@ class DrowsinessDataCollectorMediaPipe:
             int: 保存したシーケンス数
         """
         # 特徴量を抽出
-        sequences = []
-        
         for i, blink_info in enumerate(self.session_data):
-            # 特徴量を追加
-            self.feature_extractor.add_blink(
-                blink_info['closing_time'],
-                blink_info['opening_time'],
-                blink_info['interval'],
-                blink_info['min_ear']
-            )
+            # 既存のAPIに合わせてデータ形式を変換
+            # t1 = 閉じ始め時刻、t2 = 完全閉眼時刻、t3 = 開き終わり時刻
+            t3 = blink_info['timestamp']  # 開き終わり時刻
+            t2 = t3 - blink_info['opening_time']  # 完全閉眼時刻
+            t1 = t2 - blink_info['closing_time']  # 閉じ始め時刻
             
-            # シーケンスが満たされた場合
-            if self.feature_extractor.is_sequence_ready():
-                sequence = self.feature_extractor.get_current_sequence()
-                sequences.append({
-                    'features': sequence.tolist(),
-                    'label': label
-                })
+            blink_data = {
+                't1': t1,
+                't2': t2,
+                't3': t3,
+                'ear_min': blink_info['min_ear']
+            }
+            
+            # 特徴量を抽出
+            features = self.feature_extractor.extract_features(blink_data)
+            
+            if features is None:
+                print(f"   ⚠️ 瞬き #{i+1} の特徴量抽出に失敗（異常値の可能性）")
         
-        if len(sequences) == 0:
-            print(f"   ⚠️ シーケンスを生成できません（瞬き数: {len(self.session_data)}）")
+        # バッチシーケンスを取得
+        sequences_array, _ = self.feature_extractor.get_batch_sequences(normalize=False)
+        
+        if len(sequences_array) == 0:
+            print(f"   ⚠️ シーケンスを生成できません（有効な瞬き数: {len(self.feature_extractor.blink_features)}）")
+            print(f"   　　最低10回の有効な瞬きが必要です")
             return 0
+        
+        # JSON保存用にリストに変換
+        sequences = []
+        for seq in sequences_array:
+            sequences.append({
+                'features': seq.tolist(),
+                'label': label
+            })
         
         # シーケンスファイルのパス
         label_name = "normal" if label == self.LABEL_NORMAL else "drowsy"

@@ -60,18 +60,18 @@ class BlinkFeatureExtractor:
             'avg_opening_time': []
         }
         
-        # 異常値検出用の閾値
+        # 異常値検出用の閾値（MediaPipe対応）
         self.validity_thresholds = {
-            'min_tc': 0.05,      # 最小閉眼時間 [秒]
+            'min_tc': 0.025,     # 最小閉眼時間 [秒] ← 25msに緩和（MediaPipe高精度対応）
             'max_tc': 1.0,       # 最大閉眼時間 [秒]
             'min_to': 0.05,      # 最小開眼時間 [秒]
-            'max_to': 1.0,       # 最大開眼時間 [秒]
+            'max_to': 0.6,       # 最大開眼時間 [秒] ← 600msに制限（1秒は長すぎる）
             'min_interval': 0.1, # 最小瞬き間隔 [秒]
             'max_interval': 30.0,# 最大瞬き間隔 [秒]
             'min_ear': 0.0,      # 最小EAR値
             'max_ear': 0.5,      # 最大EAR値
-            'min_coefficient': 0.1,  # 最小瞬き係数
-            'max_coefficient': 10.0  # 最大瞬き係数
+            'min_coefficient': 0.5,  # 最小瞬き係数 ← 0.5に調整
+            'max_coefficient': 8.0   # 最大瞬き係数 ← 8.0に制限（異常値除外）
         }
     
     def extract_features(self, blink_data: Dict) -> Optional[np.ndarray]:

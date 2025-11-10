@@ -380,7 +380,8 @@ class BlinkDetectorMediaPipe:
                 
         elif self.blink_state == self.BLINK_STATE_OPENING:
             # 開眼途中 → 完全開眼（瞬き完了）
-            if current_ear >= self.ear_open_threshold:
+            # ear_open_thresholdは厳しすぎるので、ear_opening_thresholdを使用
+            if current_ear >= self.ear_opening_threshold:
                 blink_end = current_time
                 
                 # 瞬き時間パラメータの計算
