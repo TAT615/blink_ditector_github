@@ -1,0 +1,143 @@
+{
+  "session_id": "20251112_164653_normal",
+  "label": 0,
+  "start_time": "2025-11-12T16:46:53.244570",
+  "end_time": "2025-11-12T16:46:53.245564",
+  "duration": 0.0,
+  "fps": 0.0,
+  "total_blinks": 1,
+  "valid_blinks": 1,
+  "invalid_blinks": 0,
+  "blinks": [
+    {
+      "blink_id": 1,
+      "timestamp": 10.5,
+      "statistics": {
+        "closing_time": 0.082,
+        "opening_time": 0.095,
+        "blink_coefficient": 1.16,
+        "total_duration": 0.177,
+        "interval": 2.3,
+        "ear_min": 0.15,
+        "ellipse_major_axis_max": 32.5,
+        "ellipse_minor_axis_min": 8.2,
+        "ellipse_area_min": 210.3,
+        "ellipse_angle_change": 3.5,
+        "ellipse_eccentricity_max": 0.95
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 10.5,
+          "ear": 0.28,
+          "state": "OPEN"
+        },
+        {
+          "timestamp": 10.533,
+          "ear": 0.25,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 10.566,
+          "ear": 0.2,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 10.599,
+          "ear": 0.18,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 10.632,
+          "ear": 0.15,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 10.665,
+          "ear": 0.22,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 10.698,
+          "ear": 0.26,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 10.731,
+          "ear": 0.3,
+          "state": "OPEN"
+        }
+      ],
+      "ellipse_timeseries": [
+        {
+          "timestamp": 10.5,
+          "state": "OPEN",
+          "major_axis": 32.5,
+          "minor_axis": 12.3,
+          "area": 315.2,
+          "angle": 2.1,
+          "eccentricity": 0.93
+        },
+        {
+          "timestamp": 10.533,
+          "state": "CLOSING",
+          "major_axis": 31.2,
+          "minor_axis": 10.1,
+          "area": 248.5,
+          "angle": 2.5,
+          "eccentricity": 0.94
+        },
+        {
+          "timestamp": 10.566,
+          "state": "CLOSING",
+          "major_axis": 30.5,
+          "minor_axis": 8.5,
+          "area": 204.6,
+          "angle": 3.0,
+          "eccentricity": 0.95
+        },
+        {
+          "timestamp": 10.599,
+          "state": "CLOSED",
+          "major_axis": 30.0,
+          "minor_axis": 8.2,
+          "area": 193.7,
+          "angle": 3.5,
+          "eccentricity": 0.95
+        },
+        {
+          "timestamp": 10.665,
+          "state": "OPENING",
+          "major_axis": 30.8,
+          "minor_axis": 9.5,
+          "area": 230.6,
+          "angle": 2.8,
+          "eccentricity": 0.94
+        },
+        {
+          "timestamp": 10.698,
+          "state": "OPENING",
+          "major_axis": 31.5,
+          "minor_axis": 10.8,
+          "area": 268.3,
+          "angle": 2.3,
+          "eccentricity": 0.93
+        },
+        {
+          "timestamp": 10.731,
+          "state": "OPEN",
+          "major_axis": 32.5,
+          "minor_axis": 12.3,
+          "area": 315.2,
+          "angle": 2.0,
+          "eccentricity": 0.93
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "created_at": "2025-11-12T16:46:53.244570",
+    "subject_id": "subject_001",
+    "notes": "テストセッション",
+    "software_version": "1.0.0"
+  }
+}
