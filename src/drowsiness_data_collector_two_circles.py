@@ -7,6 +7,7 @@
 - 下まぶた3点から円C2をフィッティング
 - EAR（Eye Aspect Ratio）を計算
 - 瞬き検出（4段階）
+- KSS（Karolinska Sleepiness Scale）眠気アンケート
 - 統計量 + 時系列データをJSONに保存
 
 使い方:
@@ -16,7 +17,8 @@
     # 対話的に以下を入力:
     # 1. ユーザーID（3桁の番号: 001-999）
     # 2. 状態（1: 正常状態、2: 眠気状態）
-    # 3. Enterキーで記録開始
+    # 3. KSS眠気スコア（1-10）
+    # 4. Enterキーで記録開始
 """
 
 import cv2
@@ -453,7 +455,9 @@ class DataCollectorTwoCircles:
         # セッション情報
         self.session_data = {
             'session_id': None,
+            'user_id': None,
             'label': None,
+            'kss_score': None,
             'start_time': None,
             'end_time': None,
             'duration': 0.0,
@@ -465,7 +469,7 @@ class DataCollectorTwoCircles:
         self.blink_counter = 0
         self.session_start_time = None
     
-    def start_session(self, user_id, label):
+    def start_session(self, user_id, label, kss_score):
         """セッション開始"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         label_str = "normal" if label == 0 else "drowsy"
@@ -473,15 +477,19 @@ class DataCollectorTwoCircles:
         self.session_data['session_id'] = f"{timestamp}_{user_id}_{label_str}"
         self.session_data['user_id'] = user_id
         self.session_data['label'] = label
+        self.session_data['kss_score'] = kss_score
         self.session_data['start_time'] = datetime.now().isoformat()
         self.session_data['blinks'] = []
         self.blink_counter = 0
         self.session_start_time = time.time()
         
         print(f"\n{'='*60}")
-        print(f"セッション開始: {self.session_data['session_id']}")
+        print(f"セッション開始")
+        print(f"{'='*60}")
+        print(f"セッションID: {self.session_data['session_id']}")
         print(f"ユーザーID: {user_id}")
-        print(f"ラベル: {label_str}")
+        print(f"状態: {label_str}")
+        print(f"KSS眠気スコア: {kss_score}")
         print(f"検出方式: 2円方式（上まぶた・下まぶた）")
         print(f"{'='*60}\n")
     
@@ -742,28 +750,56 @@ def get_user_input():
         else:
             print("❌ エラー: 1 または 2 を入力してください\n")
     
+    # KSS眠気アンケート
+    print("="*60)
+    print("KSS眠気アンケート (Karolinska Sleepiness Scale)")
+    print("="*60)
+    print("現在のあなたの眠気レベルを選択してください:\n")
+    print("  1  = 非常に覚醒している")
+    print("  2  = とても覚醒している")
+    print("  3  = 覚醒している")
+    print("  4  = やや覚醒している")
+    print("  5  = 覚醒も眠気もない")
+    print("  6  = 眠気の兆候がある")
+    print("  7  = 眠いが、覚醒を保つのに苦労はない")
+    print("  8  = 眠く、覚醒を保つのに少し努力が必要")
+    print("  9  = 非常に眠く、覚醒を保つのに大変な努力が必要")
+    print("  10 = 極度に眠く、起きていられない\n")
+    
+    while True:
+        kss_input = input("眠気レベル (1-10): ").strip()
+        
+        # バリデーション
+        if kss_input.isdigit() and 1 <= int(kss_input) <= 10:
+            kss_score = int(kss_input)
+            print(f"✓ KSSスコア: {kss_score}\n")
+            break
+        else:
+            print("❌ エラー: 1 から 10 の数字を入力してください\n")
+    
     # 確認画面
     print("="*60)
     print("=== 確認 ===")
     print(f"ユーザーID: {user_id}")
     print(f"状態: {label_str}")
+    print(f"KSS眠気スコア: {kss_score}")
     print("="*60)
     input("\nEnterキーを押すと記録を開始します...")
     
-    return user_id, label
+    return user_id, label, kss_score
 
 
 def main():
     """メイン関数"""
     # 対話的に入力を取得
-    user_id, label = get_user_input()
+    user_id, label, kss_score = get_user_input()
     
     # データ収集器の初期化
     output_dir = 'data/sessions'
     collector = DataCollectorTwoCircles(output_dir=output_dir)
     
     # セッション開始
-    collector.start_session(user_id=user_id, label=label)
+    collector.start_session(user_id=user_id, label=label, kss_score=kss_score)
     
     # カメラ初期化
     cap = cv2.VideoCapture(0)

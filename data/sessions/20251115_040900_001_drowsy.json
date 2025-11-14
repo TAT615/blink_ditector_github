@@ -1,0 +1,2608 @@
+{
+  "session_id": "20251115_040900_001_drowsy",
+  "user_id": "001",
+  "label": 1,
+  "kss_score": 8,
+  "start_time": "2025-11-15T04:09:00.759353",
+  "end_time": "2025-11-15T04:10:01.585129",
+  "duration": 60.8262939453125,
+  "total_blinks": 15,
+  "valid_blinks": 9,
+  "blinks": [
+    {
+      "blink_id": 1,
+      "timestamp": 1763147343.8229473,
+      "statistics": {
+        "closing_time": 0.04589223861694336,
+        "opening_time": 0.1916055679321289,
+        "blink_coefficient": 4.175119229450454,
+        "total_duration": 0.23749780654907227,
+        "interval": 0.0,
+        "ear_min": 0.03251844704448115,
+        "upper_radius_max": 84.99366127807431,
+        "lower_radius_max": 103.22382242525525,
+        "vertical_distance_min": 17.86105002054728,
+        "radius_diff_max": 31.52309783276661,
+        "eye_height_min": 17.86105002054728,
+        "eye_width_avg": 111.19224340191786
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147343.8688395,
+          "ear": 0.03251844704448115,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147343.9023273,
+          "ear": 0.05156473351887013,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147343.9326317,
+          "ear": 0.03440098549823214,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147343.9642117,
+          "ear": 0.1287756764863982,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147343.9952703,
+          "ear": 0.19038069384804984,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147344.0301898,
+          "ear": 0.22620216190511222,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147344.060445,
+          "ear": 0.23797518264272705,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 68.71986425031993,
+          "lower_radius": 51.46137778542135,
+          "vertical_distance": 17.86105002054728,
+          "radius_diff": 17.258486464898585,
+          "eye_height": 17.86105002054728,
+          "eye_width": 120.18124203574126,
+          "timestamp": 1763147343.8688395,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 84.99366127807431,
+          "lower_radius": 54.44227517238268,
+          "vertical_distance": 31.479700982361578,
+          "radius_diff": 30.551386105691638,
+          "eye_height": 31.479700982361578,
+          "eye_width": 139.435936450457,
+          "timestamp": 1763147343.9023273,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 72.35949820798561,
+          "lower_radius": 103.22382242525525,
+          "vertical_distance": 74.02447852097254,
+          "radius_diff": 31.52309783276661,
+          "eye_height": 74.02447852097254,
+          "eye_width": 175.58332063324087,
+          "timestamp": 1763147343.9326317,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 53.952888197080185,
+          "lower_radius": 66.61983936416232,
+          "vertical_distance": 115.79116128127467,
+          "radius_diff": 12.666951167082136,
+          "eye_height": 115.79116128127467,
+          "eye_width": 120.57272756124252,
+          "timestamp": 1763147343.9642117,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.275063790031997,
+          "lower_radius": 52.792833312075516,
+          "vertical_distance": 76.93771565988612,
+          "radius_diff": 21.51776952204352,
+          "eye_height": 76.93771565988612,
+          "eye_width": 84.06789710210751,
+          "timestamp": 1763147343.9952703,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 27.309154397498293,
+          "lower_radius": 40.50600200593284,
+          "vertical_distance": 59.610390326983605,
+          "radius_diff": 13.196847608434553,
+          "eye_height": 59.610390326983605,
+          "eye_width": 67.81515640343115,
+          "timestamp": 1763147344.0301898,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 25.134375564647875,
+          "lower_radius": 45.55504806255685,
+          "vertical_distance": 62.04049691193883,
+          "radius_diff": 20.420672497908974,
+          "eye_height": 62.04049691193883,
+          "eye_width": 70.68942362720472,
+          "timestamp": 1763147344.060445,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 2,
+      "timestamp": 1763147345.7288852,
+      "statistics": {
+        "closing_time": 0.03147578239440918,
+        "opening_time": 0.1919863224029541,
+        "blink_coefficient": 6.099493254758785,
+        "total_duration": 0.22346210479736328,
+        "interval": 0.0,
+        "ear_min": 0.031155504337510787,
+        "upper_radius_max": 129.22507662231436,
+        "lower_radius_max": 83.82147648732236,
+        "vertical_distance_min": 29.265379481459604,
+        "radius_diff_max": 66.44117822406707,
+        "eye_height_min": 29.265379481459604,
+        "eye_width_avg": 116.40436225222753
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147345.760361,
+          "ear": 0.031155504337510787,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147345.7931683,
+          "ear": 0.042144247979400216,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147345.8252873,
+          "ear": 0.11884852853913414,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147345.857172,
+          "ear": 0.1614314054125485,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147345.890009,
+          "ear": 0.21461677561796327,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147345.9523473,
+          "ear": 0.24906366739707247,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 85.27633820541871,
+          "lower_radius": 56.868101220718046,
+          "vertical_distance": 29.265379481459604,
+          "radius_diff": 28.408236984700665,
+          "eye_height": 29.265379481459604,
+          "eye_width": 142.14443942613676,
+          "timestamp": 1763147345.760361,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 129.22507662231436,
+          "lower_radius": 62.783898398247274,
+          "vertical_distance": 67.47601652624638,
+          "radius_diff": 66.44117822406707,
+          "eye_height": 67.47601652624638,
+          "eye_width": 192.00897502056165,
+          "timestamp": 1763147345.7931683,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 52.76252810712049,
+          "lower_radius": 83.82147648732236,
+          "vertical_distance": 132.08213275989482,
+          "radius_diff": 31.058948380201876,
+          "eye_height": 132.08213275989482,
+          "eye_width": 136.58400459444286,
+          "timestamp": 1763147345.8252873,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 42.74015957637328,
+          "lower_radius": 45.726695398237986,
+          "vertical_distance": 82.35748702571091,
+          "radius_diff": 8.422728009776307,
+          "eye_height": 82.35748702571091,
+          "eye_width": 88.46685497461127,
+          "timestamp": 1763147345.857172,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 30.223195190664995,
+          "lower_radius": 41.41341958031811,
+          "vertical_distance": 63.72797669340905,
+          "radius_diff": 11.190224389653117,
+          "eye_height": 63.72797669340905,
+          "eye_width": 71.6366147709831,
+          "timestamp": 1763147345.890009,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 24.41387056855266,
+          "lower_radius": 43.17141415807684,
+          "vertical_distance": 58.167926773208194,
+          "radius_diff": 18.757543589524186,
+          "eye_height": 58.167926773208194,
+          "eye_width": 67.58528472662951,
+          "timestamp": 1763147345.9523473,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 3,
+      "timestamp": 1763147354.8364105,
+      "statistics": {
+        "closing_time": 0.029546737670898438,
+        "opening_time": 0.49622368812561035,
+        "blink_coefficient": 16.794533922922987,
+        "total_duration": 0.5257704257965088,
+        "interval": 0.0,
+        "ear_min": 0.03848012734236869,
+        "upper_radius_max": 387.82417817180243,
+        "lower_radius_max": 70.22411085558781,
+        "vertical_distance_min": 25.395888812510634,
+        "radius_diff_max": 325.14293984487324,
+        "eye_height_min": 25.395888812510634,
+        "eye_width_avg": 139.68138542698998
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147354.8659573,
+          "ear": 0.05204098800658433,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147354.900917,
+          "ear": 0.04452317451241791,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147354.9291034,
+          "ear": 0.04325482237724619,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147354.9610147,
+          "ear": 0.03848012734236869,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147354.9935613,
+          "ear": 0.06058098586436331,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.0211308,
+          "ear": 0.07991696858682676,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.057808,
+          "ear": 0.10912655589174276,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.1085217,
+          "ear": 0.12710391152046763,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.136637,
+          "ear": 0.16918277360572226,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.170446,
+          "ear": 0.18920956116887624,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.202394,
+          "ear": 0.18397980870827507,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.2336147,
+          "ear": 0.19920457820239362,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.2590153,
+          "ear": 0.21005333018386285,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.2967691,
+          "ear": 0.2020306596890261,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147355.3273942,
+          "ear": 0.20857335361741605,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147355.362181,
+          "ear": 0.2165270217905061,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 134.33789729174273,
+          "lower_radius": 60.99896096698696,
+          "vertical_distance": 74.61853962033956,
+          "radius_diff": 73.33893632475578,
+          "eye_height": 74.61853962033956,
+          "eye_width": 195.3368582587297,
+          "timestamp": 1763147354.8659573,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 70.47434018119407,
+          "lower_radius": 46.30118291915407,
+          "vertical_distance": 25.395888812510634,
+          "radius_diff": 24.173157262039986,
+          "eye_height": 25.395888812510634,
+          "eye_width": 116.77552310034812,
+          "timestamp": 1763147354.900917,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 101.53046265764686,
+          "lower_radius": 51.47917317611833,
+          "vertical_distance": 51.33802281870118,
+          "radius_diff": 50.051289481528535,
+          "eye_height": 51.33802281870118,
+          "eye_width": 153.0096358337652,
+          "timestamp": 1763147354.9291034,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 99.02931039492422,
+          "lower_radius": 64.11559552354333,
+          "vertical_distance": 35.66974841861048,
+          "radius_diff": 34.9137148713809,
+          "eye_height": 35.66974841861048,
+          "eye_width": 163.14490591846754,
+          "timestamp": 1763147354.9610147,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 387.82417817180243,
+          "lower_radius": 62.681238326929176,
+          "vertical_distance": 385.2859360318189,
+          "radius_diff": 325.14293984487324,
+          "eye_height": 385.2859360318189,
+          "eye_width": 450.5054164987316,
+          "timestamp": 1763147354.9935613,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 239.8204889194421,
+          "lower_radius": 70.22411085558781,
+          "vertical_distance": 248.85649385303563,
+          "radius_diff": 174.86774513673865,
+          "eye_height": 248.85649385303563,
+          "eye_width": 310.04459977502995,
+          "timestamp": 1763147355.0211308,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 75.1470089989679,
+          "lower_radius": 51.62020397583769,
+          "vertical_distance": 122.29607688982126,
+          "radius_diff": 24.112505766671287,
+          "eye_height": 122.29607688982126,
+          "eye_width": 126.76721297480559,
+          "timestamp": 1763147355.057808,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 62.657242024111845,
+          "lower_radius": 52.31819275715601,
+          "vertical_distance": 110.11239007878382,
+          "radius_diff": 10.339049266955833,
+          "eye_height": 110.11239007878382,
+          "eye_width": 114.97543478126786,
+          "timestamp": 1763147355.1085217,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 37.43219594291668,
+          "lower_radius": 50.58404315548051,
+          "vertical_distance": 81.84170595055019,
+          "radius_diff": 13.151847212563833,
+          "eye_height": 81.84170595055019,
+          "eye_width": 88.0162390983972,
+          "timestamp": 1763147355.136637,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 36.786288459311216,
+          "lower_radius": 41.18223480980638,
+          "vertical_distance": 71.11619401067527,
+          "radius_diff": 6.815692387890614,
+          "eye_height": 71.11619401067527,
+          "eye_width": 77.9685232691176,
+          "timestamp": 1763147355.170446,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 39.84353110274042,
+          "lower_radius": 40.329606900228754,
+          "vertical_distance": 73.26613850219582,
+          "radius_diff": 15.62156849446335,
+          "eye_height": 73.26613850219582,
+          "eye_width": 80.17313800296918,
+          "timestamp": 1763147355.202394,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 34.64804944149515,
+          "lower_radius": 41.41341958031654,
+          "vertical_distance": 68.71540515788091,
+          "radius_diff": 9.34227415313028,
+          "eye_height": 68.71540515788091,
+          "eye_width": 76.06146902181169,
+          "timestamp": 1763147355.2336147,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.920062927473776,
+          "lower_radius": 40.870543255822184,
+          "vertical_distance": 63.03405881684591,
+          "radius_diff": 10.950480328348409,
+          "eye_height": 63.03405881684591,
+          "eye_width": 70.79060618329596,
+          "timestamp": 1763147355.2590153,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.3271690042803,
+          "lower_radius": 41.18223480980355,
+          "vertical_distance": 65.01920328706956,
+          "radius_diff": 9.855065805523255,
+          "eye_height": 65.01920328706956,
+          "eye_width": 72.50940381408385,
+          "timestamp": 1763147355.2967691,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 30.209721009435356,
+          "lower_radius": 40.63479656635509,
+          "vertical_distance": 63.17883933300044,
+          "radius_diff": 10.425075556919737,
+          "eye_height": 63.17883933300044,
+          "eye_width": 70.84451757579045,
+          "timestamp": 1763147355.3273942,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 33.3550464420312,
+          "lower_radius": 34.623636283196966,
+          "vertical_distance": 60.102655084776885,
+          "radius_diff": 4.788730459231468,
+          "eye_height": 60.102655084776885,
+          "eye_width": 67.97868272522817,
+          "timestamp": 1763147355.362181,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 4,
+      "timestamp": 1763147355.4335403,
+      "statistics": {
+        "closing_time": 0.026200532913208008,
+        "opening_time": 0.1065521240234375,
+        "blink_coefficient": 4.066792243364,
+        "total_duration": 0.1327526569366455,
+        "interval": 0.0,
+        "ear_min": 0.2034920315276765,
+        "upper_radius_max": 30.909264787252475,
+        "lower_radius_max": 42.044375619665246,
+        "vertical_distance_min": 56.415748260643724,
+        "radius_diff_max": 11.135110832412773,
+        "eye_height_min": 56.415748260643724,
+        "eye_width_avg": 69.4697760722681
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147355.4597409,
+          "ear": 0.20661228097180478,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147355.4890218,
+          "ear": 0.20472419649091173,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.5437381,
+          "ear": 0.21580509908899048,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147355.566293,
+          "ear": 0.22513141192223252,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 30.909264787252475,
+          "lower_radius": 42.044375619665246,
+          "vertical_distance": 65.27441841667685,
+          "radius_diff": 11.135110832412773,
+          "eye_height": 65.27441841667685,
+          "eye_width": 72.95364040691773,
+          "timestamp": 1763147355.4597409,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 30.909264787252475,
+          "lower_radius": 41.620533085467,
+          "vertical_distance": 64.8204593783696,
+          "radius_diff": 10.711268298214529,
+          "eye_height": 64.8204593783696,
+          "eye_width": 72.52979787271948,
+          "timestamp": 1763147355.4890218,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 30.61679575202022,
+          "lower_radius": 37.08807849045001,
+          "vertical_distance": 59.71198804276575,
+          "radius_diff": 6.471282738429789,
+          "eye_height": 59.71198804276575,
+          "eye_width": 67.70487424247023,
+          "timestamp": 1763147355.5437381,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 30.067155483767998,
+          "lower_radius": 34.623636283196966,
+          "vertical_distance": 56.415748260643724,
+          "radius_diff": 4.55648079942897,
+          "eye_height": 56.415748260643724,
+          "eye_width": 64.69079176696496,
+          "timestamp": 1763147355.566293,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 5,
+      "timestamp": 1763147356.6536772,
+      "statistics": {
+        "closing_time": 0.035430908203125,
+        "opening_time": 0.20491242408752441,
+        "blink_coefficient": 5.783436961670973,
+        "total_duration": 0.24034333229064941,
+        "interval": 0.0,
+        "ear_min": 0.043206297091862605,
+        "upper_radius_max": 552.5049404139547,
+        "lower_radius_max": 66.8933665608394,
+        "vertical_distance_min": 24.59149444818722,
+        "radius_diff_max": 485.9143648757013,
+        "eye_height_min": 24.59149444818722,
+        "eye_width_avg": 177.13206406089526
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147356.6891081,
+          "ear": 0.043206297091862605,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147356.7509012,
+          "ear": 0.04447028822285447,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147356.7880955,
+          "ear": 0.06489257259351502,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147356.8309965,
+          "ear": 0.17831489696453695,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147356.8495407,
+          "ear": 0.1814931194330156,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147356.8708892,
+          "ear": 0.23120963741622258,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147356.8940206,
+          "ear": 0.22776750777665106,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 90.65950945462876,
+          "lower_radius": 66.8933665608394,
+          "vertical_distance": 24.59149444818722,
+          "radius_diff": 23.76614289378937,
+          "eye_height": 24.59149444818722,
+          "eye_width": 157.55287601546814,
+          "timestamp": 1763147356.6891081,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 88.74442042744266,
+          "lower_radius": 63.468050680008204,
+          "vertical_distance": 26.130332807401857,
+          "radius_diff": 25.276369747434455,
+          "eye_height": 26.130332807401857,
+          "eye_width": 152.21247110745088,
+          "timestamp": 1763147356.7509012,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 552.5049404139547,
+          "lower_radius": 66.59057553825336,
+          "vertical_distance": 553.0097125152564,
+          "radius_diff": 485.9143648757013,
+          "eye_height": 553.0097125152564,
+          "eye_width": 619.0955159522082,
+          "timestamp": 1763147356.7880955,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 38.6689121903819,
+          "lower_radius": 46.22793843157575,
+          "vertical_distance": 78.39969643265894,
+          "radius_diff": 9.721703245216531,
+          "eye_height": 78.39969643265894,
+          "eye_width": 84.89685062195765,
+          "timestamp": 1763147356.8309965,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 34.78738371099302,
+          "lower_radius": 48.80696798883315,
+          "vertical_distance": 77.13266333889129,
+          "radius_diff": 14.01958427784013,
+          "eye_height": 77.13266333889129,
+          "eye_width": 83.59435169982618,
+          "timestamp": 1763147356.8495407,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 25.05903669921325,
+          "lower_radius": 49.52224620432318,
+          "vertical_distance": 66.02332094047273,
+          "radius_diff": 24.46320950510993,
+          "eye_height": 66.02332094047273,
+          "eye_width": 74.58128290353643,
+          "timestamp": 1763147356.8708892,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.050693208480233,
+          "lower_radius": 38.94040691733889,
+          "vertical_distance": 59.43902218722572,
+          "radius_diff": 9.889713708858652,
+          "eye_height": 59.43902218722572,
+          "eye_width": 67.99110012581912,
+          "timestamp": 1763147356.8940206,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 6,
+      "timestamp": 1763147361.2862415,
+      "statistics": {
+        "closing_time": 0.026192665100097656,
+        "opening_time": 0.22132086753845215,
+        "blink_coefficient": 8.4497269251775,
+        "total_duration": 0.2475135326385498,
+        "interval": 0.0,
+        "ear_min": 0.03850526723798397,
+        "upper_radius_max": 236.82010473570028,
+        "lower_radius_max": 95.64792079360365,
+        "vertical_distance_min": 63.33780954297633,
+        "radius_diff_max": 141.17218394209664,
+        "eye_height_min": 63.33780954297633,
+        "eye_width_avg": 169.27664594827482
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147361.3124342,
+          "ear": 0.06238278528853674,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147361.3478696,
+          "ear": 0.03850526723798397,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.375257,
+          "ear": 0.03850526723798397,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.4106617,
+          "ear": 0.07376668462367664,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.4371533,
+          "ear": 0.1033204278912942,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.4711914,
+          "ear": 0.18742462841848703,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.5038412,
+          "ear": 0.223593804680574,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147361.533755,
+          "ear": 0.22502532967179573,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 88.34647150312193,
+          "lower_radius": 88.7735741925771,
+          "vertical_distance": 174.34088831085347,
+          "radius_diff": 35.03487844583186,
+          "eye_height": 174.34088831085347,
+          "eye_width": 177.12004569569902,
+          "timestamp": 1763147361.3124342,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 236.82010473570028,
+          "lower_radius": 95.64792079360365,
+          "vertical_distance": 141.9330445144694,
+          "radius_diff": 141.17218394209664,
+          "eye_height": 141.9330445144694,
+          "eye_width": 332.468025529304,
+          "timestamp": 1763147361.3478696,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 236.82010473570028,
+          "lower_radius": 95.64792079360365,
+          "vertical_distance": 141.9330445144694,
+          "radius_diff": 141.17218394209664,
+          "eye_height": 141.9330445144694,
+          "eye_width": 332.468025529304,
+          "timestamp": 1763147361.375257,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 58.910220191246594,
+          "lower_radius": 72.40017779151856,
+          "vertical_distance": 127.66638870237678,
+          "radius_diff": 16.32411237193028,
+          "eye_height": 127.66638870237678,
+          "eye_width": 131.31039798276515,
+          "timestamp": 1763147361.4106617,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 74.86703453897275,
+          "lower_radius": 77.83636337292444,
+          "vertical_distance": 148.80907780974928,
+          "radius_diff": 24.47786770388204,
+          "eye_height": 148.80907780974928,
+          "eye_width": 152.70339791189718,
+          "timestamp": 1763147361.4371533,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 32.237241674739984,
+          "lower_radius": 52.19858775913458,
+          "vertical_distance": 77.38362072959654,
+          "radius_diff": 19.9613460843946,
+          "eye_height": 77.38362072959654,
+          "eye_width": 84.43582943387456,
+          "timestamp": 1763147361.4711914,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 27.08945013070992,
+          "lower_radius": 44.4838162020626,
+          "vertical_distance": 63.33780954297633,
+          "radius_diff": 17.394366071352678,
+          "eye_height": 63.33780954297633,
+          "eye_width": 71.57326633277252,
+          "timestamp": 1763147361.5038412,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 26.909443888296693,
+          "lower_radius": 45.22473528228548,
+          "vertical_distance": 63.62809342829864,
+          "radius_diff": 18.315291393988787,
+          "eye_height": 63.62809342829864,
+          "eye_width": 72.13417917058217,
+          "timestamp": 1763147361.533755,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 7,
+      "timestamp": 1763147366.1971366,
+      "statistics": {
+        "closing_time": 0.028856515884399414,
+        "opening_time": 0.7658476829528809,
+        "blink_coefficient": 26.539852767427064,
+        "total_duration": 0.7947041988372803,
+        "interval": 0.0,
+        "ear_min": 0.03113409526491043,
+        "upper_radius_max": 158.64621118585123,
+        "lower_radius_max": 83.94471191844615,
+        "vertical_distance_min": 11.596473111986512,
+        "radius_diff_max": 101.39735765732146,
+        "eye_height_min": 11.596473111986512,
+        "eye_width_avg": 104.42664338879509
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147366.2259932,
+          "ear": 0.054875896916350184,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147366.2544773,
+          "ear": 0.04713158656255636,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.287752,
+          "ear": 0.04710649516436913,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.3214946,
+          "ear": 0.03113409526491043,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.3701522,
+          "ear": 0.0506130362024771,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.3963177,
+          "ear": 0.07297325771847198,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.43309,
+          "ear": 0.12689482275811928,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.463133,
+          "ear": 0.14876317433790154,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.5016153,
+          "ear": 0.17660435060797303,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.5310922,
+          "ear": 0.19201097793822844,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.5588877,
+          "ear": 0.18240083675380814,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.5954335,
+          "ear": 0.19008632907181935,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.6226988,
+          "ear": 0.19776109025132677,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.6570628,
+          "ear": 0.20547845793716357,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.6917608,
+          "ear": 0.20552859909630772,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.754517,
+          "ear": 0.19969647025623966,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.7728944,
+          "ear": 0.19969647025623966,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.7973533,
+          "ear": 0.19965009642350287,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.834468,
+          "ear": 0.19959903357307568,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.8648498,
+          "ear": 0.19959903357307568,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.9050617,
+          "ear": 0.20371783389367285,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.9313245,
+          "ear": 0.20711536649337597,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.9638476,
+          "ear": 0.21319959294940777,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147366.9918408,
+          "ear": 0.21483273417921278,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 156.53770799836232,
+          "lower_radius": 56.59011524997334,
+          "vertical_distance": 102.40676216187632,
+          "radius_diff": 101.39735765732146,
+          "eye_height": 102.40676216187632,
+          "eye_width": 213.12782324833566,
+          "timestamp": 1763147366.2259932,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 98.57185551295109,
+          "lower_radius": 65.71942286142585,
+          "vertical_distance": 33.95242846787001,
+          "radius_diff": 32.85243265152524,
+          "eye_height": 33.95242846787001,
+          "eye_width": 164.29127837437693,
+          "timestamp": 1763147366.2544773,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 158.64621118585123,
+          "lower_radius": 58.01600293733188,
+          "vertical_distance": 101.6969143585383,
+          "radius_diff": 100.7147421571911,
+          "eye_height": 101.6969143585383,
+          "eye_width": 216.66221412318313,
+          "timestamp": 1763147366.287752,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 95.2222551039961,
+          "lower_radius": 83.94471191844615,
+          "vertical_distance": 11.596473111986512,
+          "radius_diff": 11.277543185549948,
+          "eye_height": 11.596473111986512,
+          "eye_width": 179.16696702244224,
+          "timestamp": 1763147366.3214946,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 44.13461015453325,
+          "lower_radius": 83.94471191844615,
+          "vertical_distance": 124.28000806229706,
+          "radius_diff": 39.8101017639129,
+          "eye_height": 124.28000806229706,
+          "eye_width": 128.0793220729794,
+          "timestamp": 1763147366.3701522,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 108.87073888036272,
+          "lower_radius": 83.25248216056931,
+          "vertical_distance": 189.22179576430318,
+          "radius_diff": 26.384131670194797,
+          "eye_height": 189.22179576430318,
+          "eye_width": 192.12322104093204,
+          "timestamp": 1763147366.3963177,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 62.33909651514497,
+          "lower_radius": 51.157086244056345,
+          "vertical_distance": 108.70420286299579,
+          "radius_diff": 11.55028472382861,
+          "eye_height": 108.70420286299579,
+          "eye_width": 113.49618275920132,
+          "timestamp": 1763147366.43309,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 44.89318267702784,
+          "lower_radius": 51.41106153096091,
+          "vertical_distance": 90.65820052607516,
+          "radius_diff": 7.44473621038216,
+          "eye_height": 90.65820052607516,
+          "eye_width": 96.30424420798875,
+          "timestamp": 1763147366.463133,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 40.806581690413,
+          "lower_radius": 40.94795682874324,
+          "vertical_distance": 75.2726972134178,
+          "radius_diff": 5.053619513271567,
+          "eye_height": 75.2726972134178,
+          "eye_width": 81.75453851915623,
+          "timestamp": 1763147366.5016153,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 38.15077740744176,
+          "lower_radius": 39.00051110602733,
+          "vertical_distance": 70.14048947046611,
+          "radius_diff": 5.761978073526901,
+          "eye_height": 70.14048947046611,
+          "eye_width": 77.1512885134691,
+          "timestamp": 1763147366.5310922,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 38.15077740744176,
+          "lower_radius": 40.2600577765406,
+          "vertical_distance": 71.5689133458384,
+          "radius_diff": 7.021524744040164,
+          "eye_height": 71.5689133458384,
+          "eye_width": 78.41083518398236,
+          "timestamp": 1763147366.5588877,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 35.523775168722715,
+          "lower_radius": 40.2600577765406,
+          "vertical_distance": 68.69142770730595,
+          "radius_diff": 4.736282607817884,
+          "eye_height": 68.69142770730595,
+          "eye_width": 75.78383294526331,
+          "timestamp": 1763147366.5954335,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 33.41682193323476,
+          "lower_radius": 41.48569651798328,
+          "vertical_distance": 67.586928109395,
+          "radius_diff": 8.068874584748517,
+          "eye_height": 67.586928109395,
+          "eye_width": 74.90251845121804,
+          "timestamp": 1763147366.6226988,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.168153989150433,
+          "lower_radius": 41.48569651798328,
+          "vertical_distance": 65.01143090559033,
+          "radius_diff": 10.317542528832847,
+          "eye_height": 65.01143090559033,
+          "eye_width": 72.65385050713371,
+          "timestamp": 1763147366.6570628,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 32.86797088574907,
+          "lower_radius": 38.52133955420606,
+          "vertical_distance": 63.769484364254566,
+          "radius_diff": 5.6533686684569915,
+          "eye_height": 63.769484364254566,
+          "eye_width": 71.38931043995512,
+          "timestamp": 1763147366.6917608,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 35.523775168722715,
+          "lower_radius": 39.00051110602733,
+          "vertical_distance": 67.26300383193366,
+          "radius_diff": 3.476735937304621,
+          "eye_height": 67.26300383193366,
+          "eye_width": 74.52428627475005,
+          "timestamp": 1763147366.754517,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 35.523775168722715,
+          "lower_radius": 39.00051110602733,
+          "vertical_distance": 67.26300383193366,
+          "radius_diff": 3.476735937304621,
+          "eye_height": 67.26300383193366,
+          "eye_width": 74.52428627475005,
+          "timestamp": 1763147366.7728944,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 33.41682193323476,
+          "lower_radius": 41.96486806980455,
+          "vertical_distance": 68.11245003317748,
+          "radius_diff": 8.548046136569795,
+          "eye_height": 68.11245003317748,
+          "eye_width": 75.38169000303932,
+          "timestamp": 1763147366.7973533,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.71700503663438,
+          "lower_radius": 45.24743413633966,
+          "vertical_distance": 69.6763120765211,
+          "radius_diff": 13.530429099705284,
+          "eye_height": 69.6763120765211,
+          "eye_width": 76.96443917297404,
+          "timestamp": 1763147366.834468,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.71700503663438,
+          "lower_radius": 45.24743413633966,
+          "vertical_distance": 69.6763120765211,
+          "radius_diff": 13.530429099705284,
+          "eye_height": 69.6763120765211,
+          "eye_width": 76.96443917297404,
+          "timestamp": 1763147366.8648498,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 32.775982315855366,
+          "lower_radius": 43.26041359255113,
+          "vertical_distance": 68.51842680316376,
+          "radius_diff": 10.48443127669577,
+          "eye_height": 68.51842680316376,
+          "eye_width": 76.0363959084065,
+          "timestamp": 1763147366.9050617,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 31.876126781715843,
+          "lower_radius": 41.96486806980455,
+          "vertical_distance": 66.30989963186516,
+          "radius_diff": 10.088741288088713,
+          "eye_height": 66.30989963186516,
+          "eye_width": 73.8409948515204,
+          "timestamp": 1763147366.9313245,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.627458837631515,
+          "lower_radius": 41.48569651798328,
+          "vertical_distance": 63.208880504278014,
+          "radius_diff": 11.858237680351765,
+          "eye_height": 63.208880504278014,
+          "eye_width": 71.1131553556148,
+          "timestamp": 1763147366.9638476,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.627458837631515,
+          "lower_radius": 41.96486806980455,
+          "vertical_distance": 63.73440242806049,
+          "radius_diff": 12.337409232173043,
+          "eye_height": 63.73440242806049,
+          "eye_width": 71.59232690743607,
+          "timestamp": 1763147366.9918408,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 8,
+      "timestamp": 1763147370.8499281,
+      "statistics": {
+        "closing_time": 0.027074337005615234,
+        "opening_time": 0.4391508102416992,
+        "blink_coefficient": 16.22018704098346,
+        "total_duration": 0.46622514724731445,
+        "interval": 0.0,
+        "ear_min": 0.03149979600587273,
+        "upper_radius_max": 178.80140656207635,
+        "lower_radius_max": 85.98235392496264,
+        "vertical_distance_min": 23.904183262029164,
+        "radius_diff_max": 106.40751767453915,
+        "eye_height_min": 23.904183262029164,
+        "eye_width_avg": 135.00299962399828
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147370.8770025,
+          "ear": 0.20676145488250136,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147370.9120045,
+          "ear": 0.2102818837445402,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147370.9441502,
+          "ear": 0.1896871383954825,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147370.9828315,
+          "ear": 0.12009021715413762,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.008167,
+          "ear": 0.0475822578373344,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.0423648,
+          "ear": 0.0475822578373344,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.0690506,
+          "ear": 0.03741110704912826,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.0969806,
+          "ear": 0.03149979600587273,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.151628,
+          "ear": 0.053039285805455444,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.1832125,
+          "ear": 0.042215568024851866,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.2115471,
+          "ear": 0.05552003965748335,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.2488053,
+          "ear": 0.07712481807288579,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.2806597,
+          "ear": 0.15397572917111807,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147371.3161533,
+          "ear": 0.21986924284601905,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 29.222613621881692,
+          "lower_radius": 44.693858213085875,
+          "vertical_distance": 66.20496041139629,
+          "radius_diff": 15.471244591204181,
+          "eye_height": 66.20496041139629,
+          "eye_width": 73.91647183496758,
+          "timestamp": 1763147370.8770025,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 29.222613621881692,
+          "lower_radius": 45.186481196592965,
+          "vertical_distance": 66.72802890483412,
+          "radius_diff": 15.963867574711267,
+          "eye_height": 66.72802890483412,
+          "eye_width": 74.40909481847466,
+          "timestamp": 1763147370.9120045,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 34.18198377145506,
+          "lower_radius": 46.590317903550314,
+          "vertical_distance": 73.72584831693524,
+          "radius_diff": 12.40833413209526,
+          "eye_height": 73.72584831693524,
+          "eye_width": 80.77230167500538,
+          "timestamp": 1763147370.9441502,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 125.36723846923198,
+          "lower_radius": 55.790218005658815,
+          "vertical_distance": 176.41075267962475,
+          "radius_diff": 69.57702046357316,
+          "eye_height": 176.41075267962475,
+          "eye_width": 181.1574564748908,
+          "timestamp": 1763147370.9828315,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 178.80140656207635,
+          "lower_radius": 72.39388888753719,
+          "vertical_distance": 107.38226076548982,
+          "radius_diff": 106.40751767453915,
+          "eye_height": 107.38226076548982,
+          "eye_width": 251.19529544961352,
+          "timestamp": 1763147371.008167,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 95.68295248673871,
+          "lower_radius": 55.55754526018143,
+          "vertical_distance": 41.26559852708927,
+          "radius_diff": 40.12540722655728,
+          "eye_height": 41.26559852708927,
+          "eye_width": 151.24049774692014,
+          "timestamp": 1763147371.0423648,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 83.768328717357,
+          "lower_radius": 58.845437821854844,
+          "vertical_distance": 25.632801629228396,
+          "radius_diff": 24.92289089550215,
+          "eye_height": 25.632801629228396,
+          "eye_width": 142.61376653921184,
+          "timestamp": 1763147371.0690506,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 82.80753405684572,
+          "lower_radius": 59.44620197933146,
+          "vertical_distance": 23.904183262029164,
+          "radius_diff": 23.361332077514263,
+          "eye_height": 23.904183262029164,
+          "eye_width": 142.2537360361772,
+          "timestamp": 1763147371.0969806,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 97.74321538627194,
+          "lower_radius": 48.38712202676682,
+          "vertical_distance": 51.024195717986345,
+          "radius_diff": 49.356093359505124,
+          "eye_height": 51.024195717986345,
+          "eye_width": 146.13033741303877,
+          "timestamp": 1763147371.151628,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 99.43116693695427,
+          "lower_radius": 72.98347194030305,
+          "vertical_distance": 27.036944661951864,
+          "radius_diff": 26.447694996651222,
+          "eye_height": 27.036944661951864,
+          "eye_width": 172.41463887725735,
+          "timestamp": 1763147371.1832125,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 75.77824232630834,
+          "lower_radius": 85.98235392496264,
+          "vertical_distance": 158.7581139764775,
+          "radius_diff": 41.31456711173831,
+          "eye_height": 158.7581139764775,
+          "eye_width": 161.760596251271,
+          "timestamp": 1763147371.2115471,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 58.91022019122255,
+          "lower_radius": 73.51715445653028,
+          "vertical_distance": 128.8133811961876,
+          "radius_diff": 15.207135706904229,
+          "eye_height": 128.8133811961876,
+          "eye_width": 132.42737464775283,
+          "timestamp": 1763147371.2488053,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 41.51562665540756,
+          "lower_radius": 58.537116306461584,
+          "vertical_distance": 94.33825644135287,
+          "radius_diff": 17.70162006256207,
+          "eye_height": 94.33825644135287,
+          "eye_width": 100.05274296186914,
+          "timestamp": 1763147371.2806597,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 26.31976485131519,
+          "lower_radius": 53.377919158210084,
+          "vertical_distance": 71.84557134841019,
+          "radius_diff": 27.058154306894895,
+          "eye_height": 71.84557134841019,
+          "eye_width": 79.69768400952526,
+          "timestamp": 1763147371.3161533,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 9,
+      "timestamp": 1763147371.5519254,
+      "statistics": {
+        "closing_time": 0.03398466110229492,
+        "opening_time": 0.19340062141418457,
+        "blink_coefficient": 5.690820951017946,
+        "total_duration": 0.2273852825164795,
+        "interval": 0.0,
+        "ear_min": 0.038509206473802876,
+        "upper_radius_max": 95.1750488959909,
+        "lower_radius_max": 65.33917944216357,
+        "vertical_distance_min": 24.606564523879015,
+        "radius_diff_max": 35.47424008387232,
+        "eye_height_min": 24.606564523879015,
+        "eye_width_avg": 110.69402986322277
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147371.58591,
+          "ear": 0.05692310928009318,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147371.6134567,
+          "ear": 0.038509206473802876,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147371.6492882,
+          "ear": 0.06423555236696828,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147371.682918,
+          "ear": 0.11915559995989812,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147371.7120104,
+          "ear": 0.19038069384804984,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147371.7429159,
+          "ear": 0.2289697426290283,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147371.7793107,
+          "ear": 0.2289697426290283,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 87.76209145132705,
+          "lower_radius": 52.287851367454735,
+          "vertical_distance": 36.708430883980895,
+          "radius_diff": 35.47424008387232,
+          "eye_height": 36.708430883980895,
+          "eye_width": 140.0499428187818,
+          "timestamp": 1763147371.58591,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 79.4488133532881,
+          "lower_radius": 55.557545260177434,
+          "vertical_distance": 24.606564523879015,
+          "radius_diff": 23.891268093110664,
+          "eye_height": 24.606564523879015,
+          "eye_width": 135.00635861346552,
+          "timestamp": 1763147371.6134567,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 95.1750488959909,
+          "lower_radius": 65.33917944216357,
+          "vertical_distance": 90.06282740850216,
+          "radius_diff": 29.83586945382733,
+          "eye_height": 90.06282740850216,
+          "eye_width": 160.51422833815445,
+          "timestamp": 1763147371.6492882,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 62.816427302602996,
+          "lower_radius": 60.334812098999784,
+          "vertical_distance": 118.68755722232588,
+          "radius_diff": 4.3906583996907,
+          "eye_height": 118.68755722232588,
+          "eye_width": 123.15123940160278,
+          "timestamp": 1763147371.682918,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 35.96067795205144,
+          "lower_radius": 42.86692001011854,
+          "vertical_distance": 71.76648540782139,
+          "radius_diff": 6.906242058067104,
+          "eye_height": 71.76648540782139,
+          "eye_width": 78.82759796216997,
+          "timestamp": 1763147371.7120104,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.34622501337618,
+          "lower_radius": 39.30819594081622,
+          "vertical_distance": 60.15752481406656,
+          "radius_diff": 9.961970927440042,
+          "eye_height": 60.15752481406656,
+          "eye_width": 68.6544209541924,
+          "timestamp": 1763147371.7429159,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.34622501337618,
+          "lower_radius": 39.30819594081622,
+          "vertical_distance": 60.15752481406656,
+          "radius_diff": 9.961970927440042,
+          "eye_height": 60.15752481406656,
+          "eye_width": 68.6544209541924,
+          "timestamp": 1763147371.7793107,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 10,
+      "timestamp": 1763147378.1989257,
+      "statistics": {
+        "closing_time": 0.027188539505004883,
+        "opening_time": 0.2712218761444092,
+        "blink_coefficient": 9.975595640011575,
+        "total_duration": 0.29841041564941406,
+        "interval": 0.0,
+        "ear_min": 0.037386444133605104,
+        "upper_radius_max": 286.82529023719127,
+        "lower_radius_max": 109.63308454678415,
+        "vertical_distance_min": 20.153003383175047,
+        "radius_diff_max": 220.42153962269248,
+        "eye_height_min": 20.153003383175047,
+        "eye_width_avg": 150.8741072511159
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147378.2261143,
+          "ear": 0.06371445270581572,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147378.2589097,
+          "ear": 0.04036495667057781,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.2900767,
+          "ear": 0.037386444133605104,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.3542953,
+          "ear": 0.041741766568401686,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.3871226,
+          "ear": 0.07671922950947815,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.4139905,
+          "ear": 0.1344555314717144,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.4606898,
+          "ear": 0.20873828624699986,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.474353,
+          "ear": 0.2122587151090387,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147378.4973361,
+          "ear": 0.2261066609913848,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 286.82529023719127,
+          "lower_radius": 66.40375061449882,
+          "vertical_distance": 222.21172154806453,
+          "radius_diff": 220.42153962269248,
+          "eye_height": 222.21172154806453,
+          "eye_width": 353.2290408516901,
+          "timestamp": 1763147378.2261143,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 101.49142983650367,
+          "lower_radius": 59.48846893368179,
+          "vertical_distance": 43.10496113070489,
+          "radius_diff": 42.00296090282188,
+          "eye_height": 43.10496113070489,
+          "eye_width": 160.97989877018546,
+          "timestamp": 1763147378.2589097,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 72.69250239474218,
+          "lower_radius": 55.63457728492317,
+          "vertical_distance": 20.153003383175047,
+          "radius_diff": 19.442809633078095,
+          "eye_height": 20.153003383175047,
+          "eye_width": 128.32707967966536,
+          "timestamp": 1763147378.2900767,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 94.93486481766473,
+          "lower_radius": 72.28477995766613,
+          "vertical_distance": 23.184304085172627,
+          "radius_diff": 22.650084859998596,
+          "eye_height": 23.184304085172627,
+          "eye_width": 167.21964477533086,
+          "timestamp": 1763147378.3542953,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 109.15564142144918,
+          "lower_radius": 109.63308454678415,
+          "vertical_distance": 216.28414785990657,
+          "radius_diff": 0.4774431253349647,
+          "eye_height": 216.28414785990657,
+          "eye_width": 218.7887259682333,
+          "timestamp": 1763147378.3871226,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 52.21726499932461,
+          "lower_radius": 63.11798727447069,
+          "vertical_distance": 110.2567318969694,
+          "radius_diff": 13.73487704679011,
+          "eye_height": 110.2567318969694,
+          "eye_width": 115.3352522737953,
+          "timestamp": 1763147378.4139905,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 28.808513972518988,
+          "lower_radius": 43.470358969706226,
+          "vertical_distance": 64.67385682273907,
+          "radius_diff": 14.661844997187234,
+          "eye_height": 64.67385682273907,
+          "eye_width": 72.2788729422252,
+          "timestamp": 1763147378.4606898,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 28.858842598743173,
+          "lower_radius": 43.470358969706226,
+          "vertical_distance": 64.71372608502479,
+          "radius_diff": 14.61151637096305,
+          "eye_height": 64.71372608502479,
+          "eye_width": 72.32920156844939,
+          "timestamp": 1763147378.474353,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 25.466168984615592,
+          "lower_radius": 43.9130794458525,
+          "vertical_distance": 61.06016182028084,
+          "radius_diff": 18.446910461236918,
+          "eye_height": 61.06016182028084,
+          "eye_width": 69.3792484304681,
+          "timestamp": 1763147378.4973361,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 11,
+      "timestamp": 1763147385.6939032,
+      "statistics": {
+        "closing_time": 0.03133654594421387,
+        "opening_time": 0.241746187210083,
+        "blink_coefficient": 7.714512877087534,
+        "total_duration": 0.2730827331542969,
+        "interval": 0.0,
+        "ear_min": 0.031517235320682985,
+        "upper_radius_max": 269.30222209161906,
+        "lower_radius_max": 121.23128897436203,
+        "vertical_distance_min": 13.116124309046725,
+        "radius_diff_max": 192.84217271140227,
+        "eye_height_min": 13.116124309046725,
+        "eye_width_avg": 154.16264509168462
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147385.7252398,
+          "ear": 0.05306394872097861,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147385.7633438,
+          "ear": 0.031517235320682985,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147385.789053,
+          "ear": 0.05367162135844261,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147385.8432205,
+          "ear": 0.09391937073559292,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147385.8712583,
+          "ear": 0.1776903185277971,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147385.907709,
+          "ear": 0.21104757566792345,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147385.937113,
+          "ear": 0.20438323148738613,
+          "state": "OPENING"
+        },
+        {
+          "timestamp": 1763147385.966986,
+          "ear": 0.21892524490611492,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 108.5484437088147,
+          "lower_radius": 62.52127137645198,
+          "vertical_distance": 47.11349030378274,
+          "radius_diff": 46.027172332362724,
+          "eye_height": 47.11349030378274,
+          "eye_width": 171.0697150852667,
+          "timestamp": 1763147385.7252398,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 111.35048311266789,
+          "lower_radius": 99.31953377822649,
+          "vertical_distance": 13.116124309046725,
+          "radius_diff": 12.88837065441156,
+          "eye_height": 13.116124309046725,
+          "eye_width": 210.67001689089437,
+          "timestamp": 1763147385.7633438,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 269.30222209161906,
+          "lower_radius": 76.46004938021679,
+          "vertical_distance": 194.23613215154245,
+          "radius_diff": 192.84217271140227,
+          "eye_height": 194.23613215154245,
+          "eye_width": 345.7622714718358,
+          "timestamp": 1763147385.789053,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 65.86396877501052,
+          "lower_radius": 121.23128897436203,
+          "vertical_distance": 183.80431336577803,
+          "radius_diff": 55.3673201993515,
+          "eye_height": 183.80431336577803,
+          "eye_width": 187.09525774937254,
+          "timestamp": 1763147385.8432205,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 32.08541060831084,
+          "lower_radius": 55.23412655224162,
+          "vertical_distance": 80.62071947028969,
+          "radius_diff": 23.148715943930775,
+          "eye_height": 80.62071947028969,
+          "eye_width": 87.31953716055246,
+          "timestamp": 1763147385.8712583,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 28.333002906113315,
+          "lower_radius": 50.855808780833854,
+          "vertical_distance": 71.5841272664135,
+          "radius_diff": 22.522805874720536,
+          "eye_height": 71.5841272664135,
+          "eye_width": 79.18881168694716,
+          "timestamp": 1763147385.907709,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 28.190457076152192,
+          "lower_radius": 47.673026330515526,
+          "vertical_distance": 68.01260146056615,
+          "radius_diff": 19.482569254363334,
+          "eye_height": 68.01260146056615,
+          "eye_width": 75.86348340666773,
+          "timestamp": 1763147385.937113,
+          "state": "OPENING"
+        },
+        {
+          "upper_radius": 26.489723126276456,
+          "lower_radius": 49.842344155663824,
+          "vertical_distance": 67.9763653407333,
+          "radius_diff": 23.35262102938737,
+          "eye_height": 67.9763653407333,
+          "eye_width": 76.33206728194028,
+          "timestamp": 1763147385.966986,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 12,
+      "timestamp": 1763147390.3549738,
+      "statistics": {
+        "closing_time": 0.03277921676635742,
+        "opening_time": 0.1565074920654297,
+        "blink_coefficient": 4.774595231514481,
+        "total_duration": 0.1892867088317871,
+        "interval": 0.0,
+        "ear_min": 0.04154963871158658,
+        "upper_radius_max": 183.36818645967443,
+        "lower_radius_max": 76.39350314253642,
+        "vertical_distance_min": 61.77135203278243,
+        "radius_diff_max": 106.97468331713802,
+        "eye_height_min": 61.77135203278243,
+        "eye_width_avg": 129.13369691568346
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147390.387753,
+          "ear": 0.04623295073903086,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147390.417634,
+          "ear": 0.07055608302219517,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147390.4466171,
+          "ear": 0.10956377256858627,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147390.4837534,
+          "ear": 0.20526386050799372,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147390.5161624,
+          "ear": 0.21818668061337632,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147390.5442605,
+          "ear": 0.23960752702387286,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 183.36818645967443,
+          "lower_radius": 76.39350314253642,
+          "vertical_distance": 107.9640675598366,
+          "radius_diff": 106.97468331713802,
+          "eye_height": 107.9640675598366,
+          "eye_width": 259.7616896022108,
+          "timestamp": 1763147390.387753,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 66.66810078498588,
+          "lower_radius": 71.55580798088056,
+          "vertical_distance": 134.3146325631103,
+          "radius_diff": 41.21777607869501,
+          "eye_height": 134.3146325631103,
+          "eye_width": 138.22390876586644,
+          "timestamp": 1763147390.417634,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 71.44513399350126,
+          "lower_radius": 72.53791092344122,
+          "vertical_distance": 139.91618487112675,
+          "radius_diff": 1.092776929939955,
+          "eye_height": 139.91618487112675,
+          "eye_width": 143.98304491694248,
+          "timestamp": 1763147390.4466171,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.254108822127108,
+          "lower_radius": 51.72185103661589,
+          "vertical_distance": 73.32294350627146,
+          "radius_diff": 22.46774221448878,
+          "eye_height": 73.32294350627146,
+          "eye_width": 80.97595985874301,
+          "timestamp": 1763147390.4837534,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 26.174971883915532,
+          "lower_radius": 55.18925781366666,
+          "vertical_distance": 73.46028368475018,
+          "radius_diff": 29.014285929751132,
+          "eye_height": 73.46028368475018,
+          "eye_width": 81.36422969758219,
+          "timestamp": 1763147390.5161624,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 24.938300590191172,
+          "lower_radius": 45.55504806256453,
+          "vertical_distance": 61.77135203278243,
+          "radius_diff": 20.61674747237336,
+          "eye_height": 61.77135203278243,
+          "eye_width": 70.49334865275571,
+          "timestamp": 1763147390.5442605,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 13,
+      "timestamp": 1763147393.217115,
+      "statistics": {
+        "closing_time": 0.030861616134643555,
+        "opening_time": 0.19084954261779785,
+        "blink_coefficient": 6.184042397039623,
+        "total_duration": 0.2217111587524414,
+        "interval": 0.0,
+        "ear_min": 0.03736659042695635,
+        "upper_radius_max": 129.0427650115914,
+        "lower_radius_max": 134.3651230407095,
+        "vertical_distance_min": 52.3448058896593,
+        "radius_diff_max": 104.20072400382546,
+        "eye_height_min": 52.3448058896593,
+        "eye_width_avg": 135.1007634628538
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147393.2479765,
+          "ear": 0.04088691663915337,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147393.279578,
+          "ear": 0.03736659042695635,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147393.3103988,
+          "ear": 0.06473998146525431,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147393.3452532,
+          "ear": 0.10589662483720379,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147393.3799922,
+          "ear": 0.1844075430998408,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147393.4161174,
+          "ear": 0.21143520157950968,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147393.438826,
+          "ear": 0.23349997834907463,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 116.85056957386979,
+          "lower_radius": 59.70748663261681,
+          "vertical_distance": 58.182444922812124,
+          "radius_diff": 57.14308294125297,
+          "eye_height": 58.182444922812124,
+          "eye_width": 176.55805620648658,
+          "timestamp": 1763147393.2479765,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 129.0427650115914,
+          "lower_radius": 77.40311839935089,
+          "vertical_distance": 52.3448058896593,
+          "radius_diff": 51.63964661224052,
+          "eye_height": 52.3448058896593,
+          "eye_width": 206.4458834109423,
+          "timestamp": 1763147393.279578,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 50.77825905634143,
+          "lower_radius": 134.3651230407095,
+          "vertical_distance": 180.93178927592953,
+          "radius_diff": 104.20072400382546,
+          "eye_height": 180.93178927592953,
+          "eye_width": 185.14338209705096,
+          "timestamp": 1763147393.3103988,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 73.82280465357185,
+          "lower_radius": 80.44989137532386,
+          "vertical_distance": 150.31177361273154,
+          "radius_diff": 6.627086721752015,
+          "eye_height": 150.31177361273154,
+          "eye_width": 154.27269602889572,
+          "timestamp": 1763147393.3452532,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 33.489049709582254,
+          "lower_radius": 47.91517924706187,
+          "vertical_distance": 74.5090353826007,
+          "radius_diff": 14.426129537479621,
+          "eye_height": 74.5090353826007,
+          "eye_width": 81.40422895664413,
+          "timestamp": 1763147393.3799922,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 29.02639584594224,
+          "lower_radius": 45.206342511443424,
+          "vertical_distance": 66.30254253477429,
+          "radius_diff": 16.179946665501184,
+          "eye_height": 66.30254253477429,
+          "eye_width": 74.23273835738567,
+          "timestamp": 1763147393.4161174,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 27.250575300779257,
+          "lower_radius": 40.39778388179195,
+          "vertical_distance": 59.09320290518457,
+          "radius_diff": 13.147208581012691,
+          "eye_height": 59.09320290518457,
+          "eye_width": 67.6483591825712,
+          "timestamp": 1763147393.438826,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 14,
+      "timestamp": 1763147396.128928,
+      "statistics": {
+        "closing_time": 0.03560233116149902,
+        "opening_time": 0.20067429542541504,
+        "blink_coefficient": 5.636549317939823,
+        "total_duration": 0.23627662658691406,
+        "interval": 0.0,
+        "ear_min": 0.047526134015877006,
+        "upper_radius_max": 175.82813304098292,
+        "lower_radius_max": 85.02767298763708,
+        "vertical_distance_min": 9.61541841193106,
+        "radius_diff_max": 103.68728959964427,
+        "eye_height_min": 9.61541841193106,
+        "eye_width_avg": 128.08652896331006
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147393.506076,
+          "ear": 0.2394116181710382,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147396.1645303,
+          "ear": 0.047526134015877006,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147396.207056,
+          "ear": 0.048843277790602366,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147396.2390485,
+          "ear": 0.06108195164326389,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147396.2698965,
+          "ear": 0.07725327945739834,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147396.302981,
+          "ear": 0.1864699681549788,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147396.3360906,
+          "ear": 0.21138531809755798,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147396.3652046,
+          "ear": 0.22217191969248662,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 24.938300590199777,
+          "lower_radius": 44.45005348176047,
+          "vertical_distance": 60.594193733823744,
+          "radius_diff": 19.511752891560693,
+          "eye_height": 60.594193733823744,
+          "eye_width": 69.38835407196024,
+          "timestamp": 1763147393.506076,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 156.68453161780238,
+          "lower_radius": 55.96290189896739,
+          "vertical_distance": 101.7157793892911,
+          "radius_diff": 100.72162971883499,
+          "eye_height": 101.7157793892911,
+          "eye_width": 212.64743351676978,
+          "timestamp": 1763147396.1645303,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 64.97864366492817,
+          "lower_radius": 55.962901898971396,
+          "vertical_distance": 9.61541841193106,
+          "radius_diff": 9.015741765956783,
+          "eye_height": 9.61541841193106,
+          "eye_width": 120.94154556389957,
+          "timestamp": 1763147396.207056,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 175.82813304098292,
+          "lower_radius": 72.14084344133865,
+          "vertical_distance": 166.97026245813345,
+          "radius_diff": 103.68728959964427,
+          "eye_height": 166.97026245813345,
+          "eye_width": 247.96897648232158,
+          "timestamp": 1763147396.2390485,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 62.36197738382443,
+          "lower_radius": 85.02767298763708,
+          "vertical_distance": 143.99182447032697,
+          "radius_diff": 22.665695603812644,
+          "eye_height": 143.99182447032697,
+          "eye_width": 147.3896503714615,
+          "timestamp": 1763147396.2698965,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 33.191773369856115,
+          "lower_radius": 46.80741941496018,
+          "vertical_distance": 73.14724081840255,
+          "radius_diff": 13.615646045104068,
+          "eye_height": 73.14724081840255,
+          "eye_width": 79.9991927848163,
+          "timestamp": 1763147396.302981,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 30.458547494144078,
+          "lower_radius": 41.27885478192921,
+          "vertical_distance": 63.7790283936951,
+          "radius_diff": 10.820307287785138,
+          "eye_height": 63.7790283936951,
+          "eye_width": 71.7374022760733,
+          "timestamp": 1763147396.3360906,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 28.02935873564411,
+          "lower_radius": 46.590317903534086,
+          "vertical_distance": 66.45349605232894,
+          "radius_diff": 18.560959167889976,
+          "eye_height": 66.45349605232894,
+          "eye_width": 74.61967663917821,
+          "timestamp": 1763147396.3652046,
+          "state": "OPENING"
+        }
+      ]
+    },
+    {
+      "blink_id": 15,
+      "timestamp": 1763147400.451022,
+      "statistics": {
+        "closing_time": 0.029408931732177734,
+        "opening_time": 0.6100075244903564,
+        "blink_coefficient": 20.74225374949331,
+        "total_duration": 0.6394164562225342,
+        "interval": 0.0,
+        "ear_min": 0.038005752551814244,
+        "upper_radius_max": 168.42574590269322,
+        "lower_radius_max": 136.59478607836286,
+        "vertical_distance_min": 15.952166537770793,
+        "radius_diff_max": 121.13978211738451,
+        "eye_height_min": 15.952166537770793,
+        "eye_width_avg": 146.80792507004557
+      },
+      "ear_timeseries": [
+        {
+          "timestamp": 1763147400.4804308,
+          "ear": 0.12494259471568668,
+          "state": "CLOSING"
+        },
+        {
+          "timestamp": 1763147400.4972162,
+          "ear": 0.1176349318433917,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.5300643,
+          "ear": 0.12028244076225661,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.5613005,
+          "ear": 0.09084781434546214,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.59107,
+          "ear": 0.09956982297559208,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.6232889,
+          "ear": 0.08660931804459512,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.6535907,
+          "ear": 0.09066460779907773,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.6876113,
+          "ear": 0.08758985837300384,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.749992,
+          "ear": 0.07891066909631692,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.781033,
+          "ear": 0.07883350011102688,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.8152764,
+          "ear": 0.04589278023618905,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.8471305,
+          "ear": 0.038005752551814244,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.8788571,
+          "ear": 0.04815625985698122,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.9141767,
+          "ear": 0.04517256608367047,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.943545,
+          "ear": 0.05163351963365001,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.9740014,
+          "ear": 0.050922393448126664,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147400.9980743,
+          "ear": 0.07653307868881937,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147401.022257,
+          "ear": 0.16641759883932833,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147401.0612307,
+          "ear": 0.23691533395678582,
+          "state": "CLOSED"
+        },
+        {
+          "timestamp": 1763147401.0904384,
+          "ear": 0.23007403635974416,
+          "state": "OPENING"
+        }
+      ],
+      "circles_timeseries": [
+        {
+          "upper_radius": 116.07927192992894,
+          "lower_radius": 40.76649493674359,
+          "vertical_distance": 152.17732352360918,
+          "radius_diff": 75.31277699318534,
+          "eye_height": 152.17732352360918,
+          "eye_width": 156.84576686667253,
+          "timestamp": 1763147400.4804308,
+          "state": "CLOSING"
+        },
+        {
+          "upper_radius": 92.88127164404074,
+          "lower_radius": 40.805178401923854,
+          "vertical_distance": 128.91567959016425,
+          "radius_diff": 52.07609324211688,
+          "eye_height": 128.91567959016425,
+          "eye_width": 133.6864500459646,
+          "timestamp": 1763147400.4972162,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 69.7378016683908,
+          "lower_radius": 46.75557021670062,
+          "vertical_distance": 111.76277171989003,
+          "radius_diff": 22.982231451690186,
+          "eye_height": 111.76277171989003,
+          "eye_width": 116.49337188509142,
+          "timestamp": 1763147400.5300643,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 59.097323686776015,
+          "lower_radius": 47.04851670063084,
+          "vertical_distance": 99.88222564211723,
+          "radius_diff": 44.279817555323234,
+          "eye_height": 99.88222564211723,
+          "eye_width": 106.14584038740686,
+          "timestamp": 1763147400.5613005,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 168.42574590269322,
+          "lower_radius": 47.285963785308724,
+          "vertical_distance": 211.6867920174124,
+          "radius_diff": 121.13978211738451,
+          "eye_height": 211.6867920174124,
+          "eye_width": 215.71170968800197,
+          "timestamp": 1763147400.59107,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 135.52903765619754,
+          "lower_radius": 52.35693194820133,
+          "vertical_distance": 135.1508053129927,
+          "radius_diff": 83.17210570799622,
+          "eye_height": 135.1508053129927,
+          "eye_width": 187.8859696043989,
+          "timestamp": 1763147400.6232889,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 133.9542449563595,
+          "lower_radius": 41.46662554653754,
+          "vertical_distance": 132.08240289651337,
+          "radius_diff": 92.48761940982197,
+          "eye_height": 132.08240289651337,
+          "eye_width": 175.42087050289706,
+          "timestamp": 1763147400.6535907,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 137.52604286299504,
+          "lower_radius": 42.343301779748174,
+          "vertical_distance": 140.00301564989115,
+          "radius_diff": 95.18274108324688,
+          "eye_height": 140.00301564989115,
+          "eye_width": 179.86934464274321,
+          "timestamp": 1763147400.6876113,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 76.47834424609914,
+          "lower_radius": 45.55969560704179,
+          "vertical_distance": 66.26943526395817,
+          "radius_diff": 30.918648639057352,
+          "eye_height": 66.26943526395817,
+          "eye_width": 122.03803985314093,
+          "timestamp": 1763147400.749992,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 122.48332436702358,
+          "lower_radius": 49.84236826034625,
+          "vertical_distance": 116.82755157883497,
+          "radius_diff": 72.64095610667735,
+          "eye_height": 116.82755157883497,
+          "eye_width": 172.32569262736985,
+          "timestamp": 1763147400.781033,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 85.74424641408021,
+          "lower_radius": 62.54801343285546,
+          "vertical_distance": 23.869887520888724,
+          "radius_diff": 23.19623298122474,
+          "eye_height": 23.869887520888724,
+          "eye_width": 148.29225984693568,
+          "timestamp": 1763147400.8152764,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 67.722834116934,
+          "lower_radius": 52.529585024319715,
+          "vertical_distance": 15.952166537770793,
+          "radius_diff": 15.193249092614288,
+          "eye_height": 15.952166537770793,
+          "eye_width": 120.25241914125372,
+          "timestamp": 1763147400.8471305,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 103.7523880699122,
+          "lower_radius": 57.457902476652464,
+          "vertical_distance": 48.22921198097137,
+          "radius_diff": 47.40535374417823,
+          "eye_height": 48.22921198097137,
+          "eye_width": 161.21029054656466,
+          "timestamp": 1763147400.8788571,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 82.55212854475336,
+          "lower_radius": 77.14130107351735,
+          "vertical_distance": 27.34591667119335,
+          "radius_diff": 26.58074197333023,
+          "eye_height": 27.34591667119335,
+          "eye_width": 159.69342961827073,
+          "timestamp": 1763147400.9141767,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 84.31047155278856,
+          "lower_radius": 80.40957743101023,
+          "vertical_distance": 28.86923177053299,
+          "radius_diff": 28.090675322787913,
+          "eye_height": 28.86923177053299,
+          "eye_width": 164.7200489837988,
+          "timestamp": 1763147400.943545,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 76.83916155547617,
+          "lower_radius": 136.59478607836286,
+          "vertical_distance": 140.95697147186752,
+          "radius_diff": 115.77750589507758,
+          "eye_height": 140.95697147186752,
+          "eye_width": 213.433947633839,
+          "timestamp": 1763147400.9740014,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 83.75260049775076,
+          "lower_radius": 89.93799694309632,
+          "vertical_distance": 171.09554945140167,
+          "radius_diff": 20.322106070771788,
+          "eye_height": 171.09554945140167,
+          "eye_width": 173.69059744084709,
+          "timestamp": 1763147400.9980743,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 33.80768625659925,
+          "lower_radius": 52.61431181013623,
+          "vertical_distance": 80.28064155086206,
+          "radius_diff": 18.806625553536982,
+          "eye_height": 80.28064155086206,
+          "eye_width": 86.42199806673547,
+          "timestamp": 1763147401.022257,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 24.199715255754107,
+          "lower_radius": 44.341893234482846,
+          "vertical_distance": 59.9339997687115,
+          "radius_diff": 20.14217797872874,
+          "eye_height": 59.9339997687115,
+          "eye_width": 68.54160849023695,
+          "timestamp": 1763147401.0612307,
+          "state": "CLOSED"
+        },
+        {
+          "upper_radius": 25.25605235546691,
+          "lower_radius": 48.22279317327565,
+          "vertical_distance": 64.9626404046764,
+          "radius_diff": 22.966740817808734,
+          "eye_height": 64.9626404046764,
+          "eye_width": 73.47884552874255,
+          "timestamp": 1763147401.0904384,
+          "state": "OPENING"
+        }
+      ]
+    }
+  ]
+}
