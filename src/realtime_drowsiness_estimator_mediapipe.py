@@ -1,11 +1,12 @@
 """
-リアルタイム眠気推定システム（MediaPipe版 - 12次元特徴量対応）
-Real-time Drowsiness Estimation System with MediaPipe - 12D Features
+リアルタイム眠気推定システム（MediaPipe版 - 12次元特徴量完全対応）
+Real-time Drowsiness Estimation System with MediaPipe - Full 12D Features
 
 訓練済みLSTMモデル（12次元）を使用してリアルタイムで眠気を推定します。
+EAR手法と2つの円手法を統合した完全版。
 
 使い方:
-    python realtime_drowsiness_estimator_mediapipe_12d.py \
+    python realtime_drowsiness_estimator_mediapipe_improved.py \
         --model-path trained_models/drowsiness_lstm_20251115_224046.pth
 """
 
@@ -17,7 +18,7 @@ import time
 import json
 from datetime import datetime
 from collections import deque
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional, Tuple, List
 import argparse
 import mediapipe as mp
 
@@ -75,7 +76,7 @@ class TwoCircleFitter:
             points: [(x, y), (x, y), (x, y)]
             
         Returns:
-            tuple: (center_x, center_y, radius) または None
+            dict: 円のパラメータ {center_x, center_y, radius} または None
         """
         if len(points) != 3:
             return None
@@ -99,73 +100,124 @@ class TwoCircleFitter:
             center_y = params[1]
             radius = np.sqrt(params[2] + center_x**2 + center_y**2)
             
-            return center_x, center_y, radius
+            return {
+                'center_x': float(center_x),
+                'center_y': float(center_y),
+                'radius': float(radius)
+            }
             
-        except:
+        except Exception as e:
             return None
     
     @staticmethod
     def fit_eyelids(eye_landmarks):
         """
-        上まぶた・下まぶたの円をフィッティング
+        目のランドマークから上まぶた円と下まぶた円をフィッティング
         
         Args:
             eye_landmarks: 目のランドマーク6点
-                          [P1(目頭), P2(上), P3(上), P4(目尻), P5(下), P6(下)]
+                          [P0(左端), P1(上左), P2(上右), P3(右端), P4(下右), P5(下左)]
             
         Returns:
-            tuple: ((c1_x, c1_y, c1_r), (c2_x, c2_y, c2_r)) または (None, None)
+            dict: 2円パラメータ {
+                'upper_circle': {center_x, center_y, radius},
+                'lower_circle': {center_x, center_y, radius},
+                'vertical_distance': 上下の円の中心間距離,
+                'radius_diff': 半径の差,
+                'eye_height': 目の高さ,
+                'eye_width': 目の幅
+            } または None
         """
         if len(eye_landmarks) < 6:
-            return None, None
+            return None
         
-        # 上まぶた3点: P1(目頭), P2(上), P3(上)
-        upper_points = [eye_landmarks[0], eye_landmarks[1], eye_landmarks[2]]
-        c1 = TwoCircleFitter.fit_circle(upper_points)
-        
-        # 下まぶた3点: P1(目頭), P5(下), P6(下)
-        lower_points = [eye_landmarks[0], eye_landmarks[4], eye_landmarks[5]]
-        c2 = TwoCircleFitter.fit_circle(lower_points)
-        
-        return c1, c2
+        try:
+            # 上まぶた3点: P1(上左), P2(上右), P3(右端)
+            upper_points = [eye_landmarks[1], eye_landmarks[2], eye_landmarks[3]]
+            upper_circle = TwoCircleFitter.fit_circle(upper_points)
+            
+            if upper_circle is None:
+                return None
+            
+            # 下まぶた3点: P0(左端), P4(下右), P5(下左)
+            lower_points = [eye_landmarks[0], eye_landmarks[4], eye_landmarks[5]]
+            lower_circle = TwoCircleFitter.fit_circle(lower_points)
+            
+            if lower_circle is None:
+                return None
+            
+            # 2円の中心間距離（垂直距離）
+            vertical_distance = np.sqrt(
+                (upper_circle['center_x'] - lower_circle['center_x'])**2 +
+                (upper_circle['center_y'] - lower_circle['center_y'])**2
+            )
+            
+            # 半径の差
+            radius_diff = abs(upper_circle['radius'] - lower_circle['radius'])
+            
+            # 目の高さ（上下の垂直距離の平均）
+            eye_height = (
+                np.linalg.norm(np.array(eye_landmarks[1]) - np.array(eye_landmarks[5])) +
+                np.linalg.norm(np.array(eye_landmarks[2]) - np.array(eye_landmarks[4]))
+            ) / 2.0
+            
+            # 目の幅（水平距離）
+            eye_width = np.linalg.norm(np.array(eye_landmarks[0]) - np.array(eye_landmarks[3]))
+            
+            return {
+                'upper_circle': upper_circle,
+                'lower_circle': lower_circle,
+                'vertical_distance': float(vertical_distance),
+                'radius_diff': float(radius_diff),
+                'eye_height': float(eye_height),
+                'eye_width': float(eye_width)
+            }
+            
+        except Exception as e:
+            return None
 
 
 class DrowsinessLSTM(nn.Module):
-    """眠気推定用LSTMモデル（12次元対応）"""
+    """眠気推定用LSTMモデル（12次元特徴量対応）"""
     
     def __init__(self, input_size=12, hidden_size1=64, hidden_size2=32, 
                  fc_size=32, num_classes=2, dropout_rate=0.3):
         super(DrowsinessLSTM, self).__init__()
         
-        self.hidden_size1 = hidden_size1
-        self.hidden_size2 = hidden_size2
+        # 2層LSTM
+        self.lstm1 = nn.LSTM(
+            input_size=input_size,
+            hidden_size=hidden_size1,
+            batch_first=True,
+            dropout=dropout_rate if hidden_size2 > 0 else 0
+        )
         
-        # LSTM層
-        self.lstm1 = nn.LSTM(input_size, hidden_size1, batch_first=True)
+        self.lstm2 = nn.LSTM(
+            input_size=hidden_size1,
+            hidden_size=hidden_size2,
+            batch_first=True
+        )
+        
+        # Dropout層
         self.dropout1 = nn.Dropout(dropout_rate)
-        
-        self.lstm2 = nn.LSTM(hidden_size1, hidden_size2, batch_first=True)
         self.dropout2 = nn.Dropout(dropout_rate)
+        self.dropout3 = nn.Dropout(dropout_rate)
         
         # 全結合層
         self.fc1 = nn.Linear(hidden_size2, fc_size)
-        self.relu = nn.ReLU()
-        self.dropout3 = nn.Dropout(dropout_rate)
-        
         self.fc2 = nn.Linear(fc_size, num_classes)
+        self.relu = nn.ReLU()
     
     def forward(self, x):
-        # x: (batch, sequence_length, input_size)
-        
-        # LSTM層1
+        # LSTM1
         lstm1_out, _ = self.lstm1(x)
         lstm1_out = self.dropout1(lstm1_out)
         
-        # LSTM層2
+        # LSTM2
         lstm2_out, _ = self.lstm2(lstm1_out)
         lstm2_out = self.dropout2(lstm2_out)
         
-        # 最後の時刻の出力を使用
+        # 最後の時刻の出力
         last_output = lstm2_out[:, -1, :]
         
         # 全結合層
@@ -179,11 +231,11 @@ class DrowsinessLSTM(nn.Module):
 
 
 class RealtimeDrowsinessDetector:
-    """リアルタイム眠気検知システム（12次元特徴量対応）"""
+    """リアルタイム眠気検知システム（12次元特徴量完全対応）"""
     
     # MediaPipe Face Meshのランドマークインデックス
-    LEFT_EYE_INDICES = [33, 160, 158, 133, 153, 144]
-    RIGHT_EYE_INDICES = [362, 385, 387, 263, 373, 380]
+    LEFT_EYE_INDICES = [362, 385, 387, 263, 373, 380]
+    RIGHT_EYE_INDICES = [33, 160, 158, 133, 153, 144]
     
     # 瞬き状態
     STATE_OPEN = 0
@@ -212,7 +264,7 @@ class RealtimeDrowsinessDetector:
             min_tracking_confidence=0.5
         )
         
-        # 瞬き検出用
+        # 瞬き検出用変数
         self.blink_state = self.STATE_OPEN
         self.state_start_time = time.time()
         self.t1 = 0  # OPEN → CLOSING
@@ -221,6 +273,12 @@ class RealtimeDrowsinessDetector:
         
         # 前回の瞬き時刻（間隔計算用）
         self.last_blink_time = None
+        
+        # 2円パラメータの最小値追跡（瞬き中）
+        self.current_blink_circles_data = []
+        
+        # EAR履歴（瞬き中のEAR最小値を記録）
+        self.current_blink_ear_history = []
         
         # 特徴量バッファ（12次元 × sequence_length）
         self.feature_buffer = deque(maxlen=sequence_length)
@@ -256,6 +314,12 @@ class RealtimeDrowsinessDetector:
         # 統計
         self.total_blinks = 0
         self.drowsy_count = 0
+        self.normal_count = 0
+        
+        # アラート管理
+        self.consecutive_drowsy = 0
+        self.consecutive_drowsy_threshold = 3
+        self.alert_active = False
         
         print("=" * 70)
         print("🚀 リアルタイム眠気検知システム起動")
@@ -263,7 +327,7 @@ class RealtimeDrowsinessDetector:
         print(f"📁 モデル: {model_path}")
         print(f"📊 シーケンス長: {sequence_length}")
         print(f"👁️  EAR閾値: {ear_threshold}")
-        print(f"🔢 特徴量次元: 12次元（2円方式）")
+        print(f"🔢 特徴量次元: 12次元（Temporal + Spatial）")
         print("=" * 70)
     
     def detect_blink(self, ear, left_eye_landmarks, right_eye_landmarks):
@@ -272,13 +336,40 @@ class RealtimeDrowsinessDetector:
         
         Args:
             ear (float): Eye Aspect Ratio
-            left_eye_landmarks (list): 左目のランドマーク
-            right_eye_landmarks (list): 右目のランドマーク
+            left_eye_landmarks (list): 左目のランドマーク6点
+            right_eye_landmarks (list): 右目のランドマーク6点
             
         Returns:
             np.array: 12次元特徴量 または None
         """
         current_time = time.time()
+        
+        # 瞬き中は2円パラメータとEARを記録
+        if self.blink_state in [self.STATE_CLOSING, self.STATE_CLOSED, self.STATE_OPENING]:
+            # EAR履歴を記録
+            self.current_blink_ear_history.append(ear)
+            
+            # 両目の2円パラメータ
+            left_circles = TwoCircleFitter.fit_eyelids(left_eye_landmarks)
+            right_circles = TwoCircleFitter.fit_eyelids(right_eye_landmarks)
+            
+            # 平均値を計算して記録
+            if left_circles and right_circles:
+                avg_circles = {
+                    'upper_radius': (left_circles['upper_circle']['radius'] + 
+                                   right_circles['upper_circle']['radius']) / 2,
+                    'lower_radius': (left_circles['lower_circle']['radius'] + 
+                                   right_circles['lower_circle']['radius']) / 2,
+                    'vertical_distance': (left_circles['vertical_distance'] + 
+                                        right_circles['vertical_distance']) / 2,
+                    'radius_diff': (left_circles['radius_diff'] + 
+                                  right_circles['radius_diff']) / 2,
+                    'eye_height': (left_circles['eye_height'] + 
+                                 right_circles['eye_height']) / 2,
+                    'eye_width': (left_circles['eye_width'] + 
+                                right_circles['eye_width']) / 2
+                }
+                self.current_blink_circles_data.append(avg_circles)
         
         # 状態遷移
         if self.blink_state == self.STATE_OPEN:
@@ -286,6 +377,7 @@ class RealtimeDrowsinessDetector:
                 # OPEN → CLOSING
                 self.blink_state = self.STATE_CLOSING
                 self.t1 = current_time
+                self.current_blink_circles_data = []
                 
         elif self.blink_state == self.STATE_CLOSING:
             if ear < self.ear_threshold * 0.8:
@@ -305,144 +397,147 @@ class RealtimeDrowsinessDetector:
                 self.blink_state = self.STATE_OPEN
                 
                 # 12次元特徴量を抽出
-                features = self.extract_blink_features(
-                    left_eye_landmarks, 
-                    right_eye_landmarks
-                )
+                features = self.extract_blink_features_12d()
                 
-                if features is not None:
-                    self.total_blinks += 1
-                    self.last_blink_time = current_time
-                    return features
+                # 統計更新
+                self.total_blinks += 1
+                
+                # リセット
+                self.t1 = 0
+                self.t2 = 0
+                self.t3 = 0
+                self.current_blink_circles_data = []
+                self.current_blink_ear_history = []
+                
+                return features
         
         return None
     
-    def extract_blink_features(self, left_eye_landmarks, right_eye_landmarks):
+    def extract_blink_features_12d(self):
         """
         瞬き完了時に12次元特徴量を抽出
         
-        12次元の内訳:
-        1. closing_time (閉眼時間)
-        2. opening_time (開眼時間)
-        3. blink_coefficient (瞬き係数 To/Tc)
-        4. timestamp (タイムスタンプ)
-        5. total_duration (総瞬き時間)
-        6. interval (瞬き間隔)
-        7. c1_center_x (上まぶた円の中心X)
-        8. c1_center_y (上まぶた円の中心Y)
-        9. c1_radius (上まぶた円の半径)
-        10. c2_center_x (下まぶた円の中心X)
-        11. c2_center_y (下まぶた円の中心Y)
-        12. c2_radius (下まぶた円の半径)
-        
         Returns:
-            np.array: 12次元特徴量 または None
+            np.array: 12次元特徴量ベクトル
+                [0] closing_time: 閉眼時間
+                [1] opening_time: 開眼時間
+                [2] blink_coefficient: 瞬き係数 (opening_time / closing_time)
+                [3] interval: 前回の瞬きからの間隔
+                [4] total_duration: 総持続時間
+                [5] upper_radius_max: 上まぶた円の最大半径
+                [6] lower_radius_max: 下まぶた円の最大半径
+                [7] vertical_distance_min: 上下円の最小距離
+                [8] radius_diff_max: 半径差の最大値
+                [9] eye_height_min: 目の高さの最小値
+                [10] eye_width_avg: 目の幅の平均値
+                [11] ear_min: EARの最小値
         """
-        try:
-            current_time = time.time()
+        # Temporal特徴量（時間的パラメータ）
+        closing_time = self.t2 - self.t1 if self.t1 and self.t2 else 0.0
+        opening_time = self.t3 - self.t2 if self.t2 and self.t3 else 0.0
+        blink_coefficient = opening_time / closing_time if closing_time > 0 else 0.0
+        total_duration = closing_time + opening_time
+        
+        # 瞬き間隔
+        current_time = time.time()
+        interval = current_time - self.last_blink_time if self.last_blink_time else 0.0
+        self.last_blink_time = current_time
+        
+        # Spatial特徴量（空間的パラメータ）- 2円方式
+        if len(self.current_blink_circles_data) > 0:
+            # 各パラメータの統計値を計算
+            upper_radii = [d['upper_radius'] for d in self.current_blink_circles_data]
+            lower_radii = [d['lower_radius'] for d in self.current_blink_circles_data]
+            vertical_distances = [d['vertical_distance'] for d in self.current_blink_circles_data]
+            radius_diffs = [d['radius_diff'] for d in self.current_blink_circles_data]
+            eye_heights = [d['eye_height'] for d in self.current_blink_circles_data]
+            eye_widths = [d['eye_width'] for d in self.current_blink_circles_data]
             
-            # 時間パラメータの計算
-            closing_time = self.t2 - self.t1
-            opening_time = self.t3 - self.t2
-            total_duration = closing_time + opening_time
-            blink_coefficient = opening_time / closing_time if closing_time > 0 else 0
-            
-            # 有効性チェック
-            if not (0.025 <= closing_time <= 1.0):
-                return None
-            if not (0.05 <= opening_time <= 0.6):
-                return None
-            if not (0.5 <= blink_coefficient <= 8.0):
-                return None
-            
-            # 瞬き間隔の計算
-            if self.last_blink_time is not None:
-                interval = current_time - self.last_blink_time
-            else:
-                interval = 0.0
-            
-            # 2円パラメータを抽出
-            c1_left, c2_left = TwoCircleFitter.fit_eyelids(left_eye_landmarks)
-            c1_right, c2_right = TwoCircleFitter.fit_eyelids(right_eye_landmarks)
-            
-            # 両目の平均を取る
-            if c1_left and c1_right and c2_left and c2_right:
-                c1_center_x = (c1_left[0] + c1_right[0]) / 2.0
-                c1_center_y = (c1_left[1] + c1_right[1]) / 2.0
-                c1_radius = (c1_left[2] + c1_right[2]) / 2.0
-                c2_center_x = (c2_left[0] + c2_right[0]) / 2.0
-                c2_center_y = (c2_left[1] + c2_right[1]) / 2.0
-                c2_radius = (c2_left[2] + c2_right[2]) / 2.0
-            else:
-                # 2円フィッティング失敗時はデフォルト値
-                c1_center_x = c1_center_y = c1_radius = 0.0
-                c2_center_x = c2_center_y = c2_radius = 0.0
-            
-            # 12次元特徴ベクトル
-            features = np.array([
-                closing_time,
-                opening_time,
-                blink_coefficient,
-                self.t1,           # timestamp
-                total_duration,
-                interval,
-                c1_center_x,
-                c1_center_y,
-                c1_radius,
-                c2_center_x,
-                c2_center_y,
-                c2_radius
-            ], dtype=np.float32)
-            
-            return features
-            
-        except Exception as e:
-            print(f"⚠️  特徴量抽出エラー: {e}")
-            return None
+            upper_radius_max = max(upper_radii) if upper_radii else 0.0
+            lower_radius_max = max(lower_radii) if lower_radii else 0.0
+            vertical_distance_min = min(vertical_distances) if vertical_distances else 0.0
+            radius_diff_max = max(radius_diffs) if radius_diffs else 0.0
+            eye_height_min = min(eye_heights) if eye_heights else 0.0
+            eye_width_avg = np.mean(eye_widths) if eye_widths else 0.0
+        else:
+            # デフォルト値
+            upper_radius_max = 0.0
+            lower_radius_max = 0.0
+            vertical_distance_min = 0.0
+            radius_diff_max = 0.0
+            eye_height_min = 0.0
+            eye_width_avg = 0.0
+        
+        # EARの最小値
+        if len(self.current_blink_ear_history) > 0:
+            ear_min = min(self.current_blink_ear_history)
+        else:
+            ear_min = 0.0
+        
+        # 12次元特徴量ベクトル
+        features = np.array([
+            closing_time,           # [0]
+            opening_time,           # [1]
+            blink_coefficient,      # [2]
+            interval,               # [3]
+            total_duration,         # [4]
+            upper_radius_max,       # [5]
+            lower_radius_max,       # [6]
+            vertical_distance_min,  # [7]
+            radius_diff_max,        # [8]
+            eye_height_min,         # [9]
+            eye_width_avg,         # [10]
+            ear_min                # [11]
+        ], dtype=np.float32)
+        
+        return features
     
     def predict_drowsiness(self):
         """
-        LSTMモデルで眠気を推定
+        眠気を推定
         
         Returns:
-            tuple: (予測クラス, 眠気確率) または (None, None)
+            tuple: (予測クラス, 眠気確率)
         """
         if len(self.feature_buffer) < self.sequence_length:
             return None, None
         
-        try:
-            # シーケンスを作成
-            sequence = np.array(list(self.feature_buffer))
-            sequence = sequence.reshape(1, self.sequence_length, 12)
-            
-            # テンソルに変換
-            sequence_tensor = torch.FloatTensor(sequence).to(self.device)
-            
-            # 推論
-            with torch.no_grad():
-                output = self.model(sequence_tensor)
-                probabilities = torch.softmax(output, dim=1)
-                predicted_class = torch.argmax(probabilities, dim=1).item()
-                drowsy_prob = probabilities[0, 1].item()
-            
-            self.current_prediction = predicted_class
-            self.current_probability = drowsy_prob
-            
-            if predicted_class == 1:
-                self.drowsy_count += 1
-            
-            return predicted_class, drowsy_prob
-            
-        except Exception as e:
-            print(f"⚠️  推論エラー: {e}")
-            return None, None
+        # バッファから最新のシーケンスを取得
+        sequence = np.array(list(self.feature_buffer), dtype=np.float32)
+        sequence = sequence.reshape(1, self.sequence_length, -1)
+        
+        # PyTorchテンソルに変換
+        sequence_tensor = torch.FloatTensor(sequence).to(self.device)
+        
+        # 推論
+        with torch.no_grad():
+            output = self.model(sequence_tensor)
+            probabilities = torch.softmax(output, dim=1)
+            pred_class = torch.argmax(probabilities, dim=1).item()
+            drowsy_prob = probabilities[0, 1].item()
+        
+        # 統計更新
+        if pred_class == 1:
+            self.drowsy_count += 1
+            self.consecutive_drowsy += 1
+        else:
+            self.normal_count += 1
+            self.consecutive_drowsy = 0
+        
+        # アラート判定
+        if self.consecutive_drowsy >= self.consecutive_drowsy_threshold:
+            self.alert_active = True
+        else:
+            self.alert_active = False
+        
+        return pred_class, drowsy_prob
     
     def process_frame(self, frame):
         """
         フレームを処理
         
         Args:
-            frame: OpenCVのフレーム (BGR)
+            frame: 入力フレーム
             
         Returns:
             tuple: (処理済みフレーム, EAR値, 予測クラス, 眠気確率)
@@ -473,7 +568,7 @@ class RealtimeDrowsinessDetector:
         right_ear = EARCalculator.calculate(right_eye)
         avg_ear = (left_ear + right_ear) / 2.0
         
-        # 瞬き検出
+        # 瞬き検出と特徴量抽出
         blink_features = self.detect_blink(avg_ear, left_eye, right_eye)
         
         # 特徴量をバッファに追加
@@ -484,8 +579,48 @@ class RealtimeDrowsinessDetector:
         pred_class, drowsy_prob = self.predict_drowsiness()
         
         # 目のランドマークを描画
-        for point in left_eye + right_eye:
-            cv2.circle(frame, point, 1, (0, 255, 0), -1)
+        for point in left_eye:
+            cv2.circle(frame, point, 2, (0, 255, 0), -1)
+        for point in right_eye:
+            cv2.circle(frame, point, 2, (255, 0, 0), -1)
+        
+        # 2円の描画（視覚化）- drowsiness_data_collector_two_circles.pyと同じ実装
+        left_circles = TwoCircleFitter.fit_eyelids(left_eye)
+        right_circles = TwoCircleFitter.fit_eyelids(right_eye)
+        
+        # 左目の2円を描画
+        if left_circles:
+            try:
+                # 上まぶた円（シアン色）
+                upper_center = (int(left_circles['upper_circle']['center_x']),
+                              int(left_circles['upper_circle']['center_y']))
+                upper_radius = int(left_circles['upper_circle']['radius'])
+                cv2.circle(frame, upper_center, upper_radius, (255, 255, 0), 2)
+                
+                # 下まぶた円（黄色）
+                lower_center = (int(left_circles['lower_circle']['center_x']),
+                              int(left_circles['lower_circle']['center_y']))
+                lower_radius = int(left_circles['lower_circle']['radius'])
+                cv2.circle(frame, lower_center, lower_radius, (0, 255, 255), 2)
+            except:
+                pass
+        
+        # 右目の2円を描画
+        if right_circles:
+            try:
+                # 上まぶた円（シアン色）
+                upper_center = (int(right_circles['upper_circle']['center_x']),
+                              int(right_circles['upper_circle']['center_y']))
+                upper_radius = int(right_circles['upper_circle']['radius'])
+                cv2.circle(frame, upper_center, upper_radius, (255, 255, 0), 2)
+                
+                # 下まぶた円（黄色）
+                lower_center = (int(right_circles['lower_circle']['center_x']),
+                              int(right_circles['lower_circle']['center_y']))
+                lower_radius = int(right_circles['lower_circle']['radius'])
+                cv2.circle(frame, lower_center, lower_radius, (0, 255, 255), 2)
+            except:
+                pass
         
         # 情報表示
         cv2.putText(frame, f"EAR: {avg_ear:.3f}", (10, 30),
@@ -506,79 +641,146 @@ class RealtimeDrowsinessDetector:
             
             cv2.putText(frame, f"Drowsy Prob: {drowsy_prob:.2%}", (10, 150),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
+            
+            # アラート表示
+            if self.alert_active:
+                cv2.rectangle(frame, (0, 0), (w, h), (0, 0, 255), 10)
+                cv2.putText(frame, "!!! ALERT: DROWSY !!!", (w//4, h//2),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 3)
         
         return frame, avg_ear, pred_class, drowsy_prob
     
-    def run(self, camera_id=0):
-        """
-        リアルタイム推定を実行
+    def get_statistics(self):
+        """統計情報を取得"""
+        total_predictions = self.drowsy_count + self.normal_count
         
-        Args:
-            camera_id (int): カメラID
-        """
-        cap = cv2.VideoCapture(camera_id)
-        
-        if not cap.isOpened():
-            print("❌ カメラを開けませんでした")
-            return
-        
-        print("\n🎥 カメラ起動")
-        print("   'q' キーで終了")
-        print("=" * 70)
-        
-        try:
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                
-                # フレーム処理
-                processed_frame, ear, pred_class, drowsy_prob = self.process_frame(frame)
-                
-                # 表示
-                cv2.imshow('Drowsiness Detection (12D Features)', processed_frame)
-                
-                # キー入力待ち
-                key = cv2.waitKey(1) & 0xFF
-                if key == ord('q'):
-                    break
-        
-        finally:
-            cap.release()
-            cv2.destroyAllWindows()
-            
-            # 統計表示
-            print("\n" + "=" * 70)
-            print("📊 セッション統計")
-            print("=" * 70)
-            print(f"総瞬き数: {self.total_blinks}")
-            print(f"眠気検出回数: {self.drowsy_count}")
-            print("=" * 70)
+        return {
+            'total_blinks': self.total_blinks,
+            'total_predictions': total_predictions,
+            'drowsy_count': self.drowsy_count,
+            'normal_count': self.normal_count,
+            'drowsy_percentage': (self.drowsy_count / total_predictions * 100) if total_predictions > 0 else 0,
+            'alert_active': self.alert_active
+        }
 
 
 def main():
     """メイン関数"""
-    parser = argparse.ArgumentParser(description='リアルタイム眠気推定システム (12次元特徴量対応)')
+    parser = argparse.ArgumentParser(description='リアルタイム眠気推定システム（12次元特徴量完全対応）')
     parser.add_argument('--model-path', type=str, required=True,
                         help='学習済みモデルのパス')
+    parser.add_argument('--camera', type=int, default=0,
+                        help='カメラID（デフォルト: 0）')
     parser.add_argument('--sequence-length', type=int, default=10,
-                        help='LSTMのシーケンス長')
+                        help='シーケンス長（デフォルト: 10）')
     parser.add_argument('--ear-threshold', type=float, default=0.21,
-                        help='EAR閾値')
-    parser.add_argument('--camera-id', type=int, default=0,
-                        help='カメラID')
-    
+                        help='EAR閾値（デフォルト: 0.21）')
     args = parser.parse_args()
     
-    # 検出器を初期化
+    # モデルファイルの確認
+    if not os.path.exists(args.model_path):
+        print(f"❌ モデルファイルが見つかりません: {args.model_path}")
+        return
+    
+    # 検出器の初期化
     detector = RealtimeDrowsinessDetector(
         model_path=args.model_path,
         sequence_length=args.sequence_length,
         ear_threshold=args.ear_threshold
     )
     
-    # 実行
-    detector.run(camera_id=args.camera_id)
+    # カメラ初期化
+    print("📹 カメラ初期化中...")
+    cap = cv2.VideoCapture(args.camera)
+    
+    if not cap.isOpened():
+        print("❌ カメラを開けませんでした")
+        return
+    
+    # カメラ設定
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+    cap.set(cv2.CAP_PROP_FPS, 30)
+    
+    print("✅ カメラ起動完了")
+    print("\n操作方法:")
+    print("  [ESC] - 終了")
+    print("  [SPACE] - 統計表示")
+    print("  [R] - 統計リセット")
+    print("\n" + "=" * 70)
+    
+    # FPS計測用
+    fps_start_time = time.time()
+    fps_frame_count = 0
+    fps = 0
+    
+    try:
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                print("⚠️ フレームの取得に失敗しました")
+                break
+            
+            # フレーム処理
+            processed_frame, ear, pred_class, drowsy_prob = detector.process_frame(frame)
+            
+            # FPS計算
+            fps_frame_count += 1
+            if fps_frame_count >= 30:
+                fps = fps_frame_count / (time.time() - fps_start_time)
+                fps_start_time = time.time()
+                fps_frame_count = 0
+            
+            # FPS表示
+            cv2.putText(processed_frame, f"FPS: {fps:.1f}", (10, 180),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+            
+            # フレーム表示
+            cv2.imshow('Drowsiness Detection (12D Features)', processed_frame)
+            
+            # キー入力処理
+            key = cv2.waitKey(1) & 0xFF
+            
+            if key == 27:  # ESC
+                break
+            elif key == ord(' '):  # SPACE - 統計表示
+                stats = detector.get_statistics()
+                print("\n" + "=" * 70)
+                print("📊 統計情報")
+                print("=" * 70)
+                print(f"総瞬き数: {stats['total_blinks']}")
+                print(f"総推定回数: {stats['total_predictions']}")
+                print(f"  正常: {stats['normal_count']} ({100 - stats['drowsy_percentage']:.1f}%)")
+                print(f"  眠気: {stats['drowsy_count']} ({stats['drowsy_percentage']:.1f}%)")
+                print(f"アラート: {'有効' if stats['alert_active'] else '無効'}")
+                print("=" * 70 + "\n")
+            elif key == ord('r') or key == ord('R'):  # R - リセット
+                detector.total_blinks = 0
+                detector.drowsy_count = 0
+                detector.normal_count = 0
+                detector.consecutive_drowsy = 0
+                detector.alert_active = False
+                print("\n✅ 統計をリセットしました\n")
+    
+    except KeyboardInterrupt:
+        print("\n\n⚠️ ユーザーによって中断されました")
+    
+    finally:
+        # 最終統計
+        stats = detector.get_statistics()
+        print("\n" + "=" * 70)
+        print("📊 最終統計")
+        print("=" * 70)
+        print(f"総瞬き数: {stats['total_blinks']}")
+        print(f"総推定回数: {stats['total_predictions']}")
+        print(f"  正常: {stats['normal_count']} ({100 - stats['drowsy_percentage']:.1f}%)")
+        print(f"  眠気: {stats['drowsy_count']} ({stats['drowsy_percentage']:.1f}%)")
+        print("=" * 70)
+        
+        # クリーンアップ
+        cap.release()
+        cv2.destroyAllWindows()
+        print("\n✅ システムを終了しました")
 
 
 if __name__ == "__main__":
