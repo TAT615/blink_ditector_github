@@ -8,4 +8,4 @@ python -m src.convert_json_to_sequences --input-dir data/sessions --output-dir d
 python -m src.train_drowsiness_model --data-dir data
 
 判別：
-python -m src.realtime_drowsiness_estimator --model-path trained_models/drowsiness_lstm_20251115_224046.pth
+ python -m src.realtime_drowsiness_estimator_mediapipe --model trained_models/drowsiness_lstm_20251115_224046.pth
