@@ -1,6 +1,6 @@
 """
-リアルタイム眠気推定システム（MediaPipe版）
-Real-time Drowsiness Estimation System with MediaPipe
+リアルタイム眠気推定システム（MediaPipe版）- 修正版
+Real-time Drowsiness Estimation System with MediaPipe - FIXED
 
 訓練済みLSTMモデルを使用してリアルタイムで眠気を推定します。
 """
@@ -32,10 +32,13 @@ except ImportError:
 # MediaPipe版瞬き検出器をインポート
 try:
     from blink_detector_mediapipe import BlinkDetectorMediaPipe
-except ImportError as e:
-    print(f"❌ MediaPipe版瞬き検出器のインポートエラー: {e}")
-    print("   blink_detector_mediapipe.py が必要です")
-    sys.exit(1)
+except ImportError:
+    try:
+        from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
+    except ImportError as e:
+        print(f"❌ MediaPipe版瞬き検出器のインポートエラー: {e}")
+        print("   blink_detector_mediapipe.py が必要です")
+        sys.exit(1)
 
 
 class RealtimeDrowsinessEstimatorMediaPipe:
@@ -202,77 +205,76 @@ class RealtimeDrowsinessEstimatorMediaPipe:
         
         # 瞬きが検出された場合
         if blink_info is not None:
-            # 特徴量を追加
-            self.feature_extractor.add_blink(
-                blink_info['closing_time'],
-                blink_info['opening_time'],
-                blink_info['interval'],
-                blink_info['min_ear']
-            )
+            # ====== 修正箇所: extract_featuresメソッドを使用 ======
+            # 瞬きデータを適切な形式に変換
+            blink_data = {
+                't1': blink_info.get('timestamp', 0) - blink_info.get('total_duration', 0),
+                't2': blink_info.get('timestamp', 0) - blink_info.get('opening_time', 0),
+                't3': blink_info.get('timestamp', 0),
+                'ear_min': blink_info.get('min_ear', 0)
+            }
             
-            # シーケンスが準備できたら推定
-            if self.feature_extractor.is_sequence_ready():
-                sequence = self.feature_extractor.get_current_sequence()
-                prediction_result = self._predict_drowsiness(sequence)
+            # extract_featuresメソッドを使用
+            features = self.feature_extractor.extract_features(blink_data)
+            
+            if features is not None:
+                # シーケンスが溜まったら推定実行
+                sequence = self.feature_extractor.get_sequence(normalize=True)
+                
+                if sequence is not None:
+                    # LSTM推論
+                    pred_class = self.estimator.predict(sequence[np.newaxis, ...])[0]
+                    pred_proba = self.estimator.predict_proba(sequence[np.newaxis, ...])[0]
+                    
+                    # 結果を記録
+                    self.prediction_history.append(pred_class)
+                    self.drowsy_probability_history.append(pred_proba[1])
+                    
+                    # 統計更新
+                    self.stats['total_predictions'] += 1
+                    if pred_class == self.STATE_DROWSY:
+                        self.stats['drowsy_predictions'] += 1
+                        self.consecutive_drowsy_count += 1
+                    else:
+                        self.stats['normal_predictions'] += 1
+                        self.consecutive_drowsy_count = 0
+                    
+                    # 状態更新
+                    self.current_state = pred_class
+                    self.current_probability = pred_proba[1]
+                    self.last_prediction_time = time.time()
+                    
+                    # アラートチェック
+                    self._check_alert()
+                    
+                    prediction_result = {
+                        'class': pred_class,
+                        'probability': pred_proba[1],
+                        'state': 'DROWSY' if pred_class == self.STATE_DROWSY else 'NORMAL'
+                    }
         
         return frame, prediction_result
     
-    def _predict_drowsiness(self, sequence):
-        """
-        眠気を推定
-        
-        Args:
-            sequence: 特徴量シーケンス
-            
-        Returns:
-            dict: 推定結果
-        """
-        # 推論
-        prediction = self.estimator.predict(sequence)
-        
-        # 結果を記録
-        self.last_prediction_time = time.time()
-        self.current_probability = prediction['drowsy_probability']
-        
-        if prediction['predicted_label'] == 1:
-            self.current_state = self.STATE_DROWSY
-            self.consecutive_drowsy_count += 1
-            self.stats['drowsy_predictions'] += 1
-        else:
-            self.current_state = self.STATE_NORMAL
-            self.consecutive_drowsy_count = 0
-            self.stats['normal_predictions'] += 1
-        
-        self.stats['total_predictions'] += 1
-        
-        # 履歴に追加
-        self.prediction_history.append(prediction['predicted_label'])
-        self.drowsy_probability_history.append(self.current_probability)
-        
-        # アラート判定
-        if self.current_probability >= self.alert_threshold:
-            if not self.alert_active:
-                self._trigger_alert()
-        else:
-            self.alert_active = False
-        
-        return prediction
-    
-    def _trigger_alert(self):
-        """アラートを発する"""
+    def _check_alert(self):
+        """アラートをチェック"""
         current_time = time.time()
         
-        # クールダウン中はアラートを発しない
-        if (self.alert_start_time is not None and 
-            current_time - self.alert_start_time < self.alert_cooldown):
-            return
-        
-        self.alert_active = True
-        self.alert_start_time = current_time
-        self.stats['total_alerts'] += 1
-        
-        print(f"\n⚠️ 【アラート】眠気を検出しました！ (確率: {self.current_probability:.1%})")
-        print(f"   休憩を取ることをお勧めします\n")
+        # 眠気確率が閾値を超え、かつ連続検出の場合
+        if (self.current_probability >= self.alert_threshold and 
+            self.consecutive_drowsy_count >= 3):
+            
+            # クールダウン中でなければアラート発動
+            if (self.alert_start_time is None or 
+                current_time - self.alert_start_time >= self.alert_cooldown):
+                
+                self.alert_active = True
+                self.alert_start_time = current_time
+                self.stats['total_alerts'] += 1
+                
+                print(f"\n⚠️ 【アラート】眠気を検出しました！ (確率: {self.current_probability:.1%})")
+                print(f"   休憩を取ることをお勧めします\n")
+        else:
+            self.alert_active = False
     
     def draw_ui(self, frame):
         """
@@ -331,7 +333,7 @@ class RealtimeDrowsinessEstimatorMediaPipe:
         cv2.rectangle(frame, (bar_x, bar_y), (bar_x + bar_width, bar_y + bar_height), 
                      (50, 50, 50), -1)
         
-        # 確率バー（グラデーション）
+        # 確率バー
         prob_bar_width = int(bar_width * self.current_probability)
         bar_color = (0, 255, 0) if self.current_probability < 0.5 else (0, 0, 255)
         cv2.rectangle(frame, (bar_x, bar_y), (bar_x + prob_bar_width, bar_y + bar_height), 
@@ -387,104 +389,91 @@ class RealtimeDrowsinessEstimatorMediaPipe:
         
         # アラート表示
         if self.alert_active:
-            alert_text = "⚠️ DROWSINESS ALERT! ⚠️"
-            text_size = cv2.getTextSize(alert_text, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 3)[0]
-            text_x = (w - text_size[0]) // 2
-            text_y = h - 50
+            alert_text = "⚠️ DROWSINESS ALERT!"
+            text_size = cv2.getTextSize(alert_text, cv2.FONT_HERSHEY_SIMPLEX, 1.5, 3)[0]
+            alert_x = (w - text_size[0]) // 2
+            alert_y = h - 100
             
             # 点滅効果
-            if int(time.time() * 2) % 2 == 0:
+            if int(time.time() * 3) % 2 == 0:
                 cv2.putText(frame, alert_text, 
-                           (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3)
-        
-        # 操作方法（右下）
-        instructions = [
-            "[C] Calibrate",
-            "[R] Reset stats",
-            "[ESC] Quit"
-        ]
-        
-        y_offset = h - 30 - (len(instructions) * 25)
-        for instruction in instructions:
-            cv2.putText(frame, instruction, 
-                       (w - 200, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-            y_offset += 25
+                           (alert_x, alert_y), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 3)
         
         return frame
     
     def run(self):
-        """メインループを実行"""
+        """
+        システムを実行
+        """
+        # カメラ初期化
         if not self.initialize_camera():
             return
         
         print("\n" + "=" * 70)
         print("🚀 リアルタイム眠気推定システム起動")
         print("=" * 70)
-        print()
         print("操作方法:")
         print("  [C] - キャリブレーション（最初に実行推奨）")
         print("  [R] - 統計リセット")
         print("  [ESC] - 終了")
-        print()
         print(f"アラート閾値: {self.alert_threshold:.0%}")
         print("=" * 70)
-        print()
         print("👉 まず[C]キーでキャリブレーションを実行してください")
-        print()
         
         # FPS計測
+        fps = 0
         fps_start_time = time.time()
         fps_frame_count = 0
-        fps = 0
         
-        while True:
-            ret, frame = self.camera.read()
-            
-            if not ret:
-                print("⚠️ フレーム取得失敗")
-                break
-            
-            # FPS計算
-            fps_frame_count += 1
-            if fps_frame_count >= 30:
-                fps_end_time = time.time()
-                fps = fps_frame_count / (fps_end_time - fps_start_time)
-                fps_start_time = fps_end_time
-                fps_frame_count = 0
-            
-            # フレーム処理
-            frame, prediction = self.process_frame(frame)
-            
-            # UI描画
-            frame = self.draw_ui(frame)
-            
-            # FPS表示
-            cv2.putText(frame, f"FPS: {fps:.1f}", 
-                       (frame.shape[1] - 120, 30), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-            
-            # 表示
-            cv2.imshow(self.window_name, frame)
-            
-            # キー入力処理
-            key = cv2.waitKey(1) & 0xFF
-            
-            if key == 27:  # ESC
-                break
-            elif key == ord('c') or key == ord('C'):
-                self.start_calibration()
-            elif key == ord('r') or key == ord('R'):
-                print("\n🔄 統計をリセットしました")
-                self.stats = {
-                    'total_predictions': 0,
-                    'drowsy_predictions': 0,
-                    'normal_predictions': 0,
-                    'total_alerts': 0,
-                    'session_start_time': time.time()
-                }
+        try:
+            while True:
+                ret, frame = self.camera.read()
+                if not ret:
+                    print("❌ フレーム取得失敗")
+                    break
+                
+                # FPS計算
+                fps_frame_count += 1
+                if fps_frame_count >= 30:
+                    fps_end_time = time.time()
+                    fps = fps_frame_count / (fps_end_time - fps_start_time)
+                    fps_start_time = fps_end_time
+                    fps_frame_count = 0
+                
+                # フレーム処理
+                frame, prediction = self.process_frame(frame)
+                
+                # UI描画
+                frame = self.draw_ui(frame)
+                
+                # FPS表示
+                cv2.putText(frame, f"FPS: {fps:.1f}", 
+                           (frame.shape[1] - 120, 30), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+                
+                # 表示
+                cv2.imshow(self.window_name, frame)
+                
+                # キー入力処理
+                key = cv2.waitKey(1) & 0xFF
+                
+                if key == 27:  # ESC
+                    break
+                elif key == ord('c') or key == ord('C'):
+                    self.start_calibration()
+                elif key == ord('r') or key == ord('R'):
+                    print("\n🔄 統計をリセットしました")
+                    self.stats = {
+                        'total_predictions': 0,
+                        'drowsy_predictions': 0,
+                        'normal_predictions': 0,
+                        'total_alerts': 0,
+                        'session_start_time': time.time()
+                    }
         
-        # 終了処理
-        self.cleanup()
+        finally:
+            # 終了処理
+            self.cleanup()
     
     def cleanup(self):
         """リソースを解放"""
