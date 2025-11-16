@@ -1,548 +1,528 @@
 """
-リアルタイム眠気推定システム（MediaPipe版）
-Real-time Drowsiness Estimation System with MediaPipe
+リアルタイム眠気検知システム（2円方式・12次元特徴量対応）
 
-訓練済みLSTMモデルを使用してリアルタイムで眠気を推定します。
+カメラで顔を撮影し、瞬きパターンから眠気状態をリアルタイムで判定します。
+
+使い方:
+    python realtime_drowsiness_estimator.py --model-path trained_models/drowsiness_lstm_20251115_224046.pth
 """
 
-import os
-import sys
 import cv2
+import mediapipe as mp
 import numpy as np
-import time
-import json
-from datetime import datetime
-from collections import deque
-from typing import Dict, Optional, Tuple
+import torch
 import argparse
+import time
+from collections import deque
+from datetime import datetime
 
-# 自作モジュールのインポート
+# LSTMモデルのインポート
 try:
-    from src.blink_feature_extractor import BlinkFeatureExtractor
-    from src.lstm_drowsiness_model import DrowsinessEstimator
+    from src.lstm_drowsiness_model import DrowsinessEstimator, DrowsinessLSTM
 except ImportError:
-    try:
-        from blink_feature_extractor import BlinkFeatureExtractor
-        from lstm_drowsiness_model import DrowsinessEstimator
-    except ImportError as e:
-        print(f"❌ モジュールのインポートエラー: {e}")
-        print("   必要なファイル: blink_feature_extractor.py, lstm_drowsiness_model.py")
-        sys.exit(1)
-
-# MediaPipe版瞬き検出器をインポート
-try:
-    from src.blink_detector_mediapipe import BlinkDetectorMediaPipe
-except ImportError:
-    try:
-        from blink_detector_mediapipe import BlinkDetectorMediaPipe
-    except ImportError as e:
-        print(f"❌ MediaPipe版瞬き検出器のインポートエラー: {e}")
-        print("   blink_detector_mediapipe.py が必要です")
-        sys.exit(1)
+    print("⚠️ src/lstm_drowsiness_model.py が見つかりません")
+    print("   プロジェクトルートから実行してください")
 
 
-class RealtimeDrowsinessEstimatorMediaPipe:
+class EARCalculator:
+    """Eye Aspect Ratio（EAR）計算器"""
+    
+    @staticmethod
+    def calculate(eye_landmarks):
+        """
+        EARを計算
+        
+        Args:
+            eye_landmarks: 目のランドマーク座標リスト [(x, y), ...]
+            
+        Returns:
+            float: EAR値
+        """
+        # 垂直距離
+        v1 = np.linalg.norm(np.array(eye_landmarks[1]) - np.array(eye_landmarks[5]))
+        v2 = np.linalg.norm(np.array(eye_landmarks[2]) - np.array(eye_landmarks[4]))
+        
+        # 水平距離
+        h = np.linalg.norm(np.array(eye_landmarks[0]) - np.array(eye_landmarks[3]))
+        
+        # EAR計算
+        ear = (v1 + v2) / (2.0 * h)
+        return ear
+
+
+class TwoCircleFitter:
+    """2円フィッティング（上まぶた・下まぶた）"""
+    
+    @staticmethod
+    def fit_circle(points):
+        """
+        3点から円をフィッティング
+        
+        Args:
+            points: [(x, y), (x, y), (x, y)]
+            
+        Returns:
+            tuple: (center_x, center_y, radius) または None
+        """
+        if len(points) != 3:
+            return None
+        
+        try:
+            points = np.array(points, dtype=np.float32)
+            
+            # 行列Aとベクトルbを構築
+            A = np.zeros((3, 3))
+            b = np.zeros(3)
+            
+            for i in range(3):
+                x, y = points[i]
+                A[i] = [2*x, 2*y, 1]
+                b[i] = x*x + y*y
+            
+            # 連立方程式を解く
+            params = np.linalg.solve(A, b)
+            
+            center_x = params[0]
+            center_y = params[1]
+            radius = np.sqrt(params[2] + center_x**2 + center_y**2)
+            
+            return center_x, center_y, radius
+            
+        except:
+            return None
+    
+    @staticmethod
+    def fit_eyelids(eye_landmarks):
+        """
+        上まぶた・下まぶたの円をフィッティング
+        
+        Args:
+            eye_landmarks: 目のランドマーク座標リスト
+            
+        Returns:
+            tuple: ((c1_x, c1_y, c1_r), (c2_x, c2_y, c2_r)) または (None, None)
+        """
+        if len(eye_landmarks) < 6:
+            return None, None
+        
+        # 上まぶた3点
+        upper_points = [eye_landmarks[1], eye_landmarks[2], eye_landmarks[5]]
+        c1 = TwoCircleFitter.fit_circle(upper_points)
+        
+        # 下まぶた3点
+        lower_points = [eye_landmarks[3], eye_landmarks[4], eye_landmarks[5]]
+        c2 = TwoCircleFitter.fit_circle(lower_points)
+        
+        return c1, c2
+
+
+class RealtimeDrowsinessDetector:
     """
-    リアルタイム眠気推定システム（MediaPipe版）
-    
-    機能:
-    - MediaPipe Face Meshによる高精度瞬き検出
-    - 特徴量抽出とシーケンス生成
-    - LSTM推論による眠気推定
-    - アラート機能
-    - 統計記録
+    リアルタイム眠気検知システム
     """
     
-    # 状態定義
-    STATE_NORMAL = 0
-    STATE_DROWSY = 1
-    STATE_UNKNOWN = -1
+    # MediaPipe Face Meshのランドマークインデックス
+    LEFT_EYE_INDICES = [33, 160, 158, 133, 153, 144]
+    RIGHT_EYE_INDICES = [362, 385, 387, 263, 373, 380]
     
-    def __init__(self, model_path: str, normalization_params_path: Optional[str] = None,
-                 sequence_length: int = 10, alert_threshold: float = 0.7):
+    # 瞬き状態
+    STATE_OPEN = 0
+    STATE_CLOSING = 1
+    STATE_CLOSED = 2
+    STATE_OPENING = 3
+    
+    def __init__(self, model_path, sequence_length=10, ear_threshold=0.21):
         """
         初期化
         
         Args:
-            model_path (str): 訓練済みモデルのパス
-            normalization_params_path (str): 正規化パラメータのパス
-            sequence_length (int): シーケンス長
-            alert_threshold (float): アラートを発する眠気確率の閾値
+            model_path (str): 学習済みモデルのパス
+            sequence_length (int): LSTMのシーケンス長
+            ear_threshold (float): EAR閾値
         """
-        self.model_path = model_path
-        self.normalization_params_path = normalization_params_path
         self.sequence_length = sequence_length
-        self.alert_threshold = alert_threshold
+        self.ear_threshold = ear_threshold
         
-        # モジュールの初期化
-        print("=" * 70)
-        print("🚀 リアルタイム眠気推定システム初期化 (MediaPipe版)")
-        print("=" * 70)
-        
-        # MediaPipe版瞬き検出器
-        print("\n📹 MediaPipe Face Mesh初期化...")
-        self.blink_detector = BlinkDetectorMediaPipe(
-            buffer_size=300,
+        # MediaPipe Face Mesh
+        self.mp_face_mesh = mp.solutions.face_mesh
+        self.face_mesh = self.mp_face_mesh.FaceMesh(
+            max_num_faces=1,
+            refine_landmarks=True,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5
         )
-        print("   ✅ 478ランドマーク高精度顔検出")
         
-        # 特徴量抽出器
-        print("🔧 特徴量抽出器初期化...")
-        self.feature_extractor = BlinkFeatureExtractor(sequence_length=sequence_length)
+        # 瞬き検出用
+        self.blink_state = self.STATE_OPEN
+        self.state_start_time = time.time()
+        self.t1 = 0  # OPEN → CLOSING
+        self.t2 = 0  # CLOSING → CLOSED
+        self.t3 = 0  # CLOSED → OPENING
         
-        # 正規化パラメータ読み込み
-        if normalization_params_path and os.path.exists(normalization_params_path):
-            self.feature_extractor.load_normalization_params(normalization_params_path)
-            print(f"   ✅ 正規化パラメータ読み込み: {normalization_params_path}")
-        else:
-            print("   ⚠️ 正規化パラメータなし（訓練データで正規化してください）")
+        # 特徴量バッファ（シーケンス用）
+        self.feature_buffer = deque(maxlen=sequence_length)
         
-        # モデル読み込み
-        print("🧠 LSTMモデル読み込み...")
+        # LSTMモデルの読み込み
         self.estimator = DrowsinessEstimator()
         self.estimator.load_model(model_path)
-        print(f"   ✅ モデル読み込み成功: {model_path}")
-        
-        # カメラ設定
-        self.camera = None
-        self.camera_width = 640
-        self.camera_height = 480
-        self.fps = 30
-        
-        # 推定結果の履歴
-        self.prediction_history = deque(maxlen=100)
-        self.drowsy_probability_history = deque(maxlen=100)
-        
-        # 現在の状態
-        self.current_state = self.STATE_UNKNOWN
-        self.current_probability = 0.0
-        self.last_prediction_time = None
-        
-        # アラート設定
-        self.alert_active = False
-        self.alert_start_time = None
-        self.consecutive_drowsy_count = 0
-        self.alert_cooldown = 5.0  # アラート後のクールダウン時間（秒）
-        
-        # 統計
-        self.stats = {
-            'total_predictions': 0,
-            'drowsy_predictions': 0,
-            'normal_predictions': 0,
-            'total_alerts': 0,
-            'session_start_time': time.time()
-        }
-        
-        # UI設定
-        self.window_name = "リアルタイム眠気推定 (MediaPipe版)"
-        
-        print("\n" + "=" * 70)
-        print("✅ 初期化完了")
-        print("=" * 70)
-    
-    def initialize_camera(self, camera_id=0):
-        """
-        カメラを初期化
-        
-        Args:
-            camera_id (int): カメラID
-            
-        Returns:
-            bool: 成功したかどうか
-        """
-        self.camera = cv2.VideoCapture(camera_id)
-        
-        if not self.camera.isOpened():
-            print(f"❌ カメラ {camera_id} を開けませんでした")
-            return False
-        
-        # カメラ設定
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.camera_width)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.camera_height)
-        self.camera.set(cv2.CAP_PROP_FPS, self.fps)
-        
-        print(f"✅ カメラ初期化成功 (ID: {camera_id})")
-        print(f"   解像度: {self.camera_width}x{self.camera_height}")
-        print(f"   FPS: {self.fps}")
-        
-        return True
-    
-    def start_calibration(self):
-        """キャリブレーションを開始"""
-        print("\n" + "=" * 70)
-        print("🎯 キャリブレーション開始")
-        print("=" * 70)
-        print("次の5秒間、リラックスして自然に瞬きしてください")
-        print()
-        
-        self.blink_detector.start_calibration()
-    
-    def process_frame(self, frame):
-        """
-        フレームを処理
-        
-        Args:
-            frame: カメラフレーム
-            
-        Returns:
-            tuple: (処理済みフレーム, 推定結果)
-        """
-        # フレームを左右反転
-        frame = cv2.flip(frame, 1)
-        
-        # MediaPipeで瞬き検出
-        blink_info = self.blink_detector.detect_blink(frame)
-        
-        # ランドマークを取得して描画
-        landmarks = self.blink_detector.detect_face_and_landmarks(frame)
-        if landmarks is not None:
-            frame = self.blink_detector.draw_landmarks(frame, landmarks)
+        self.estimator.model.eval()
         
         # 推定結果
-        prediction_result = None
+        self.current_prediction = None
+        self.current_probability = None
         
-        # 瞬きが検出された場合
-        if blink_info is not None:
-            # 特徴量を追加
-            self.feature_extractor.add_blink(
-                blink_info['closing_time'],
-                blink_info['opening_time'],
-                blink_info['interval'],
-                blink_info['min_ear']
-            )
-            
-            # シーケンスが準備できたら推定
-            if self.feature_extractor.is_sequence_ready():
-                sequence = self.feature_extractor.get_current_sequence()
-                prediction_result = self._predict_drowsiness(sequence)
+        # 統計
+        self.total_blinks = 0
+        self.drowsy_count = 0
         
-        return frame, prediction_result
+        print("=" * 70)
+        print("🚀 リアルタイム眠気検知システム起動")
+        print("=" * 70)
+        print(f"📁 モデル: {model_path}")
+        print(f"📊 シーケンス長: {sequence_length}")
+        print(f"👁️ EAR閾値: {ear_threshold}")
+        print("=" * 70)
     
-    def _predict_drowsiness(self, sequence):
+    def extract_eye_landmarks(self, face_landmarks, image_width, image_height, eye_indices):
         """
-        眠気を推定
+        目のランドマークを抽出
         
         Args:
-            sequence: 特徴量シーケンス
+            face_landmarks: MediaPipeの顔ランドマーク
+            image_width: 画像幅
+            image_height: 画像高さ
+            eye_indices: 目のランドマークインデックス
             
         Returns:
-            dict: 推定結果
+            list: [(x, y), ...] 目のランドマーク座標
         """
-        # 推論
-        prediction = self.estimator.predict(sequence)
-        
-        # 結果を記録
-        self.last_prediction_time = time.time()
-        self.current_probability = prediction['drowsy_probability']
-        
-        if prediction['predicted_label'] == 1:
-            self.current_state = self.STATE_DROWSY
-            self.consecutive_drowsy_count += 1
-            self.stats['drowsy_predictions'] += 1
-        else:
-            self.current_state = self.STATE_NORMAL
-            self.consecutive_drowsy_count = 0
-            self.stats['normal_predictions'] += 1
-        
-        self.stats['total_predictions'] += 1
-        
-        # 履歴に追加
-        self.prediction_history.append(prediction['predicted_label'])
-        self.drowsy_probability_history.append(self.current_probability)
-        
-        # アラート判定
-        if self.current_probability >= self.alert_threshold:
-            if not self.alert_active:
-                self._trigger_alert()
-        else:
-            self.alert_active = False
-        
-        return prediction
+        landmarks = []
+        for idx in eye_indices:
+            landmark = face_landmarks.landmark[idx]
+            x = landmark.x * image_width
+            y = landmark.y * image_height
+            landmarks.append((x, y))
+        return landmarks
     
-    def _trigger_alert(self):
-        """アラートを発する"""
+    def detect_blink(self, left_ear, right_ear, left_eye_landmarks, right_eye_landmarks):
+        """
+        瞬きを検出し、完了時に特徴量を抽出
+        
+        Args:
+            left_ear: 左目のEAR
+            right_ear: 右目のEAR
+            left_eye_landmarks: 左目のランドマーク
+            right_eye_landmarks: 右目のランドマーク
+            
+        Returns:
+            dict: 瞬き情報（完了時のみ） または None
+        """
+        avg_ear = (left_ear + right_ear) / 2.0
         current_time = time.time()
         
-        # クールダウン中はアラートを発しない
-        if (self.alert_start_time is not None and 
-            current_time - self.alert_start_time < self.alert_cooldown):
-            return
+        # 状態遷移
+        if self.blink_state == self.STATE_OPEN:
+            if avg_ear < self.ear_threshold:
+                self.blink_state = self.STATE_CLOSING
+                self.t1 = current_time
+                self.state_start_time = current_time
         
-        self.alert_active = True
-        self.alert_start_time = current_time
-        self.stats['total_alerts'] += 1
+        elif self.blink_state == self.STATE_CLOSING:
+            if avg_ear >= self.ear_threshold:
+                # 瞬きキャンセル
+                self.blink_state = self.STATE_OPEN
+            else:
+                closing_time = current_time - self.state_start_time
+                if closing_time >= 0.01:  # 10ms以上
+                    self.blink_state = self.STATE_CLOSED
+                    self.t2 = current_time
+                    self.state_start_time = current_time
         
-        print(f"\n⚠️ 【アラート】眠気を検出しました！ (確率: {self.current_probability:.1%})")
-        print(f"   休憩を取ることをお勧めします\n")
+        elif self.blink_state == self.STATE_CLOSED:
+            if avg_ear >= self.ear_threshold:
+                self.blink_state = self.STATE_OPENING
+                self.t3 = current_time
+                self.state_start_time = current_time
+        
+        elif self.blink_state == self.STATE_OPENING:
+            opening_time = current_time - self.state_start_time
+            if opening_time >= 0.01:  # 10ms以上
+                # 瞬き完了
+                self.blink_state = self.STATE_OPEN
+                
+                # 特徴量を抽出
+                features = self.extract_blink_features(
+                    left_eye_landmarks, 
+                    right_eye_landmarks
+                )
+                
+                if features is not None:
+                    self.total_blinks += 1
+                    return features
+        
+        return None
     
-    def draw_ui(self, frame):
+    def extract_blink_features(self, left_eye_landmarks, right_eye_landmarks):
         """
-        UIを描画
+        瞬き完了時に12次元特徴量を抽出
+        
+        Returns:
+            np.array: 12次元特徴量 または None
+        """
+        try:
+            # 時間計算
+            closing_time = self.t2 - self.t1
+            opening_time = time.time() - self.t3
+            total_duration = closing_time + opening_time
+            blink_coefficient = opening_time / closing_time if closing_time > 0 else 0
+            
+            # 有効性チェック
+            if not (0.025 <= closing_time <= 1.0):
+                return None
+            if not (0.05 <= opening_time <= 0.6):
+                return None
+            if not (0.5 <= blink_coefficient <= 8.0):
+                return None
+            
+            # 2円パラメータを抽出
+            c1_left, c2_left = TwoCircleFitter.fit_eyelids(left_eye_landmarks)
+            c1_right, c2_right = TwoCircleFitter.fit_eyelids(right_eye_landmarks)
+            
+            # 両目の平均
+            if c1_left and c1_right and c2_left and c2_right:
+                c1_center_x = (c1_left[0] + c1_right[0]) / 2.0
+                c1_center_y = (c1_left[1] + c1_right[1]) / 2.0
+                c1_radius = (c1_left[2] + c1_right[2]) / 2.0
+                c2_center_x = (c2_left[0] + c2_right[0]) / 2.0
+                c2_center_y = (c2_left[1] + c2_right[1]) / 2.0
+                c2_radius = (c2_left[2] + c2_right[2]) / 2.0
+            else:
+                # 2円フィッティング失敗時はデフォルト値
+                c1_center_x = c1_center_y = c1_radius = 0.0
+                c2_center_x = c2_center_y = c2_radius = 0.0
+            
+            # 12次元特徴量
+            features = np.array([
+                closing_time,
+                opening_time,
+                blink_coefficient,
+                self.t1,           # timestamp
+                total_duration,
+                0.0,               # interval（リアルタイムでは計算困難）
+                c1_center_x,
+                c1_center_y,
+                c1_radius,
+                c2_center_x,
+                c2_center_y,
+                c2_radius
+            ], dtype=np.float32)
+            
+            return features
+            
+        except Exception as e:
+            print(f"⚠️ 特徴量抽出エラー: {e}")
+            return None
+    
+    def predict_drowsiness(self):
+        """
+        LSTMモデルで眠気を推定
+        
+        Returns:
+            tuple: (prediction, probability) または (None, None)
+        """
+        if len(self.feature_buffer) < self.sequence_length:
+            return None, None
+        
+        try:
+            # シーケンスを作成
+            sequence = np.array(list(self.feature_buffer))
+            sequence = sequence.reshape(1, self.sequence_length, -1)
+            
+            # 推論
+            proba = self.estimator.predict_proba(sequence)
+            prediction = np.argmax(proba[0])
+            probability = proba[0][prediction]
+            
+            return prediction, probability
+            
+        except Exception as e:
+            print(f"⚠️ 推論エラー: {e}")
+            return None, None
+    
+    def draw_info(self, frame, left_ear, right_ear):
+        """
+        画面に情報を表示
         
         Args:
-            frame: フレーム
-            
-        Returns:
-            frame: UI描画済みフレーム
+            frame: 画像フレーム
+            left_ear: 左目のEAR
+            right_ear: 右目のEAR
         """
-        h, w = frame.shape[:2]
+        height, width = frame.shape[:2]
+        avg_ear = (left_ear + right_ear) / 2.0
         
-        # 半透明の背景
+        # 背景（半透明黒）
         overlay = frame.copy()
-        cv2.rectangle(overlay, (0, 0), (w, 250), (0, 0, 0), -1)
-        cv2.addWeighted(overlay, 0.3, frame, 0.7, 0, frame)
+        cv2.rectangle(overlay, (10, 10), (width - 10, 180), (0, 0, 0), -1)
+        cv2.addWeighted(overlay, 0.6, frame, 0.4, 0, frame)
         
-        y_offset = 30
-        line_height = 30
+        # EAR情報
+        cv2.putText(frame, f"EAR: {avg_ear:.3f}", (20, 40),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
         
-        # タイトル
-        cv2.putText(frame, "Drowsiness Estimation (MediaPipe)", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
-        y_offset += line_height
+        # 瞬き回数
+        cv2.putText(frame, f"Blinks: {self.total_blinks}", (20, 70),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
         
-        # 現在の状態
-        if self.current_state == self.STATE_DROWSY:
-            state_text = "DROWSY"
-            state_color = (0, 0, 255)  # 赤
-        elif self.current_state == self.STATE_NORMAL:
-            state_text = "NORMAL"
-            state_color = (0, 255, 0)  # 緑
-        else:
-            state_text = "UNKNOWN"
-            state_color = (128, 128, 128)  # グレー
+        # バッファ状態
+        buffer_status = f"Buffer: {len(self.feature_buffer)}/{self.sequence_length}"
+        cv2.putText(frame, buffer_status, (20, 100),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
         
-        cv2.putText(frame, f"State: {state_text}", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.8, state_color, 2)
-        y_offset += line_height
-        
-        # 眠気確率
-        prob_text = f"Drowsy Prob: {self.current_probability:.1%}"
-        prob_color = (0, 255, 0) if self.current_probability < 0.5 else (0, 0, 255)
-        cv2.putText(frame, prob_text, 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.7, prob_color, 2)
-        y_offset += line_height
-        
-        # 確率バー
-        bar_width = 300
-        bar_height = 20
-        bar_x = 10
-        bar_y = y_offset
-        
-        # 背景
-        cv2.rectangle(frame, (bar_x, bar_y), (bar_x + bar_width, bar_y + bar_height), 
-                     (50, 50, 50), -1)
-        
-        # 確率バー（グラデーション）
-        prob_bar_width = int(bar_width * self.current_probability)
-        bar_color = (0, 255, 0) if self.current_probability < 0.5 else (0, 0, 255)
-        cv2.rectangle(frame, (bar_x, bar_y), (bar_x + prob_bar_width, bar_y + bar_height), 
-                     bar_color, -1)
-        
-        # 閾値ライン
-        threshold_x = bar_x + int(bar_width * self.alert_threshold)
-        cv2.line(frame, (threshold_x, bar_y), (threshold_x, bar_y + bar_height), 
-                (255, 255, 255), 2)
-        
-        y_offset += bar_height + 15
-        
-        # 検出器の統計
-        detector_stats = self.blink_detector.get_statistics()
-        
-        # EAR値
-        ear = detector_stats['current_ear']
-        ear_color = (0, 255, 0)
-        if self.blink_detector.ear_closed_threshold and ear <= self.blink_detector.ear_closed_threshold:
-            ear_color = (0, 0, 255)
-        
-        cv2.putText(frame, f"EAR: {ear:.3f}", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, ear_color, 2)
-        y_offset += line_height
-        
-        # 瞬き統計
-        cv2.putText(frame, f"Blinks: {detector_stats['total_blinks']}", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        y_offset += line_height
-        
-        # 推定回数
-        cv2.putText(frame, f"Predictions: {self.stats['total_predictions']}", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
-        y_offset += line_height
-        
-        # アラート回数
-        cv2.putText(frame, f"Alerts: {self.stats['total_alerts']}", 
-                   (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 2)
-        y_offset += line_height
-        
-        # キャリブレーション状態
-        if self.blink_detector.calibration_active:
-            elapsed = time.time() - self.blink_detector.calibration_start_time
-            remaining = self.blink_detector.calibration_duration - elapsed
+        # 眠気判定
+        if self.current_prediction is not None:
+            if self.current_prediction == 0:
+                label = "Normal"
+                color = (0, 255, 0)  # 緑
+            else:
+                label = "DROWSY!"
+                color = (0, 0, 255)  # 赤
+                self.drowsy_count += 1
             
-            cv2.putText(frame, f"Calibrating: {remaining:.1f}s", 
-                       (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-        else:
-            calib_text = "Calibrated: YES" if detector_stats['calibrated'] else "NOT Calibrated (Press C)"
-            calib_color = (0, 255, 0) if detector_stats['calibrated'] else (0, 0, 255)
-            cv2.putText(frame, calib_text, 
-                       (10, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.6, calib_color, 2)
-        
-        # アラート表示
-        if self.alert_active:
-            alert_text = "⚠️ DROWSINESS ALERT! ⚠️"
-            text_size = cv2.getTextSize(alert_text, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 3)[0]
-            text_x = (w - text_size[0]) // 2
-            text_y = h - 50
+            # ラベル表示
+            cv2.putText(frame, label, (20, 140),
+                       cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 3)
             
-            # 点滅効果
-            if int(time.time() * 2) % 2 == 0:
-                cv2.putText(frame, alert_text, 
-                           (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 3)
+            # 確率表示
+            prob_text = f"Confidence: {self.current_probability:.1%}"
+            cv2.putText(frame, prob_text, (20, 170),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
+        else:
+            cv2.putText(frame, "Collecting data...", (20, 140),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
         
-        # 操作方法（右下）
-        instructions = [
-            "[C] Calibrate",
-            "[R] Reset stats",
-            "[ESC] Quit"
-        ]
-        
-        y_offset = h - 30 - (len(instructions) * 25)
-        for instruction in instructions:
-            cv2.putText(frame, instruction, 
-                       (w - 200, y_offset), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-            y_offset += 25
-        
-        return frame
+        # 警告表示
+        if self.current_prediction == 1:
+            # 画面上部に大きく警告
+            warning_text = "!!! DROWSINESS DETECTED !!!"
+            text_size = cv2.getTextSize(warning_text, cv2.FONT_HERSHEY_SIMPLEX, 1.5, 3)[0]
+            text_x = (width - text_size[0]) // 2
+            cv2.putText(frame, warning_text, (text_x, 50),
+                       cv2.FONT_HERSHEY_SIMPLEX, 1.5, (0, 0, 255), 3)
     
     def run(self):
-        """メインループを実行"""
-        if not self.initialize_camera():
+        """
+        リアルタイム検知を実行
+        """
+        cap = cv2.VideoCapture(0)
+        
+        if not cap.isOpened():
+            print("❌ カメラを開けません")
             return
         
-        print("\n" + "=" * 70)
-        print("🚀 リアルタイム眠気推定システム起動")
+        print("\n🎥 カメラ起動")
+        print("   'q' キーで終了")
         print("=" * 70)
-        print()
-        print("操作方法:")
-        print("  [C] - キャリブレーション（最初に実行推奨）")
-        print("  [R] - 統計リセット")
-        print("  [ESC] - 終了")
-        print()
-        print(f"アラート閾値: {self.alert_threshold:.0%}")
-        print("=" * 70)
-        print()
-        print("👉 まず[C]キーでキャリブレーションを実行してください")
-        print()
         
-        # FPS計測
-        fps_start_time = time.time()
-        fps_frame_count = 0
-        fps = 0
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                
+                # 左右反転（鏡像）
+                frame = cv2.flip(frame, 1)
+                
+                # RGB変換
+                rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                
+                # 顔検出
+                results = self.face_mesh.process(rgb_frame)
+                
+                if results.multi_face_landmarks:
+                    face_landmarks = results.multi_face_landmarks[0]
+                    height, width, _ = frame.shape
+                    
+                    # 目のランドマーク抽出
+                    left_eye = self.extract_eye_landmarks(
+                        face_landmarks, width, height, self.LEFT_EYE_INDICES
+                    )
+                    right_eye = self.extract_eye_landmarks(
+                        face_landmarks, width, height, self.RIGHT_EYE_INDICES
+                    )
+                    
+                    # EAR計算
+                    left_ear = EARCalculator.calculate(left_eye)
+                    right_ear = EARCalculator.calculate(right_eye)
+                    
+                    # 瞬き検出
+                    blink_features = self.detect_blink(
+                        left_ear, right_ear, left_eye, right_eye
+                    )
+                    
+                    if blink_features is not None:
+                        # バッファに追加
+                        self.feature_buffer.append(blink_features)
+                        
+                        # 眠気推定
+                        pred, prob = self.predict_drowsiness()
+                        if pred is not None:
+                            self.current_prediction = pred
+                            self.current_probability = prob
+                    
+                    # 情報表示
+                    self.draw_info(frame, left_ear, right_ear)
+                
+                # フレーム表示
+                cv2.imshow('Drowsiness Detection', frame)
+                
+                # 'q'キーで終了
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
         
-        while True:
-            ret, frame = self.camera.read()
+        finally:
+            cap.release()
+            cv2.destroyAllWindows()
             
-            if not ret:
-                print("⚠️ フレーム取得失敗")
-                break
-            
-            # FPS計算
-            fps_frame_count += 1
-            if fps_frame_count >= 30:
-                fps_end_time = time.time()
-                fps = fps_frame_count / (fps_end_time - fps_start_time)
-                fps_start_time = fps_end_time
-                fps_frame_count = 0
-            
-            # フレーム処理
-            frame, prediction = self.process_frame(frame)
-            
-            # UI描画
-            frame = self.draw_ui(frame)
-            
-            # FPS表示
-            cv2.putText(frame, f"FPS: {fps:.1f}", 
-                       (frame.shape[1] - 120, 30), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-            
-            # 表示
-            cv2.imshow(self.window_name, frame)
-            
-            # キー入力処理
-            key = cv2.waitKey(1) & 0xFF
-            
-            if key == 27:  # ESC
-                break
-            elif key == ord('c') or key == ord('C'):
-                self.start_calibration()
-            elif key == ord('r') or key == ord('R'):
-                print("\n🔄 統計をリセットしました")
-                self.stats = {
-                    'total_predictions': 0,
-                    'drowsy_predictions': 0,
-                    'normal_predictions': 0,
-                    'total_alerts': 0,
-                    'session_start_time': time.time()
-                }
-        
-        # 終了処理
-        self.cleanup()
-    
-    def cleanup(self):
-        """リソースを解放"""
-        if self.camera:
-            self.camera.release()
-        
-        cv2.destroyAllWindows()
-        
-        # 最終統計
-        session_duration = time.time() - self.stats['session_start_time']
-        
-        print("\n" + "=" * 70)
-        print("📊 セッション統計")
-        print("=" * 70)
-        print(f"セッション時間: {session_duration/60:.1f}分")
-        print(f"総推定回数: {self.stats['total_predictions']}")
-        print(f"  - 正常: {self.stats['normal_predictions']}")
-        print(f"  - 眠気: {self.stats['drowsy_predictions']}")
-        print(f"総アラート回数: {self.stats['total_alerts']}")
-        
-        if self.stats['total_predictions'] > 0:
-            drowsy_rate = self.stats['drowsy_predictions'] / self.stats['total_predictions']
-            print(f"眠気検出率: {drowsy_rate:.1%}")
-        
-        print("=" * 70)
-        print()
-        print("リアルタイム眠気推定システムを終了しました")
+            # 統計表示
+            print("\n" + "=" * 70)
+            print("📊 セッション統計")
+            print("=" * 70)
+            print(f"総瞬き数: {self.total_blinks}")
+            print(f"眠気検出回数: {self.drowsy_count}")
+            if self.total_blinks > 0:
+                drowsy_rate = (self.drowsy_count / self.total_blinks) * 100
+                print(f"眠気検出率: {drowsy_rate:.1f}%")
+            print("=" * 70)
 
 
 def main():
-    """メイン関数"""
-    parser = argparse.ArgumentParser(description="リアルタイム眠気推定システム (MediaPipe版)")
-    parser.add_argument('--model', type=str, required=True,
-                       help='訓練済みモデルのパス')
-    parser.add_argument('--norm-params', type=str, default=None,
-                       help='正規化パラメータのパス')
+    """
+    メイン関数
+    """
+    parser = argparse.ArgumentParser(
+        description='リアルタイム眠気検知システム',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    
+    parser.add_argument('--model-path', type=str, 
+                       default='trained_models/drowsiness_lstm_20251115_224046.pth',
+                       help='学習済みモデルのパス')
     parser.add_argument('--sequence-length', type=int, default=10,
-                       help='シーケンス長（デフォルト: 10）')
-    parser.add_argument('--threshold', type=float, default=0.7,
-                       help='アラート閾値（デフォルト: 0.7）')
-    parser.add_argument('--camera', type=int, default=0,
-                       help='カメラID（デフォルト: 0）')
+                       help='LSTMのシーケンス長')
+    parser.add_argument('--ear-threshold', type=float, default=0.21,
+                       help='EAR閾値')
     
     args = parser.parse_args()
     
-    # システム初期化
-    estimator = RealtimeDrowsinessEstimatorMediaPipe(
-        model_path=args.model,
-        normalization_params_path=args.norm_params,
+    # システム起動
+    detector = RealtimeDrowsinessDetector(
+        model_path=args.model_path,
         sequence_length=args.sequence_length,
-        alert_threshold=args.threshold
+        ear_threshold=args.ear_threshold
     )
     
-    # 実行
-    estimator.run()
+    detector.run()
 
 
 if __name__ == "__main__":

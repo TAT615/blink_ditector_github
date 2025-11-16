@@ -435,7 +435,7 @@ def create_default_config() -> Dict:
         'normalization': 'zscore',
         
         # モデル設定
-        'input_size': 6,
+        'input_size': 12,  # 2円方式（12次元特徴量）
         'hidden_size1': 64,
         'hidden_size2': 32,
         'fc_size': 32,

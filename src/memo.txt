@@ -1,0 +1,11 @@
+データ収集：
+python -m src.drowsiness_data_collector_two_circles
+
+npzデータ変換：
+python -m src.convert_json_to_sequences --input-dir data/sessions --output-dir data/sequences
+
+モデル学習：
+python -m src.train_drowsiness_model --data-dir data
+
+判別：
+python -m src.realtime_drowsiness_estimator --model-path trained_models/drowsiness_lstm_20251115_224046.pth
