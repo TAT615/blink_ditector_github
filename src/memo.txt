@@ -4,14 +4,17 @@ python -m src.drowsiness_data_collector_two_circles
 2. npzデータ変換：
 python -m src.convert_json_to_sequences --input-dir data/sessions --output-dir data/sequences
 
-3. モデル学習：
+3.キャッシュデータの削除：
+del data/drowsiness_dataset.npz
+
+4. モデル学習：
 python -m src.train_drowsiness_model --data-dir data
 
-4. 測定：
+5. 測定：
 python -m src.realtime_drowsiness_estimator_mediapipe --model trained_models/drowsiness_lstm_.pth
 
-5.グラフ：
+6.グラフ：
 python -m examples.compare_blink_patterns data\sessions\20251117_100001_002_normal.json data\sessions\20251117_015827_002_drowsy.json
 
-6.グラフ平均：
+7.グラフ平均：
 python -m examples.compare_blink_patterns_averaged data\sessions\20251117_100001_002_normal.json data\sessions\20251117_015827_002_drowsy.json
