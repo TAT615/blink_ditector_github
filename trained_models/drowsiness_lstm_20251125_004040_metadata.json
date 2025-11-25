@@ -1,0 +1,81 @@
+{
+  "model_name": "drowsiness_lstm_20251125_004040",
+  "timestamp": "20251125_004040",
+  "training_time": 12.410200357437134,
+  "best_val_acc": 91.16883116883118,
+  "config": {
+    "train_ratio": 0.7,
+    "val_ratio": 0.15,
+    "test_ratio": 0.15,
+    "normalization": "zscore",
+    "input_size": 12,
+    "hidden_size1": 64,
+    "hidden_size2": 32,
+    "fc_size": 32,
+    "num_classes": 2,
+    "dropout_rate": 0.3,
+    "epochs": 100,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "patience": 10,
+    "output_dir": "trained_models",
+    "show_plots": false,
+    "device": null
+  },
+  "data_statistics": {
+    "total_sequences": 2567,
+    "total_sessions": 0,
+    "normal_count": 1221,
+    "drowsy_count": 1346,
+    "sequence_shape": [
+      2567,
+      10,
+      12
+    ],
+    "class_balance": {
+      "normal": 0.4756525126606934,
+      "drowsy": 0.5243474873393066
+    },
+    "train_count": 1796,
+    "val_count": 385,
+    "test_count": 386
+  },
+  "test_accuracy": 89.11917098445595,
+  "confusion_matrix": [
+    [
+      155,
+      29
+    ],
+    [
+      13,
+      189
+    ]
+  ],
+  "classification_report": {
+    "\u6b63\u5e38": {
+      "precision": 0.9226190476190477,
+      "recall": 0.842391304347826,
+      "f1-score": 0.8806818181818182,
+      "support": 184.0
+    },
+    "\u7720\u6c17": {
+      "precision": 0.8669724770642202,
+      "recall": 0.9356435643564357,
+      "f1-score": 0.9,
+      "support": 202.0
+    },
+    "accuracy": 0.8911917098445595,
+    "macro avg": {
+      "precision": 0.8947957623416339,
+      "recall": 0.8890174343521309,
+      "f1-score": 0.8903409090909091,
+      "support": 386.0
+    },
+    "weighted avg": {
+      "precision": 0.8934983034426871,
+      "recall": 0.8911917098445595,
+      "f1-score": 0.8907913330193123,
+      "support": 386.0
+    }
+  }
+}
