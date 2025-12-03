@@ -2,18 +2,26 @@
 python -m src.drowsiness_data_collector_two_circles
 
 2. npzデータ変換：
+del data/combined_sequences.npz
+del data/sequences/*.npz
 python -m src.convert_json_to_sequences --input-dir data/sessions --output-dir data/sequences
 
 3.キャッシュデータの削除：
 del data/drowsiness_dataset.npz
+del data/drowsiness_dataset_session_split.npz
+del data/normalization_params.json
 
 4. モデル学習：
 python -m src.train_drowsiness_model --data-dir data
+
+python -m src.train_drowsiness_model_session --data-dir data --epochs 100
 
 5. 測定：
 python -m src.realtime_drowsiness_estimator_mediapipe --model trained_models/drowsiness_lstm_.pth
 
 6.グラフ：
+python -m examples.verify_blink_duration
+
 python -m examples.compare_blink_patterns data\sessions\20251117_100001_002_normal.json data\sessions\20251117_015827_002_drowsy.json
 
 7.グラフ平均：

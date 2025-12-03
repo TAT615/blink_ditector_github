@@ -1,0 +1,3447 @@
+{
+  "session_info": {
+    "start_time": "2025-11-29T03:35:59.405391",
+    "end_time": "2025-11-29T03:37:58.333763",
+    "duration_seconds": 118.928372,
+    "model_path": "trained_models\\drowsiness_lstm_20251125_004040.pth",
+    "ear_threshold": 0.21,
+    "sequence_length": 10
+  },
+  "statistics": {
+    "total_frames": 3549,
+    "total_blinks": 13,
+    "total_predictions": 501,
+    "normal_predictions": 501,
+    "drowsy_predictions": 0,
+    "drowsy_ratio": 0.0,
+    "blinks_per_minute": 6.558569556472193,
+    "average_blink_interval": 9.121305604775747
+  },
+  "blink_statistics": {
+    "closing_time_ms": {
+      "mean": 784.2871775993934,
+      "std": 1955.7383281438938,
+      "min": 21.44932746887207,
+      "max": 7403.12123298645
+    },
+    "opening_time_ms": {
+      "mean": 639.2229153559758,
+      "std": 217.25244952830238,
+      "min": 368.0241107940674,
+      "max": 1171.5617179870605
+    },
+    "total_duration_ms": {
+      "mean": 1423.5100929553691,
+      "std": 1986.752465961251,
+      "min": 400.06232261657715,
+      "max": 7995.074987411499
+    },
+    "blink_coefficient": {
+      "mean": 10.919981628087125,
+      "std": 7.472631221914789,
+      "min": 0.07996002439990466,
+      "max": 26.66999601827544
+    },
+    "interval_s": {
+      "mean": 9.121305604775747,
+      "std": 4.416802408258414,
+      "min": 2.4971163272857666,
+      "max": 16.591063261032104
+    }
+  },
+  "blink_history": [
+    {
+      "timestamp": "2025-11-29T03:36:08.601921",
+      "blink_number": 1,
+      "closing_time_ms": 63.939571380615234,
+      "opening_time_ms": 609.3487739562988,
+      "total_duration_ms": 673.2883453369141,
+      "blink_coefficient": 9.530072860967552,
+      "interval_s": 0.0,
+      "upper_radius_max": 188.92215557622603,
+      "lower_radius_max": 535.144672558996,
+      "vertical_distance_min": 59.65266472421515,
+      "radius_diff_max": 534.8902713902373,
+      "eye_height_min": 2.118033988749895,
+      "eye_width_avg": 39.759421634400496,
+      "ear_min": 0.04963959759567381
+    },
+    {
+      "timestamp": "2025-11-29T03:36:22.233183",
+      "blink_number": 2,
+      "closing_time_ms": 77.57687568664551,
+      "opening_time_ms": 693.1824684143066,
+      "total_duration_ms": 770.7593441009521,
+      "blink_coefficient": 8.935426469277555,
+      "interval_s": 13.631261110305786,
+      "upper_radius_max": 822.3596280789361,
+      "lower_radius_max": 1587709699140583.5,
+      "vertical_distance_min": 46.37849674618728,
+      "radius_diff_max": 1587709699140605.5,
+      "eye_height_min": 1.9125703849682212,
+      "eye_width_avg": 39.6229338585747,
+      "ear_min": 0.044866534321825
+    },
+    {
+      "timestamp": "2025-11-29T03:36:25.975563",
+      "blink_number": 3,
+      "closing_time_ms": 35.32814979553223,
+      "opening_time_ms": 942.2016143798828,
+      "total_duration_ms": 977.529764175415,
+      "blink_coefficient": 26.66999601827544,
+      "interval_s": 3.7423808574676514,
+      "upper_radius_max": 1238102990342232.0,
+      "lower_radius_max": 712.9676024273376,
+      "vertical_distance_min": 27.578158287158658,
+      "radius_diff_max": 1238102990342102.0,
+      "eye_height_min": 1.618033988749895,
+      "eye_width_avg": 39.20451464631628,
+      "ear_min": 0.03999277339647645
+    },
+    {
+      "timestamp": "2025-11-29T03:36:42.566627",
+      "blink_number": 4,
+      "closing_time_ms": 94.21873092651367,
+      "opening_time_ms": 768.8052654266357,
+      "total_duration_ms": 863.0239963531494,
+      "blink_coefficient": 8.159792197013022,
+      "interval_s": 16.591063261032104,
+      "upper_radius_max": 1156746479632666.2,
+      "lower_radius_max": 744238921472471.5,
+      "vertical_distance_min": 42.427039302317745,
+      "radius_diff_max": 1156746479632234.5,
+      "eye_height_min": 2.0590169943749475,
+      "eye_width_avg": 38.69236683456334,
+      "ear_min": 0.04846382417940154
+    },
+    {
+      "timestamp": "2025-11-29T03:36:49.268390",
+      "blink_number": 5,
+      "closing_time_ms": 32.038211822509766,
+      "opening_time_ms": 368.0241107940674,
+      "total_duration_ms": 400.06232261657715,
+      "blink_coefficient": 11.487036568485912,
+      "interval_s": 6.701762914657593,
+      "upper_radius_max": 841.0943580201354,
+      "lower_radius_max": 1625010174824275.8,
+      "vertical_distance_min": 59.97800509420723,
+      "radius_diff_max": 1625010174824240.0,
+      "eye_height_min": 1.766123775561495,
+      "eye_width_avg": 38.94046329541341,
+      "ear_min": 0.04357005642542576
+    },
+    {
+      "timestamp": "2025-11-29T03:37:02.133309",
+      "blink_number": 6,
+      "closing_time_ms": 65.98448753356934,
+      "opening_time_ms": 605.9818267822266,
+      "total_duration_ms": 671.9663143157959,
+      "blink_coefficient": 9.183701343045755,
+      "interval_s": 12.864919185638428,
+      "upper_radius_max": 1392282368004101.5,
+      "lower_radius_max": 1388095775559165.0,
+      "vertical_distance_min": 64.6576399942704,
+      "radius_diff_max": 1392282368004105.8,
+      "eye_height_min": 1.766123775561495,
+      "eye_width_avg": 38.15016287925407,
+      "ear_min": 0.04349700242829044
+    },
+    {
+      "timestamp": "2025-11-29T03:37:13.734419",
+      "blink_number": 7,
+      "closing_time_ms": 1484.5211505889893,
+      "opening_time_ms": 1171.5617179870605,
+      "total_duration_ms": 2656.08286857605,
+      "blink_coefficient": 0.7891849284344915,
+      "interval_s": 11.601109981536865,
+      "upper_radius_max": 820.9657681814097,
+      "lower_radius_max": 871.5767307999448,
+      "vertical_distance_min": 22.624301203514698,
+      "radius_diff_max": 1330.6097448894309,
+      "eye_height_min": 1.9125703849682212,
+      "eye_width_avg": 38.226867809658124,
+      "ear_min": 0.04602377740586046
+    },
+    {
+      "timestamp": "2025-11-29T03:37:24.917221",
+      "blink_number": 8,
+      "closing_time_ms": 7403.12123298645,
+      "opening_time_ms": 591.9537544250488,
+      "total_duration_ms": 7995.074987411499,
+      "blink_coefficient": 0.07996002439990466,
+      "interval_s": 11.182802438735962,
+      "upper_radius_max": 1156746479632547.5,
+      "lower_radius_max": 532.2556151581523,
+      "vertical_distance_min": 60.79026672915457,
+      "radius_diff_max": 1156746479632471.8,
+      "eye_height_min": 1.9270509831248424,
+      "eye_width_avg": 38.32755071360167,
+      "ear_min": 0.04687561585016968
+    },
+    {
+      "timestamp": "2025-11-29T03:37:30.035724",
+      "blink_number": 9,
+      "closing_time_ms": 825.4082202911377,
+      "opening_time_ms": 702.5203704833984,
+      "total_duration_ms": 1527.9285907745361,
+      "blink_coefficient": 0.8511186988610384,
+      "interval_s": 5.118502378463745,
+      "upper_radius_max": 822.3596280792092,
+      "lower_radius_max": 531.5192368561536,
+      "vertical_distance_min": 44.71770928153836,
+      "radius_diff_max": 1225.0490417053811,
+      "eye_height_min": 1.9715873793431686,
+      "eye_width_avg": 39.004495696365325,
+      "ear_min": 0.04790609686529944
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.669941",
+      "blink_number": 10,
+      "closing_time_ms": 21.44932746887207,
+      "opening_time_ms": 400.9273052215576,
+      "total_duration_ms": 422.3766326904297,
+      "blink_coefficient": 18.691835713888736,
+      "interval_s": 11.634217500686646,
+      "upper_radius_max": 1566.6423766550677,
+      "lower_radius_max": 572.7196663869853,
+      "vertical_distance_min": 50.42481042780182,
+      "radius_diff_max": 1649.3613760981862,
+      "eye_height_min": 2.3251407699364424,
+      "eye_width_avg": 38.82000439291656,
+      "ear_min": 0.055898076797980784
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.011715",
+      "blink_number": 11,
+      "closing_time_ms": 30.541419982910156,
+      "opening_time_ms": 430.47165870666504,
+      "total_duration_ms": 461.0130786895752,
+      "blink_coefficient": 14.094683840749415,
+      "interval_s": 10.341774225234985,
+      "upper_radius_max": 1567.913515206139,
+      "lower_radius_max": 1355598550044396.8,
+      "vertical_distance_min": 63.32766028385632,
+      "radius_diff_max": 1355598550044361.8,
+      "eye_height_min": 2.3139582038342184,
+      "eye_width_avg": 39.00043093885484,
+      "ear_min": 0.05602651936708876
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.560472",
+      "blink_number": 12,
+      "closing_time_ms": 26.568889617919922,
+      "opening_time_ms": 465.49534797668457,
+      "total_duration_ms": 492.0642375946045,
+      "blink_coefficient": 17.520316229652362,
+      "interval_s": 3.5487570762634277,
+      "upper_radius_max": 619.7344720141116,
+      "lower_radius_max": 603.911754966711,
+      "vertical_distance_min": 41.564354633617555,
+      "radius_diff_max": 605.4591120562826,
+      "eye_height_min": 1.6196771661547689,
+      "eye_width_avg": 29.147728321442344,
+      "ear_min": 0.0525503969438698
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.057589",
+      "blink_number": 13,
+      "closing_time_ms": 35.03704071044922,
+      "opening_time_ms": 559.4236850738525,
+      "total_duration_ms": 594.4607257843018,
+      "blink_coefficient": 15.96663627208144,
+      "interval_s": 2.4971163272857666,
+      "upper_radius_max": 306135926331627.7,
+      "lower_radius_max": 419714166455983.8,
+      "vertical_distance_min": 32.708598829373564,
+      "radius_diff_max": 419714166455982.5,
+      "eye_height_min": 1.4142135623730951,
+      "eye_width_avg": 22.968571496428094,
+      "ear_min": 0.058672507780707504
+    }
+  ],
+  "prediction_history": [
+    {
+      "timestamp": "2025-11-29T03:37:41.675955",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.712101",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.736194",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.770527",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.816282",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.840452",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.870974",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.900014",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.915555",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:41.973953",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.010659",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.041143",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.072764",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.105914",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.137448",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.167768",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.199505",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.246423",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.275022",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.290713",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.314519",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.377802",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.413515",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.442679",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.473897",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.507034",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.535731",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.568499",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.598249",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.631182",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.681988",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.708036",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.725135",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.774667",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.805551",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.839572",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.873103",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.905666",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.936235",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:42.974313",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.004513",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.037645",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.062339",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.111283",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.134309",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.174372",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.205952",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.240832",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.270842",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.303194",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.337733",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.367274",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.397800",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.431814",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.466388",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.495188",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.550349",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.578529",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.611094",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.639243",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.676428",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.703609",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.737944",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.768586",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.798113",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.836845",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.866504",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.895053",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.927263",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.975055",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.007122",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.037845",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.073910",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.105717",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.138265",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.169416",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.199436",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.237972",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.265493",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.302500",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.326186",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.364397",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.408150",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.440290",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.473075",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.506100",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.534295",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.569118",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.601774",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.630049",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.664323",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.693598",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.725716",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.760750",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.793483",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.839760",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.876303",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.905524",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.938029",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:44.966716",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.003116",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.038211",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.065009",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.093715",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.128339",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.159561",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.194181",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.224863",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.257448",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.304620",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.337477",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.370248",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.400972",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.437637",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.466202",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.503536",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.529188",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.563749",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.591738",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.624839",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.654469",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.687970",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.735203",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.766724",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.799753",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.832137",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.863660",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.896185",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.928207",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.962270",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:45.994522",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.024286",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.057819",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.089874",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.119954",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.168435",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.202257",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.233291",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.264908",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.295631",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.327829",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.365911",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.392473",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.424878",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.455470",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.487026",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.520833",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.549964",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.599742",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.632799",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.668430",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.698153",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.728601",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.766257",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.793160",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.829420",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.854999",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.890217",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.919385",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.953048",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.984599",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.034734",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.067460",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.095010",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.127047",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.159360",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.192852",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.223046",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.255620",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.288178",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.321934",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.350771",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.389494",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.415697",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.467164",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.495743",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.525858",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.561982",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.591574",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.622945",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.657526",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.686124",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.720059",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.752628",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.784387",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.813568",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.848148",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.896019",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.927166",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.965397",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:47.991930",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.027965",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.054711",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.091921",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.119209",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.153741",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.184447",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.214571",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.247174",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.279310",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.332508",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.361754",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.393285",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.428580",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.455101",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.484974",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.519629",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.551361",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.585842",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.616871",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.654793",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.684392",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.716662",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.763937",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.794461",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.822541",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.855971",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.884989",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.920181",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.951770",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:48.985346",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.015404",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.046037",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.080100",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.111252",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.144274",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.193035",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.228067",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.254704",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.291903",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.320937",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.354656",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.384378",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.418415",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.446020",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.481111",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.515250",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.576303",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.594391",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.624341",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.654860",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.689884",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.718548",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.752011",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.786536",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.815586",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.852956",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.879516",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.918571",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:49.975629",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.009412",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.029555",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.054578",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.089170",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.121802",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.157667",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.188541",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.217641",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.246175",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.277903",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.314473",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.379469",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.412010",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.439527",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.453227",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.491907",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.519931",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.555469",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.583995",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.619146",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.647199",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.680524",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.710642",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.776599",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.807594",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.837195",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.873196",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.895166",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.925200",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.952740",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.984761",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.014770",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.047049",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.079178",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.112316",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.182100",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.207708",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.244468",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.273357",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.304947",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.332156",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.362774",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.395296",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.424401",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.455085",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.484754",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.509659",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.575072",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.607094",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.641836",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.671380",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.703708",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.736792",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.766347",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.797250",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.820417",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.848617",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.883759",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.911336",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:51.975852",
+      "predicted_class": 0,
+      "drowsy_probability": 0.17344024777412415,
+      "blink_count_at_prediction": 10
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.012715",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.043478",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.073055",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.103654",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.134685",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.169886",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.187425",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.215538",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.248124",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.281152",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.312274",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.379215",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.405494",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.443780",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.472313",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.504889",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.536702",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.567256",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.604362",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.625980",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.649622",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.679262",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.714467",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.776189",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.809856",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.843103",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.874628",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.904313",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.936513",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:52.966295",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.003451",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.032587",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.049115",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.082927",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.111219",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.173573",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.207197",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.239347",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.272949",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.304537",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.335039",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.372115",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.399720",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.431646",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.462192",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.481211",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.511746",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.576336",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.606030",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.646570",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.672094",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.704621",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.739163",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.770789",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.801358",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.834929",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.863504",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.896034",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.921557",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.975220",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.009430",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.044670",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.072213",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.105818",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.136926",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.168235",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.200809",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.232626",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.267193",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.293736",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.334015",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.376206",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.414510",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.442494",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.473740",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.503507",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.535557",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.567395",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.599390",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.633856",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.667578",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.696142",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.727675",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.759482",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.806803",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.841553",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.872100",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.904643",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.936781",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:54.972968",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.001586",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.039540",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.066109",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.096670",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.129715",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.159401",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.193270",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.238496",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.272118",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.305633",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.335664",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.364234",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.399472",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.434337",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.464871",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.494571",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.531606",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1072377935051918,
+      "blink_count_at_prediction": 11
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.561474",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.594070",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.623644",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.673720",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.704304",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.735434",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.769203",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.799412",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.832937",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.863249",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.894805",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.927345",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.960742",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:55.994266",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.024387",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.055431",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.104030",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.136040",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.173280",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.201214",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.237356",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.265495",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.304251",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.334317",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.362453",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.400422",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.430666",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.461423",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.494953",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.540019",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.572079",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.601617",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.637667",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.668203",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.699240",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.732602",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.765195",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.797695",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.825254",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.863372",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.890902",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.926462",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.969106",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.004909",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.033367",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.063238",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.091165",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.128296",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.161546",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.193084",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.228254",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.258241",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.290241",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.325623",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.350979",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.400319",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.435356",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.464902",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.499961",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.527180",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.564732",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.587747",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.623855",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.656213",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.687834",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.719407",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.752034",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.785814",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.831643",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.863700",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.896346",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.926874",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.959570",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:57.994779",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.026901",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1959541141986847,
+      "blink_count_at_prediction": 12
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.057589",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.087291",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.121906",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.152296",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.187837",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.217363",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.263841",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.295725",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    },
+    {
+      "timestamp": "2025-11-29T03:37:58.331763",
+      "predicted_class": 0,
+      "drowsy_probability": 0.1446043848991394,
+      "blink_count_at_prediction": 13
+    }
+  ],
+  "ear_samples": [
+    {
+      "timestamp": "2025-11-29T03:36:03.256448",
+      "frame": 100,
+      "ear": 0.24400969381716914
+    },
+    {
+      "timestamp": "2025-11-29T03:36:06.597227",
+      "frame": 200,
+      "ear": 0.23752944848504043
+    },
+    {
+      "timestamp": "2025-11-29T03:36:09.928665",
+      "frame": 300,
+      "ear": 0.21935112686925404
+    },
+    {
+      "timestamp": "2025-11-29T03:36:13.347934",
+      "frame": 400,
+      "ear": 0.22571536326358427
+    },
+    {
+      "timestamp": "2025-11-29T03:36:16.673647",
+      "frame": 500,
+      "ear": 0.22287872606400538
+    },
+    {
+      "timestamp": "2025-11-29T03:36:20.021545",
+      "frame": 600,
+      "ear": 0.05513403300121446
+    },
+    {
+      "timestamp": "2025-11-29T03:36:23.354769",
+      "frame": 700,
+      "ear": 0.2535691640515394
+    },
+    {
+      "timestamp": "2025-11-29T03:36:26.679450",
+      "frame": 800,
+      "ear": 0.23215749112952133
+    },
+    {
+      "timestamp": "2025-11-29T03:36:30.038548",
+      "frame": 900,
+      "ear": 0.23259708465785162
+    },
+    {
+      "timestamp": "2025-11-29T03:36:33.347821",
+      "frame": 1000,
+      "ear": 0.23596019378861502
+    },
+    {
+      "timestamp": "2025-11-29T03:36:36.680540",
+      "frame": 1100,
+      "ear": 0.23154477635351273
+    },
+    {
+      "timestamp": "2025-11-29T03:36:40.039997",
+      "frame": 1200,
+      "ear": 0.23248970172054034
+    },
+    {
+      "timestamp": "2025-11-29T03:36:43.350980",
+      "frame": 1300,
+      "ear": 0.23615638670134434
+    },
+    {
+      "timestamp": "2025-11-29T03:36:46.680824",
+      "frame": 1400,
+      "ear": 0.2751411464617365
+    },
+    {
+      "timestamp": "2025-11-29T03:36:50.037918",
+      "frame": 1500,
+      "ear": 0.2689349831572474
+    },
+    {
+      "timestamp": "2025-11-29T03:36:53.366922",
+      "frame": 1600,
+      "ear": 0.2621416313499889
+    },
+    {
+      "timestamp": "2025-11-29T03:36:56.678135",
+      "frame": 1700,
+      "ear": 0.2473627934602546
+    },
+    {
+      "timestamp": "2025-11-29T03:37:00.041145",
+      "frame": 1800,
+      "ear": 0.23229171986910574
+    },
+    {
+      "timestamp": "2025-11-29T03:37:03.366921",
+      "frame": 1900,
+      "ear": 0.22424120040183276
+    },
+    {
+      "timestamp": "2025-11-29T03:37:06.679729",
+      "frame": 2000,
+      "ear": 0.2080994651119519
+    },
+    {
+      "timestamp": "2025-11-29T03:37:10.039557",
+      "frame": 2100,
+      "ear": 0.21210741127455365
+    },
+    {
+      "timestamp": "2025-11-29T03:37:13.368585",
+      "frame": 2200,
+      "ear": 0.055678833384084706
+    },
+    {
+      "timestamp": "2025-11-29T03:37:16.679347",
+      "frame": 2300,
+      "ear": 0.22391940471865696
+    },
+    {
+      "timestamp": "2025-11-29T03:37:20.039656",
+      "frame": 2400,
+      "ear": 0.23781033284396874
+    },
+    {
+      "timestamp": "2025-11-29T03:37:23.364600",
+      "frame": 2500,
+      "ear": 0.050043514767564565
+    },
+    {
+      "timestamp": "2025-11-29T03:37:26.696553",
+      "frame": 2600,
+      "ear": 0.23719412547406024
+    },
+    {
+      "timestamp": "2025-11-29T03:37:30.035724",
+      "frame": 2700,
+      "ear": 0.25500477751974715
+    },
+    {
+      "timestamp": "2025-11-29T03:37:33.366439",
+      "frame": 2800,
+      "ear": 0.23449355329107502
+    },
+    {
+      "timestamp": "2025-11-29T03:37:36.694447",
+      "frame": 2900,
+      "ear": 0.24272898166624657
+    },
+    {
+      "timestamp": "2025-11-29T03:37:40.039397",
+      "frame": 3000,
+      "ear": 0.24086784209943787
+    },
+    {
+      "timestamp": "2025-11-29T03:37:43.367274",
+      "frame": 3100,
+      "ear": 0.22697096724539856
+    },
+    {
+      "timestamp": "2025-11-29T03:37:46.697045",
+      "frame": 3200,
+      "ear": 0.25113522804790156
+    },
+    {
+      "timestamp": "2025-11-29T03:37:50.028039",
+      "frame": 3300,
+      "ear": 0.23569769820904535
+    },
+    {
+      "timestamp": "2025-11-29T03:37:53.371111",
+      "frame": 3400,
+      "ear": 0.3088787807106361
+    },
+    {
+      "timestamp": "2025-11-29T03:37:56.697735",
+      "frame": 3500,
+      "ear": 0.2724117229563713
+    }
+  ]
+}

@@ -1,8 +1,22 @@
 """
-JSONデータをLSTM学習用のシーケンスファイル(.npz)に変換（修正版）
+JSONデータをLSTM学習用のシーケンスファイル(.npz)に変換（12次元完全対応版）
+
+特徴量構成（12次元）:
+    [0] closing_time: 閉眼時間 [秒]
+    [1] opening_time: 開眼時間 [秒]
+    [2] blink_coefficient: 瞬き係数 (opening_time / closing_time)
+    [3] interval: 前回の瞬きからの間隔 [秒]
+    [4] total_duration: 総持続時間 [秒]
+    [5] upper_radius_max: 上まぶた円の最大半径 [px]
+    [6] lower_radius_max: 下まぶた円の最大半径 [px]
+    [7] vertical_distance_min: 上下円の最小距離 [px]
+    [8] radius_diff_max: 半径差の最大値 [px]
+    [9] eye_height_min: 目の高さの最小値 [px]
+    [10] eye_width_avg: 目の幅の平均値 [px]
+    [11] ear_min: EARの最小値
 
 使い方:
-    python convert_json_to_sequences_v2.py --input-dir data/sessions --output-dir data/sequences
+    python convert_json_to_sequences.py --input-dir data/sessions --output-dir data/sequences
 """
 
 import os
@@ -14,8 +28,24 @@ from pathlib import Path
 
 class JSONToSequenceConverter:
     """
-    JSONファイルをLSTM用シーケンスファイルに変換（修正版）
+    JSONファイルをLSTM用シーケンスファイルに変換（12次元完全対応版）
     """
+    
+    # 特徴量名の定義（順序重要）
+    FEATURE_NAMES = [
+        'closing_time',           # [0]
+        'opening_time',           # [1]
+        'blink_coefficient',      # [2]
+        'interval',               # [3]
+        'total_duration',         # [4]
+        'upper_radius_max',       # [5]
+        'lower_radius_max',       # [6]
+        'vertical_distance_min',  # [7]
+        'radius_diff_max',        # [8]
+        'eye_height_min',         # [9]
+        'eye_width_avg',          # [10]
+        'ear_min'                 # [11]
+    ]
     
     def __init__(self, sequence_length=10):
         """
@@ -27,9 +57,14 @@ class JSONToSequenceConverter:
         self.sequence_length = sequence_length
         
         print("=" * 70)
-        print("📦 JSON→シーケンス変換システム（修正版）")
+        print("📦 JSON→シーケンス変換システム（12次元完全対応版）")
         print("=" * 70)
         print(f"シーケンス長: {self.sequence_length}")
+        print(f"特徴量次元: {len(self.FEATURE_NAMES)}次元")
+        print("\n特徴量構成:")
+        for i, name in enumerate(self.FEATURE_NAMES):
+            print(f"  [{i:2d}] {name}")
+        print("=" * 70)
     
     def extract_features_from_blink(self, blink_data):
         """
@@ -44,40 +79,20 @@ class JSONToSequenceConverter:
         try:
             stats = blink_data['statistics']
             
-            # 基本6次元
-            closing_time = stats['closing_time']
-            opening_time = stats['opening_time']
-            blink_coefficient = stats['blink_coefficient']
-            
-            # 時刻情報（timestampから計算 or interval/total_durationを使用）
-            timestamp = blink_data.get('timestamp', 0.0)
-            total_duration = stats.get('total_duration', closing_time + opening_time)
-            interval = stats.get('interval', 0.0)
-            
-            # 2円パラメータ6次元
-            c1_center_x = stats.get('c1_center_x', 0.0)
-            c1_center_y = stats.get('c1_center_y', 0.0)
-            c1_radius = stats.get('c1_radius', 0.0)
-            c2_center_x = stats.get('c2_center_x', 0.0)
-            c2_center_y = stats.get('c2_center_y', 0.0)
-            c2_radius = stats.get('c2_radius', 0.0)
-            
-            # 12次元特徴量
-            # 注: 元の設計では t1, t2, t3 でしたが、実際のJSONには存在しないため
-            #     timestamp, total_duration, interval を使用
+            # 12次元特徴量を抽出
             features = [
-                closing_time,      # 0: 閉眼時間
-                opening_time,      # 1: 開眼時間
-                blink_coefficient, # 2: 瞬き係数
-                timestamp,         # 3: タイムスタンプ
-                total_duration,    # 4: 総持続時間
-                interval,          # 5: 瞬き間隔
-                c1_center_x,       # 6: 上まぶた円 中心X
-                c1_center_y,       # 7: 上まぶた円 中心Y
-                c1_radius,         # 8: 上まぶた円 半径
-                c2_center_x,       # 9: 下まぶた円 中心X
-                c2_center_y,       # 10: 下まぶた円 中心Y
-                c2_radius          # 11: 下まぶた円 半径
+                stats.get('closing_time', 0.0),           # [0]
+                stats.get('opening_time', 0.0),           # [1]
+                stats.get('blink_coefficient', 0.0),      # [2]
+                stats.get('interval', 0.0),               # [3]
+                stats.get('total_duration', 0.0),         # [4]
+                stats.get('upper_radius_max', 0.0),       # [5]
+                stats.get('lower_radius_max', 0.0),       # [6]
+                stats.get('vertical_distance_min', 0.0),  # [7]
+                stats.get('radius_diff_max', 0.0),        # [8]
+                stats.get('eye_height_min', 0.0),         # [9]
+                stats.get('eye_width_avg', 0.0),          # [10]
+                stats.get('ear_min', 0.0)                 # [11]
             ]
             
             return features
@@ -89,87 +104,15 @@ class JSONToSequenceConverter:
             print(f"      ⚠️ エラー: {e}")
             return None
     
-    def convert_session_to_sequences(self, json_file):
-        """
-        1つのJSONファイルをシーケンスに変換
-        
-        Args:
-            json_file (str): JSONファイルパス
-            
-        Returns:
-            tuple: (sequences, labels, session_info) または None
-        """
-        try:
-            # JSONファイル読み込み
-            with open(json_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            
-            # セッション情報
-            session_id = data['session_id']
-            label = data['label']  # 0: 正常, 1: 眠気
-            
-            # 有効な瞬きのみを抽出
-            valid_blinks = []
-            skipped_count = 0
-            
-            for blink in data['blinks']:
-                # 有効性チェック
-                if self._is_valid_blink(blink):
-                    features = self.extract_features_from_blink(blink)
-                    if features is not None:
-                        valid_blinks.append(features)
-                    else:
-                        skipped_count += 1
-                else:
-                    skipped_count += 1
-            
-            if len(valid_blinks) < self.sequence_length:
-                print(f"  ⚠️ {session_id}: 瞬き数不足 ({len(valid_blinks)} < {self.sequence_length})")
-                return None
-            
-            # シーケンス生成（スライディングウィンドウ）
-            sequences = []
-            labels = []
-            
-            for i in range(len(valid_blinks) - self.sequence_length + 1):
-                sequence = valid_blinks[i:i + self.sequence_length]
-                sequences.append(sequence)
-                labels.append(label)
-            
-            sequences = np.array(sequences, dtype=np.float32)
-            labels = np.array(labels, dtype=np.int64)
-            
-            # セッション情報
-            session_info = {
-                'session_id': session_id,
-                'user_id': data.get('user_id', 'unknown'),
-                'label': label,
-                'label_name': 'normal' if label == 0 else 'drowsy',
-                'kss_score': data.get('kss_score', 0),
-                'total_blinks': data['total_blinks'],
-                'valid_blinks': data.get('valid_blinks', len(valid_blinks)),
-                'used_blinks': len(valid_blinks),
-                'skipped_blinks': skipped_count,
-                'sequence_count': len(sequences)
-            }
-            
-            return sequences, labels, session_info
-            
-        except Exception as e:
-            print(f"  ❌ {json_file}: エラー - {e}")
-            import traceback
-            traceback.print_exc()
-            return None
-    
     def _is_valid_blink(self, blink_data):
         """
-        瞬きの有効性をチェック
+        瞬きデータの有効性をチェック
         
         Args:
             blink_data (dict): 瞬きデータ
             
         Returns:
-            bool: 有効かどうか
+            bool: 有効な場合True
         """
         try:
             stats = blink_data['statistics']
@@ -195,6 +138,79 @@ class JSONToSequenceConverter:
             return False
         except Exception:
             return False
+    
+    def convert_session_to_sequences(self, json_file):
+        """
+        1つのJSONファイルをシーケンスに変換
+        
+        Args:
+            json_file (str): JSONファイルパス
+            
+        Returns:
+            tuple: (sequences, labels, session_info) または None
+        """
+        try:
+            # JSONファイル読み込み
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # セッション情報
+            session_id = data.get('session_id', os.path.basename(json_file).replace('.json', ''))
+            label = data['label']  # 0: 正常, 1: 眠気
+            
+            # 有効な瞬きのみを抽出
+            valid_blinks = []
+            skipped_count = 0
+            
+            for blink in data['blinks']:
+                # 有効性チェック
+                if self._is_valid_blink(blink):
+                    features = self.extract_features_from_blink(blink)
+                    if features is not None:
+                        valid_blinks.append(features)
+                    else:
+                        skipped_count += 1
+                else:
+                    skipped_count += 1
+            
+            # シーケンス長に満たない場合はスキップ
+            if len(valid_blinks) < self.sequence_length:
+                print(f"    ⚠️ スキップ: 有効な瞬きが不足 ({len(valid_blinks)}/{self.sequence_length})")
+                return None
+            
+            # スライディングウィンドウでシーケンスを作成
+            sequences = []
+            for i in range(len(valid_blinks) - self.sequence_length + 1):
+                seq = valid_blinks[i:i + self.sequence_length]
+                sequences.append(seq)
+            
+            # NumPy配列に変換
+            sequences = np.array(sequences, dtype=np.float32)
+            labels = np.full(len(sequences), label, dtype=np.int64)
+            
+            # セッション情報
+            label_name = "normal" if label == 0 else "drowsy"
+            session_info = {
+                'session_id': session_id,
+                'label': label,
+                'label_name': label_name,
+                'total_blinks': len(data['blinks']),
+                'used_blinks': len(valid_blinks),
+                'skipped_blinks': skipped_count,
+                'sequence_count': len(sequences)
+            }
+            
+            return sequences, labels, session_info
+            
+        except json.JSONDecodeError as e:
+            print(f"    ❌ JSONパースエラー: {e}")
+            return None
+        except KeyError as e:
+            print(f"    ❌ 必要なキーがありません: {e}")
+            return None
+        except Exception as e:
+            print(f"    ❌ 変換エラー: {e}")
+            return None
     
     def convert_directory(self, input_dir, output_dir):
         """
@@ -222,8 +238,11 @@ class JSONToSequenceConverter:
         
         success_count = 0
         total_sequences = 0
+        all_sequences = []
+        all_labels = []
         
         for json_file in json_files:
+            print(f"\n処理中: {json_file.name}")
             result = self.convert_session_to_sequences(str(json_file))
             
             if result is not None:
@@ -249,14 +268,49 @@ class JSONToSequenceConverter:
                 print(f"  ✓ {session_id}: {seq_count} sequences ({label_name})")
                 print(f"      使用瞬き: {used_blinks}, スキップ: {skipped}")
                 
+                # 全体に追加
+                all_sequences.append(sequences)
+                all_labels.append(labels)
+                
                 success_count += 1
                 total_sequences += seq_count
         
-        print("=" * 70)
+        print("\n" + "=" * 70)
         print(f"\n✅ 変換完了")
         print(f"   成功: {success_count}/{len(json_files)} セッション")
         print(f"   総シーケンス数: {total_sequences}")
         print(f"   出力先: {output_dir}")
+        
+        # 統合データセットを作成
+        if len(all_sequences) > 0:
+            combined_sequences = np.concatenate(all_sequences, axis=0)
+            combined_labels = np.concatenate(all_labels, axis=0)
+            
+            # 統合ファイルを保存
+            combined_file = os.path.join(os.path.dirname(output_dir), 'combined_sequences.npz')
+            np.savez(
+                combined_file,
+                sequences=combined_sequences,
+                labels=combined_labels
+            )
+            print(f"\n📦 統合データセットを保存しました: {combined_file}")
+            print(f"   シーケンス形状: {combined_sequences.shape}")
+            print(f"   ラベル形状: {combined_labels.shape}")
+            
+            # クラス別統計
+            normal_count = np.sum(combined_labels == 0)
+            drowsy_count = np.sum(combined_labels == 1)
+            print(f"\n📊 クラス分布:")
+            print(f"   正常 (0): {normal_count} ({normal_count/len(combined_labels)*100:.1f}%)")
+            print(f"   眠気 (1): {drowsy_count} ({drowsy_count/len(combined_labels)*100:.1f}%)")
+            
+            # 特徴量の統計情報を表示
+            print(f"\n📈 特徴量の統計情報:")
+            for i, name in enumerate(self.FEATURE_NAMES):
+                values = combined_sequences[:, :, i].flatten()
+                print(f"   [{i:2d}] {name:25s}: "
+                      f"mean={np.mean(values):.4f}, std={np.std(values):.4f}, "
+                      f"min={np.min(values):.4f}, max={np.max(values):.4f}")
         
         return success_count > 0
 
@@ -266,7 +320,7 @@ def main():
     メイン関数
     """
     parser = argparse.ArgumentParser(
-        description='JSONデータをLSTM学習用シーケンスファイルに変換（修正版）',
+        description='JSONデータをLSTM学習用シーケンスファイルに変換（12次元完全対応版）',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     
@@ -290,9 +344,7 @@ def main():
         print("🎉 変換が正常に完了しました！")
         print("=" * 70)
         print("\n次のステップ:")
-        print("  1. src/train_drowsiness_model.py の438行目を修正:")
-        print("     'input_size': 6, → 'input_size': 12,")
-        print("\n  2. 学習を実行:")
+        print("  1. 学習を実行:")
         print("     python -m src.train_drowsiness_model --data-dir data")
         print("=" * 70)
         return 0

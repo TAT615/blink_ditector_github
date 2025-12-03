@@ -1,28 +1,27 @@
 """
-眠気推定用データ管理モジュール
-Drowsiness Data Manager
+眠気推定用データ管理モジュール（セッション単位分割対応版）
+Drowsiness Data Manager with Session-based Splitting
 
 収集したデータの読み込み、前処理、分割を行います。
+データリークを防ぐため、セッション単位でデータを分割します。
 """
 
 import os
 import json
-import csv
 import numpy as np
 from typing import Dict, List, Tuple, Optional
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 import glob
 
 
 class DrowsinessDataManager:
     """
-    眠気推定データセットの管理クラス
+    眠気推定データセットの管理クラス（セッション単位分割対応）
     
     機能:
     - データの読み込み
     - 正規化・前処理
-    - 訓練/検証/テスト分割
+    - セッション単位での訓練/検証/テスト分割（データリーク防止）
     - バッチ生成
     """
     
@@ -37,10 +36,12 @@ class DrowsinessDataManager:
         self.sessions_dir = os.path.join(data_dir, 'sessions')
         self.sequences_dir = os.path.join(data_dir, 'sequences')
         
-        # データ
+        # セッション単位のデータ
+        self.sessions = []  # [{name, sequences, labels, label}, ...]
+        
+        # 統合データ
         self.all_sequences = []
         self.all_labels = []
-        self.session_info = []
         
         # 分割後のデータ
         self.train_sequences = None
@@ -50,8 +51,12 @@ class DrowsinessDataManager:
         self.test_sequences = None
         self.test_labels = None
         
+        # 分割情報
+        self.train_sessions = []
+        self.val_sessions = []
+        self.test_sessions = []
+        
         # 正規化パラメータ
-        self.scaler = None
         self.normalization_params = {
             'mean': None,
             'std': None,
@@ -59,7 +64,7 @@ class DrowsinessDataManager:
         }
         
         print("=" * 70)
-        print("📦 データマネージャー初期化")
+        print("📦 データマネージャー初期化（セッション単位分割対応版）")
         print("=" * 70)
         print(f"📁 データディレクトリ: {self.data_dir}")
     
@@ -81,9 +86,7 @@ class DrowsinessDataManager:
                 print("⚠️ シーケンスデータが見つかりません")
                 return False
             
-            self.all_sequences = []
-            self.all_labels = []
-            self.session_info = []
+            self.sessions = []
             
             if verbose:
                 print(f"\n📂 {len(sequence_files)} 個のセッションを読み込み中...")
@@ -95,35 +98,37 @@ class DrowsinessDataManager:
                 labels = data['labels']
                 session_name = str(data['session_name'])
                 
-                # セッション情報読み込み
-                info_file = os.path.join(
-                    self.sessions_dir,
-                    f"{session_name}_info.json"
-                )
+                # ラベル（セッション全体のラベル）
+                session_label = int(labels[0])
                 
-                if os.path.exists(info_file):
-                    with open(info_file, 'r') as f:
-                        session_info = json.load(f)
-                    self.session_info.append(session_info)
-                
-                # データ追加
-                self.all_sequences.append(sequences)
-                self.all_labels.append(labels)
+                # セッション情報を保存
+                self.sessions.append({
+                    'name': session_name,
+                    'sequences': sequences,
+                    'labels': labels,
+                    'label': session_label,
+                    'count': len(sequences)
+                })
                 
                 if verbose:
-                    label_name = 'normal' if labels[0] == 0 else 'drowsy'
+                    label_name = 'normal' if session_label == 0 else 'drowsy'
                     print(f"  ✓ {session_name}: {len(sequences)} sequences ({label_name})")
             
-            # 統合
-            self.all_sequences = np.vstack(self.all_sequences)
-            self.all_labels = np.concatenate(self.all_labels)
+            # 統計
+            total_sequences = sum(s['count'] for s in self.sessions)
+            normal_sessions = [s for s in self.sessions if s['label'] == 0]
+            drowsy_sessions = [s for s in self.sessions if s['label'] == 1]
+            normal_sequences = sum(s['count'] for s in normal_sessions)
+            drowsy_sequences = sum(s['count'] for s in drowsy_sessions)
             
             if verbose:
                 print(f"\n✅ データ読み込み完了")
-                print(f"   総シーケンス数: {len(self.all_sequences)}")
-                print(f"   正常: {np.sum(self.all_labels == 0)}")
-                print(f"   眠気: {np.sum(self.all_labels == 1)}")
-                print(f"   シーケンス形状: {self.all_sequences.shape}")
+                print(f"   総セッション数: {len(self.sessions)}")
+                print(f"     正常セッション: {len(normal_sessions)} ({normal_sequences} sequences)")
+                print(f"     眠気セッション: {len(drowsy_sessions)} ({drowsy_sequences} sequences)")
+                print(f"   総シーケンス数: {total_sequences}")
+                if len(self.sessions) > 0:
+                    print(f"   シーケンス形状: {self.sessions[0]['sequences'].shape[1:]}")
             
             return True
             
@@ -133,135 +138,196 @@ class DrowsinessDataManager:
             traceback.print_exc()
             return False
     
-    def split_data(self, train_ratio=0.7, val_ratio=0.15, test_ratio=0.15,
-                   random_state=42, stratify=True, verbose=True):
+    def split_data_by_session(self, train_ratio=0.7, val_ratio=0.15, test_ratio=0.15,
+                               random_state=42, verbose=True):
         """
-        データを訓練/検証/テストに分割
+        セッション単位でデータを分割（データリーク防止）
+        
+        同じセッション内のシーケンスは全て同じセット（訓練/検証/テスト）に配置されます。
         
         Args:
             train_ratio (float): 訓練データの割合
             val_ratio (float): 検証データの割合
             test_ratio (float): テストデータの割合
             random_state (int): 乱数シード
-            stratify (bool): 層化抽出を行うか
             verbose (bool): 詳細表示
         """
-        if len(self.all_sequences) == 0:
+        if len(self.sessions) == 0:
             print("⚠️ データが読み込まれていません")
             return
         
-        # 割合の確認
-        assert abs(train_ratio + val_ratio + test_ratio - 1.0) < 1e-6, "割合の合計は1.0である必要があります"
+        # 正常/眠気セッションを分離
+        normal_sessions = [s for s in self.sessions if s['label'] == 0]
+        drowsy_sessions = [s for s in self.sessions if s['label'] == 1]
         
-        # 層化抽出用のパラメータ
-        stratify_param = self.all_labels if stratify else None
+        if verbose:
+            print(f"\n📊 セッション単位でデータ分割中...")
+            print(f"   正常セッション: {len(normal_sessions)}")
+            print(f"   眠気セッション: {len(drowsy_sessions)}")
         
-        # 訓練 + (検証 + テスト) に分割
-        train_val_ratio = val_ratio / (val_ratio + test_ratio)
+        # 各クラスを個別に分割（層化抽出）
+        def split_sessions(sessions, train_r, val_r, test_r, seed):
+            if len(sessions) < 3:
+                # セッションが少ない場合は全て訓練に
+                return sessions, [], []
+            
+            # まず訓練+検証 vs テストに分割
+            train_val, test = train_test_split(
+                sessions, 
+                test_size=test_r, 
+                random_state=seed
+            )
+            
+            # 次に訓練 vs 検証に分割
+            if len(train_val) < 2:
+                return train_val, [], test
+            
+            val_ratio_adjusted = val_r / (train_r + val_r)
+            train, val = train_test_split(
+                train_val, 
+                test_size=val_ratio_adjusted, 
+                random_state=seed
+            )
+            
+            return train, val, test
         
-        self.train_sequences, temp_sequences, self.train_labels, temp_labels = train_test_split(
-            self.all_sequences,
-            self.all_labels,
-            test_size=(val_ratio + test_ratio),
-            random_state=random_state,
-            stratify=stratify_param
+        # 正常セッションを分割
+        normal_train, normal_val, normal_test = split_sessions(
+            normal_sessions, train_ratio, val_ratio, test_ratio, random_state
         )
         
-        # (検証 + テスト) を 検証とテストに分割
-        stratify_param_temp = temp_labels if stratify else None
-        
-        self.val_sequences, self.test_sequences, self.val_labels, self.test_labels = train_test_split(
-            temp_sequences,
-            temp_labels,
-            test_size=(test_ratio / (val_ratio + test_ratio)),
-            random_state=random_state,
-            stratify=stratify_param_temp
+        # 眠気セッションを分割
+        drowsy_train, drowsy_val, drowsy_test = split_sessions(
+            drowsy_sessions, train_ratio, val_ratio, test_ratio, random_state
         )
+        
+        # セッション情報を保存
+        self.train_sessions = normal_train + drowsy_train
+        self.val_sessions = normal_val + drowsy_val
+        self.test_sessions = normal_test + drowsy_test
+        
+        # シーケンスを統合
+        def merge_sequences(session_list):
+            if len(session_list) == 0:
+                return np.array([]), np.array([])
+            sequences = np.vstack([s['sequences'] for s in session_list])
+            labels = np.concatenate([s['labels'] for s in session_list])
+            return sequences, labels
+        
+        self.train_sequences, self.train_labels = merge_sequences(self.train_sessions)
+        self.val_sequences, self.val_labels = merge_sequences(self.val_sessions)
+        self.test_sequences, self.test_labels = merge_sequences(self.test_sessions)
         
         if verbose:
             print("\n" + "=" * 70)
-            print("📊 データ分割完了")
+            print("📊 セッション単位データ分割完了")
             print("=" * 70)
-            print(f"訓練データ: {len(self.train_sequences)} ({train_ratio*100:.1f}%)")
-            print(f"  正常: {np.sum(self.train_labels == 0)}, 眠気: {np.sum(self.train_labels == 1)}")
-            print(f"検証データ: {len(self.val_sequences)} ({val_ratio*100:.1f}%)")
-            print(f"  正常: {np.sum(self.val_labels == 0)}, 眠気: {np.sum(self.val_labels == 1)}")
-            print(f"テストデータ: {len(self.test_sequences)} ({test_ratio*100:.1f}%)")
-            print(f"  正常: {np.sum(self.test_labels == 0)}, 眠気: {np.sum(self.test_labels == 1)}")
+            
+            # 訓練セット
+            train_normal = sum(1 for s in self.train_sessions if s['label'] == 0)
+            train_drowsy = sum(1 for s in self.train_sessions if s['label'] == 1)
+            train_normal_seq = sum(s['count'] for s in self.train_sessions if s['label'] == 0)
+            train_drowsy_seq = sum(s['count'] for s in self.train_sessions if s['label'] == 1)
+            print(f"訓練セット:")
+            print(f"  セッション: {len(self.train_sessions)} (正常: {train_normal}, 眠気: {train_drowsy})")
+            print(f"  シーケンス: {len(self.train_sequences)} (正常: {train_normal_seq}, 眠気: {train_drowsy_seq})")
+            
+            # 検証セット
+            val_normal = sum(1 for s in self.val_sessions if s['label'] == 0)
+            val_drowsy = sum(1 for s in self.val_sessions if s['label'] == 1)
+            val_normal_seq = sum(s['count'] for s in self.val_sessions if s['label'] == 0)
+            val_drowsy_seq = sum(s['count'] for s in self.val_sessions if s['label'] == 1)
+            print(f"検証セット:")
+            print(f"  セッション: {len(self.val_sessions)} (正常: {val_normal}, 眠気: {val_drowsy})")
+            print(f"  シーケンス: {len(self.val_sequences)} (正常: {val_normal_seq}, 眠気: {val_drowsy_seq})")
+            
+            # テストセット
+            test_normal = sum(1 for s in self.test_sessions if s['label'] == 0)
+            test_drowsy = sum(1 for s in self.test_sessions if s['label'] == 1)
+            test_normal_seq = sum(s['count'] for s in self.test_sessions if s['label'] == 0)
+            test_drowsy_seq = sum(s['count'] for s in self.test_sessions if s['label'] == 1)
+            print(f"テストセット:")
+            print(f"  セッション: {len(self.test_sessions)} (正常: {test_normal}, 眠気: {test_drowsy})")
+            print(f"  シーケンス: {len(self.test_sequences)} (正常: {test_normal_seq}, 眠気: {test_drowsy_seq})")
+            
             print("=" * 70)
+            
+            # セッション名を表示
+            print("\n📋 分割されたセッション:")
+            print(f"  訓練: {[s['name'] for s in self.train_sessions]}")
+            print(f"  検証: {[s['name'] for s in self.val_sessions]}")
+            print(f"  テスト: {[s['name'] for s in self.test_sessions]}")
     
     def normalize_data(self, method='zscore', verbose=True):
         """
-        データを正規化
+        データを正規化（訓練データの統計量を使用）
         
         Args:
-            method (str): 正規化手法 ('zscore' or 'minmax')
+            method (str): 正規化方法 ('zscore' or 'minmax')
             verbose (bool): 詳細表示
         """
-        if self.train_sequences is None:
-            print("⚠️ データが分割されていません")
+        if self.train_sequences is None or len(self.train_sequences) == 0:
+            print("⚠️ 訓練データがありません")
             return
         
-        # 訓練データで正規化パラメータを計算
-        # shape: (n_samples, sequence_length, features) -> (n_samples * sequence_length, features)
-        train_reshaped = self.train_sequences.reshape(-1, self.train_sequences.shape[-1])
-        
         if method == 'zscore':
-            # 平均0、標準偏差1に正規化
-            mean = np.mean(train_reshaped, axis=0)
-            std = np.std(train_reshaped, axis=0)
-            std[std == 0] = 1.0  # ゼロ除算防止
+            # 訓練データから統計量を計算
+            train_flat = self.train_sequences.reshape(-1, self.train_sequences.shape[-1])
             
-            self.normalization_params['mean'] = mean
-            self.normalization_params['std'] = std
-            self.normalization_params['is_fitted'] = True
+            mean = np.mean(train_flat, axis=0)
+            std = np.std(train_flat, axis=0)
             
-            # 適用
-            self.train_sequences = self._apply_zscore_normalization(self.train_sequences, mean, std)
-            self.val_sequences = self._apply_zscore_normalization(self.val_sequences, mean, std)
-            self.test_sequences = self._apply_zscore_normalization(self.test_sequences, mean, std)
+            # ゼロ除算防止
+            std[std == 0] = 1.0
+            
+            # 正規化パラメータを保存
+            self.normalization_params = {
+                'mean': mean.tolist(),
+                'std': std.tolist(),
+                'is_fitted': True
+            }
+            
+            # 正規化を適用
+            self.train_sequences = (self.train_sequences - mean) / std
+            
+            if len(self.val_sequences) > 0:
+                self.val_sequences = (self.val_sequences - mean) / std
+            
+            if len(self.test_sequences) > 0:
+                self.test_sequences = (self.test_sequences - mean) / std
             
             if verbose:
-                print("\n✅ Z-score正規化完了")
+                print(f"\n✅ Z-score正規化完了（訓練データの統計量を使用）")
                 print(f"   平均: {mean}")
                 print(f"   標準偏差: {std}")
         
         elif method == 'minmax':
-            # 0-1に正規化
-            min_val = np.min(train_reshaped, axis=0)
-            max_val = np.max(train_reshaped, axis=0)
+            # Min-Max正規化
+            train_flat = self.train_sequences.reshape(-1, self.train_sequences.shape[-1])
+            
+            min_val = np.min(train_flat, axis=0)
+            max_val = np.max(train_flat, axis=0)
+            
+            # ゼロ除算防止
             range_val = max_val - min_val
             range_val[range_val == 0] = 1.0
             
-            self.normalization_params['min'] = min_val
-            self.normalization_params['max'] = max_val
-            self.normalization_params['range'] = range_val
-            self.normalization_params['is_fitted'] = True
+            self.normalization_params = {
+                'min': min_val.tolist(),
+                'max': max_val.tolist(),
+                'is_fitted': True
+            }
             
-            # 適用
-            self.train_sequences = self._apply_minmax_normalization(self.train_sequences, min_val, range_val)
-            self.val_sequences = self._apply_minmax_normalization(self.val_sequences, min_val, range_val)
-            self.test_sequences = self._apply_minmax_normalization(self.test_sequences, min_val, range_val)
+            self.train_sequences = (self.train_sequences - min_val) / range_val
+            
+            if len(self.val_sequences) > 0:
+                self.val_sequences = (self.val_sequences - min_val) / range_val
+            
+            if len(self.test_sequences) > 0:
+                self.test_sequences = (self.test_sequences - min_val) / range_val
             
             if verbose:
-                print("\n✅ Min-Max正規化完了")
-        
-        else:
-            print(f"❌ 未知の正規化手法: {method}")
-    
-    def _apply_zscore_normalization(self, data, mean, std):
-        """Z-score正規化を適用"""
-        original_shape = data.shape
-        data_reshaped = data.reshape(-1, data.shape[-1])
-        normalized = (data_reshaped - mean) / std
-        return normalized.reshape(original_shape)
-    
-    def _apply_minmax_normalization(self, data, min_val, range_val):
-        """Min-Max正規化を適用"""
-        original_shape = data.shape
-        data_reshaped = data.reshape(-1, data.shape[-1])
-        normalized = (data_reshaped - min_val) / range_val
-        return normalized.reshape(original_shape)
+                print(f"\n✅ Min-Max正規化完了")
     
     def get_train_data(self) -> Tuple[np.ndarray, np.ndarray]:
         """訓練データを取得"""
@@ -275,114 +341,24 @@ class DrowsinessDataManager:
         """テストデータを取得"""
         return self.test_sequences, self.test_labels
     
-    def save_normalization_params(self, filepath: str):
+    def save_normalization_params(self, output_path: str):
         """
-        正規化パラメータを保存
-        
-        Args:
-            filepath (str): 保存先パス
-        """
-        if not self.normalization_params['is_fitted']:
-            print("⚠️ 正規化パラメータが未設定です")
-            return
-        
-        # NumPy配列をリストに変換
-        params_to_save = {}
-        for key, value in self.normalization_params.items():
-            if isinstance(value, np.ndarray):
-                params_to_save[key] = value.tolist()
-            else:
-                params_to_save[key] = value
-        
-        with open(filepath, 'w') as f:
-            json.dump(params_to_save, f, indent=2)
-        
-        print(f"✅ 正規化パラメータを保存: {filepath}")
-    
-    def load_normalization_params(self, filepath: str):
-        """
-        正規化パラメータを読み込み
-        
-        Args:
-            filepath (str): 読み込むファイルパス
-        """
-        try:
-            with open(filepath, 'r') as f:
-                params = json.load(f)
-            
-            # リストをNumPy配列に変換
-            for key, value in params.items():
-                if isinstance(value, list):
-                    self.normalization_params[key] = np.array(value, dtype=np.float32)
-                else:
-                    self.normalization_params[key] = value
-            
-            print(f"✅ 正規化パラメータを読み込み: {filepath}")
-        except Exception as e:
-            print(f"❌ 正規化パラメータの読み込みエラー: {e}")
-    
-    def get_statistics(self) -> Dict:
-        """
-        データセットの統計情報を取得
-        
-        Returns:
-            Dict: 統計情報
-        """
-        stats = {
-            'total_sequences': len(self.all_sequences) if len(self.all_sequences) > 0 else 0,
-            'total_sessions': len(self.session_info)
-        }
-        
-        if len(self.all_sequences) > 0:
-            stats['normal_count'] = int(np.sum(self.all_labels == 0))
-            stats['drowsy_count'] = int(np.sum(self.all_labels == 1))
-            stats['sequence_shape'] = self.all_sequences.shape
-            stats['class_balance'] = {
-                'normal': stats['normal_count'] / stats['total_sequences'],
-                'drowsy': stats['drowsy_count'] / stats['total_sequences']
-            }
-        
-        if self.train_sequences is not None:
-            stats['train_count'] = len(self.train_sequences)
-            stats['val_count'] = len(self.val_sequences)
-            stats['test_count'] = len(self.test_sequences)
-        
-        return stats
-    
-    def print_statistics(self):
-        """統計情報を表示"""
-        stats = self.get_statistics()
-        
-        print("\n" + "=" * 70)
-        print("📊 データセット統計")
-        print("=" * 70)
-        print(f"総セッション数: {stats['total_sessions']}")
-        print(f"総シーケンス数: {stats['total_sequences']}")
-        
-        if 'normal_count' in stats:
-            print(f"  正常: {stats['normal_count']} ({stats['class_balance']['normal']*100:.1f}%)")
-            print(f"  眠気: {stats['drowsy_count']} ({stats['class_balance']['drowsy']*100:.1f}%)")
-            print(f"シーケンス形状: {stats['sequence_shape']}")
-        
-        if 'train_count' in stats:
-            print(f"\n分割後:")
-            print(f"  訓練: {stats['train_count']}")
-            print(f"  検証: {stats['val_count']}")
-            print(f"  テスト: {stats['test_count']}")
-        
-        print("=" * 70)
-    
-    def export_dataset(self, output_path: str):
-        """
-        データセットを1つのファイルにエクスポート
+        正規化パラメータをJSONファイルに保存
         
         Args:
             output_path (str): 出力ファイルパス
         """
-        if self.train_sequences is None:
-            print("⚠️ データが分割されていません")
-            return
+        with open(output_path, 'w') as f:
+            json.dump(self.normalization_params, f, indent=2)
+        print(f"✅ 正規化パラメータを保存: {output_path}")
+    
+    def export_dataset(self, output_path: str):
+        """
+        データセットをNumPyファイルにエクスポート
         
+        Args:
+            output_path (str): 出力ファイルパス
+        """
         np.savez(
             output_path,
             train_sequences=self.train_sequences,
@@ -391,9 +367,11 @@ class DrowsinessDataManager:
             val_labels=self.val_labels,
             test_sequences=self.test_sequences,
             test_labels=self.test_labels,
-            normalization_params=self.normalization_params
+            normalization_params=self.normalization_params,
+            train_session_names=[s['name'] for s in self.train_sessions],
+            val_session_names=[s['name'] for s in self.val_sessions],
+            test_session_names=[s['name'] for s in self.test_sessions]
         )
-        
         print(f"✅ データセットをエクスポート: {output_path}")
     
     def load_dataset(self, input_path: str):
@@ -417,32 +395,55 @@ class DrowsinessDataManager:
                 self.normalization_params = data['normalization_params'].item()
             
             print(f"✅ データセットを読み込み: {input_path}")
-            self.print_statistics()
             
         except Exception as e:
             print(f"❌ データセット読み込みエラー: {e}")
+    
+    def print_statistics(self):
+        """統計情報を表示"""
+        print("\n" + "=" * 70)
+        print("📊 データセット統計")
+        print("=" * 70)
+        
+        if self.train_sequences is not None and len(self.train_sequences) > 0:
+            print(f"訓練データ: {len(self.train_sequences)}")
+            print(f"  正常: {np.sum(self.train_labels == 0)}")
+            print(f"  眠気: {np.sum(self.train_labels == 1)}")
+        
+        if self.val_sequences is not None and len(self.val_sequences) > 0:
+            print(f"検証データ: {len(self.val_sequences)}")
+            print(f"  正常: {np.sum(self.val_labels == 0)}")
+            print(f"  眠気: {np.sum(self.val_labels == 1)}")
+        
+        if self.test_sequences is not None and len(self.test_sequences) > 0:
+            print(f"テストデータ: {len(self.test_sequences)}")
+            print(f"  正常: {np.sum(self.test_labels == 0)}")
+            print(f"  眠気: {np.sum(self.test_labels == 1)}")
+        
+        print("=" * 70)
 
 
 # テスト用コード
 if __name__ == "__main__":
     print("=" * 70)
-    print("データマネージャーのテスト")
+    print("データマネージャーのテスト（セッション単位分割）")
     print("=" * 70)
     
     # データマネージャー作成
-    manager = DrowsinessDataManager()
+    manager = DrowsinessDataManager(data_dir="data")
     
-    # データ読み込み（テストデータがあれば）
+    # データ読み込み
     print("\nデータ読み込みを試みます...")
     success = manager.load_all_data(verbose=True)
     
     if success:
-        # 統計表示
-        manager.print_statistics()
-        
-        # データ分割
-        print("\nデータを分割します...")
-        manager.split_data(train_ratio=0.7, val_ratio=0.15, test_ratio=0.15)
+        # セッション単位でデータ分割
+        print("\nセッション単位でデータを分割します...")
+        manager.split_data_by_session(
+            train_ratio=0.7, 
+            val_ratio=0.15, 
+            test_ratio=0.15
+        )
         
         # 正規化
         print("\nデータを正規化します...")
@@ -451,15 +452,8 @@ if __name__ == "__main__":
         # 統計表示
         manager.print_statistics()
         
-        # 正規化パラメータの保存
-        manager.save_normalization_params('normalization_params.json')
-        
-        # データセットのエクスポート
-        manager.export_dataset('drowsiness_dataset.npz')
-        
         print("\n✅ テスト完了")
     else:
         print("\n⚠️ テストデータがありません")
-        print("   drowsiness_data_collector.py でデータを収集してください")
     
     print("=" * 70)
